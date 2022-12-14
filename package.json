@@ -32,19 +32,28 @@
     "url": "https://github.com/raulmarindev/ivium/issues"
   },
   "homepage": "https://github.com/raulmarindev/ivium#readme",
+  "dependencies": {
+    "ffi-napi": "^4.0.3",
+    "ref-array-di": "^1.2.2",
+    "ref-napi": "^3.0.3"
+  },
   "devDependencies": {
+    "@types/ffi-napi": "^4.0.7",
     "@types/node": "^18.11.15",
+    "@types/ref-array-di": "^1.2.5",
+    "@types/ref-napi": "^3.0.6",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
-    "esbuild": "^0.16.5",
+    "esbuild": "^0.16.6",
     "eslint": "^8.29.0",
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "prettier": "2.8.1",
     "rimraf": "^3.0.2",
-    "rollup": "^3.7.4",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-dts": "^5.0.0",
     "rollup-plugin-esbuild": "^5.0.0",
+    "rollup": "^3.7.4",
     "typescript": "^4.9.4"
   },
   "type": "module"
