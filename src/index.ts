@@ -1,3 +1,3 @@
-const test = 'hello';
+import Core from './Core';
 
-console.log(test);
+export default { Core };
