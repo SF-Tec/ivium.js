@@ -1,6 +1,6 @@
 {
-  "name": "rollup-ts-simple-starter",
-  "version": "1.0.0",
+  "name": "ivium",
+  "version": "0.1.1",
   "description": "A simple starter template for new node packages. It uses rollup, typescript, eslint and prettier.",
   "browser": "dist/ivium.umd.js",
   "main": "dist/ivium.js",
@@ -17,25 +17,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raulmarindev/rollup-ts-simple-starter.git"
+    "url": "git+https://github.com/raulmarindev/ivium.git"
   },
   "keywords": [
-    "rollup",
-    "ts",
-    "typescript",
-    "node",
-    "npm",
-    "eslint",
-    "template",
-    "starter",
-    "boilerplate"
+    "ivium compactstat",
+    "ivium software",
+    "ivium",
+    "iviumsoft",
+    "node"
   ],
-  "author": "Raúl Marín <hi@raulmarin.dev>",
+  "author": "Alejandro Gutiérrez <agutierrez@sftec.es>, Raúl Marín <rmarin@sftec.es>",
   "license": "Apache License 2.0",
   "bugs": {
-    "url": "https://github.com/raulmarindev/rollup-ts-simple-starter/issues"
+    "url": "https://github.com/raulmarindev/ivium/issues"
   },
-  "homepage": "https://github.com/raulmarindev/rollup-ts-simple-starter#readme",
+  "homepage": "https://github.com/raulmarindev/ivium#readme",
   "devDependencies": {
     "@types/node": "^18.11.15",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
