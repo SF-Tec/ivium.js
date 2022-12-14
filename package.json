@@ -1,0 +1,55 @@
+{
+  "name": "rollup-ts-simple-starter",
+  "version": "1.0.0",
+  "description": "A simple starter template for new node packages. It uses rollup, typescript, eslint and prettier.",
+  "browser": "dist/ivium.umd.js",
+  "main": "dist/ivium.js",
+  "module": "dist/ivium.mjs",
+  "typings": "dist/ivium.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "clean": "rimraf dist",
+    "dev": "rollup -c -w",
+    "lint-staged": "lint-staged",
+    "prebuild": "npm run clean",
+    "prepare": "husky install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raulmarindev/rollup-ts-simple-starter.git"
+  },
+  "keywords": [
+    "rollup",
+    "ts",
+    "typescript",
+    "node",
+    "npm",
+    "eslint",
+    "template",
+    "starter",
+    "boilerplate"
+  ],
+  "author": "Raúl Marín <hi@raulmarin.dev>",
+  "license": "Apache License 2.0",
+  "bugs": {
+    "url": "https://github.com/raulmarindev/rollup-ts-simple-starter/issues"
+  },
+  "homepage": "https://github.com/raulmarindev/rollup-ts-simple-starter#readme",
+  "devDependencies": {
+    "@types/node": "^18.11.15",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "esbuild": "^0.16.5",
+    "eslint": "^8.29.0",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
+    "prettier": "2.8.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^3.7.4",
+    "rollup-plugin-dts": "^5.0.0",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "typescript": "^4.9.4"
+  },
+  "type": "module"
+}
