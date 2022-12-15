@@ -33,6 +33,14 @@ class Core {
   static isDriverOpen() {
     return Core.#isDriverOpen;
   }
+
+  static IV_readSN(): [resultCode: number, serialNumber: string] {
+    const deviceSerialNumber = new CharArray(16);
+
+    const resultCode = Core.#lib.IV_readSN(deviceSerialNumber) as number;
+
+    return [resultCode, deviceSerialNumber.buffer.readCString()];
+  }
 }
 
 export default Core;
