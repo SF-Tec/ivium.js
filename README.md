@@ -1,47 +1,56 @@
-# Rolling Thunder Again
+# PYVIUM
 
-This repo contains a simple boilerplate/starter/template to create a NPM library using Rollup, TypeScript and esbuild. By default, it allows building the package in the following formats: ESM, CommonJS and UMD.
+Tiny NodeJS wrapper around the "Software development driver DLL" for IviumSoft.
 
-## Getting started
+# Important:
 
-Select the option ```Use this template``` from the repo actions while on Github, to create a new repository of yours.
+This module uses a dll from the IviumSoft application. You need to have this software installed on a Windows machine. The IviumSoft application can be downloaded from here: https://www.ivium.com/support/#Software%20update
 
-Once your new repository has been created and you've cloned it as usual, you can follow the next steps:
+## Installation
 
-```bash
-cd your-new-repository
-npm install
-```
-
-The name of your package needs to be updated in the `rollup.config.js` file.
+Install PYVIUM easily with npm:
 
 ```
-const PACKAGE_NAME = 'your-package-name';
+npm install ivium
 ```
 
-The source of your package should be located in the src folder with `index.ts` being the entry point of the module.
+## Usage Example (Using IviumSoft Core functions)
 
-Optionally, you can create a pre-commit hook with husky and lint-staged.
+To use the same functions available in the "IviumSoft driver DLL" you can import the Core class as follows. All functions return a result code (integer) and a result value if available. For further information you can check the IviumSoft documentation.
 
-```bash
-npm run prepare
+```
+import ivium from 'ivium'
+
+const {Core} = ivium;
+
+Core.IV_open()
+Core.IV_getdevicestatus()
+Core.IV_close()
 ```
 
-## Available Scripts
+## Usage Example (Using Ivium methods)
 
-`npm run build` builds the library to `dist`, generating these files:
+This is a wrapper around the Core functions that adds a few things:
 
-- `dist/your-package-name.js`
-  A CommonJS bundle, suitable for use in Node.js, that `require`s the external dependency. This corresponds to the `"main"` field in package.json
-- `dist/your-package-name.mjs`
-  an ES module bundle, suitable for use in other people's libraries and applications, that `import`s the external dependency. This corresponds to the `"module"` field in package.json
-- `dist/your-package-name.umd.js`
-  a UMD build, suitable for use in any environment (including the browser, as a `<script>` tag), that includes the external dependency. This corresponds to the `"browser"` field in package.json
-- `dist/your-package-name.d.ts`
-  the type definitions for your package
+- Exception management (you can find an example [here](https://github.com/SF-Tec/pyvium/blob/main/docs/error_management.md)
+- New functionalities
 
-`npm run dev` builds the library, then keeps rebuilding it whenever the source files change using [rollup-watch](https://github.com/rollup/rollup-watch).
+```
+import ivium from 'ivium'
 
-## License
+const {Ivium} = ivium;
 
-[Apache 2.0](LICENSE).
+Ivium.open_driver()
+Ivium.get_device_status()
+Ivium.close_driver()
+
+```
+
+## Supported functions
+
+The list of currently supported and implemented functions can be found [here](https://github.com/SF-Tec/ivium/blob/main/docs/method_list.md).
+
+## Links
+
+- [See on GitHub](https://github.com/sf-tec/ivium)
+- [See on PyPI](https://pypi.org/project/ivium)
