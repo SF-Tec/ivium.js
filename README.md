@@ -1,4 +1,4 @@
-# PYVIUM
+# IviumJS
 
 Tiny NodeJS wrapper around the "Software development driver DLL" for IviumSoft.
 
@@ -8,7 +8,7 @@ This module uses a dll from the IviumSoft application. You need to have this sof
 
 ## Installation
 
-Install PYVIUM easily with npm:
+Install IviumJS easily with npm:
 
 ```
 npm install ivium
@@ -53,4 +53,4 @@ The list of currently supported and implemented functions can be found [here](ht
 ## Links
 
 - [See on GitHub](https://github.com/sf-tec/ivium)
-- [See on PyPI](https://pypi.org/project/ivium)
+<!-- - [See on PyPI](https://pypi.org/project/ivium) -->
