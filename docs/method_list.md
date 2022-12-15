@@ -1,6 +1,6 @@
 ## Ivium and Core methods
 
-:small_orange_diamond: ready
+:heavy_check_mark: ready
 :small_orange_diamond: under development
 :x: not working
 
