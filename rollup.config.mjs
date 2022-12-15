@@ -30,17 +30,14 @@ export default [
     plugins: [esbuild()],
     output: [
       {
-        exports: 'default',
         file: `${DIST_FOLDER_FILENAME}.js`,
         format: 'cjs',
       },
       {
-        exports: 'default',
         file: `${DIST_FOLDER_FILENAME}.mjs`,
         format: 'es',
       },
       {
-        exports: 'default',
         file: `${DIST_FOLDER_FILENAME}.umd.js`,
         format: 'umd',
         name: PACKAGE_NAME,
