@@ -1,6 +1,6 @@
 {
   "name": "ivium",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A simple starter template for new node packages. It uses rollup, typescript, eslint and prettier.",
   "browser": "dist/ivium.umd.js",
   "main": "dist/ivium.js",
