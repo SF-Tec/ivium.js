@@ -1,4 +1,4 @@
-## Pyvium and Core methods
+## Ivium and Core methods
 
 :heavy_check_mark: ready
 :small_orange_diamond: under development
