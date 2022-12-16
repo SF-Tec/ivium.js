@@ -1,29 +1,10 @@
-import { Library } from 'ffi-napi';
-import ref from 'ref-napi';
-import refArray from 'ref-array-di';
-import { getIviumDllPath } from './util';
-
-const ArrayType = refArray(ref);
-const { char, int, long } = ref.types;
-const CharArray = ArrayType(char);
-const LongArray = ArrayType(long);
-
-const DLL_PATH = getIviumDllPath();
-console.log(DLL_PATH);
+import { buildFfiLibrary, CharArray, LongArray } from './ffiLibrary';
 
 type IviumResult<T extends string | number = number> = [number, T];
 
 class Core {
   static #isDriverOpen = false;
-  static #lib = Library(DLL_PATH, {
-    IV_close: [int, []],
-    IV_connect: [int, [LongArray]],
-    IV_MaxDevices: [int, []],
-    IV_open: [int, []],
-    IV_readSN: [int, [CharArray]],
-    IV_selectdevice: [int, [LongArray]],
-    IV_setconnectionmode: [int, [LongArray]],
-  });
+  static readonly #lib = buildFfiLibrary();
 
   // #######################
   // ## GENERIC FUNCTIONS ##
@@ -52,7 +33,7 @@ class Core {
 
     const resultCode = Core.#lib.IV_selectdevice(instanceNumberPtr);
 
-    return [resultCode, instanceNumberPtr[0] as number];
+    return [resultCode, instanceNumberPtr[0]];
   }
 
   static IV_readSN(): IviumResult<string> {
@@ -68,7 +49,7 @@ class Core {
 
     const resultCode = Core.#lib.IV_connect(connectionStatusPtr);
 
-    return [resultCode, connectionStatusPtr[0] as number];
+    return [resultCode, connectionStatusPtr[0]];
   }
 
   static IV_setconnectionmode(connectionModeNumber: number): IviumResult {
@@ -76,7 +57,7 @@ class Core {
 
     const resultCode = Core.#lib.IV_setconnectionmode(connectionModeNumberPtr);
 
-    return [resultCode, connectionModeNumberPtr[0] as number];
+    return [resultCode, connectionModeNumberPtr[0]];
   }
 }
 
