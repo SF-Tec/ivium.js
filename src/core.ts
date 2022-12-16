@@ -4,7 +4,7 @@ import { buildFfiLibrary, CharArray, LongArray } from './ffiLibrary';
  * A tuple that represents the result of an Ivium function call. The first element is a number indicating the result code, and the second element is the actual result of the function.
  * @template T The type of the actual result of the function. Can be a string or a number (default is number).
  */
-type IviumResult<T extends string | number = number> = [number, T];
+type IviumResult<T extends string | number> = [number, T];
 
 /**
  * The core class that provides access to Ivium functionality.
@@ -68,7 +68,7 @@ class Core {
    * @param iviumsoftInstanceNumber - The Ivium soft instance number of the device to select.
    * @returns A tuple containing the result code of the operation and the Ivium soft instance number of the selected device.
    */
-  static IV_selectdevice(iviumsoftInstanceNumber: number): IviumResult {
+  static IV_selectdevice(iviumsoftInstanceNumber: number): IviumResult<number> {
     const instanceNumberPtr = new LongArray([iviumsoftInstanceNumber]);
 
     const resultCode = Core.#lib.IV_selectdevice(instanceNumberPtr);
@@ -94,7 +94,7 @@ class Core {
    * @param connectionStatus A number indicating the connection status.
    * @returns An IviumResult tuple containing the result code and the updated connection status.
    */
-  static IV_connect(connectionStatus: number): IviumResult {
+  static IV_connect(connectionStatus: number): IviumResult<number> {
     const connectionStatusPtr = new LongArray([connectionStatus]);
 
     const resultCode = Core.#lib.IV_connect(connectionStatusPtr);
@@ -102,12 +102,18 @@ class Core {
     return [resultCode, connectionStatusPtr[0]];
   }
 
+  // ###########################
+  // ## DIRECT MODE FUNCTIONS ##
+  // ###########################
+
   /**
    * Sets the connection mode for the Ivium device.
    * @param connectionModeNumber - The connection mode number.
    * @returns An IviumResult containing the result code and the updated connection mode number.
    */
-  static IV_setconnectionmode(connectionModeNumber: number): IviumResult {
+  static IV_setconnectionmode(
+    connectionModeNumber: number
+  ): IviumResult<number> {
     const connectionModeNumberPtr = new LongArray([connectionModeNumber]);
 
     const resultCode = Core.#lib.IV_setconnectionmode(connectionModeNumberPtr);
