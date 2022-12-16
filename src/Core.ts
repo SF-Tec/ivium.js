@@ -11,6 +11,8 @@ const LongArray = ArrayType(long);
 const DLL_PATH = getIviumDllPath();
 console.log(DLL_PATH);
 
+type IviumResult<T = number> = [number, T];
+
 class Core {
   static #isDriverOpen = false;
   static #lib = Library(DLL_PATH, {
@@ -23,9 +25,9 @@ class Core {
     IV_setconnectionmode: [int, [LongArray]],
   });
 
-  //
-  // GENERIC FUNCTIONS //
-  //
+  // #######################
+  // ## GENERIC FUNCTIONS ##
+  // #######################
 
   static IV_open() {
     Core.#isDriverOpen = true;
@@ -45,9 +47,7 @@ class Core {
     return Core.#lib.IV_MaxDevices();
   }
 
-  static IV_selectdevice(
-    iviumsoftInstanceNumber: number
-  ): [resultCode: number, instanceNumber: number] {
+  static IV_selectdevice(iviumsoftInstanceNumber: number): IviumResult {
     const instanceNumberPtr = new LongArray([iviumsoftInstanceNumber]);
 
     const resultCode = Core.#lib.IV_selectdevice(instanceNumberPtr);
@@ -55,7 +55,7 @@ class Core {
     return [resultCode, instanceNumberPtr[0] as number];
   }
 
-  static IV_readSN(): [resultCode: number, serialNumber: string] {
+  static IV_readSN(): IviumResult<string> {
     const deviceSerialNumberPtr = new CharArray(16);
 
     const resultCode = Core.#lib.IV_readSN(deviceSerialNumberPtr);
@@ -63,9 +63,7 @@ class Core {
     return [resultCode, deviceSerialNumberPtr.buffer.readCString()];
   }
 
-  static IV_connect(
-    connectionStatus: number
-  ): [resultCode: number, connectionStatus: number] {
+  static IV_connect(connectionStatus: number): IviumResult {
     const connectionStatusPtr = new LongArray([connectionStatus]);
 
     const resultCode = Core.#lib.IV_connect(connectionStatusPtr);
@@ -73,9 +71,7 @@ class Core {
     return [resultCode, connectionStatusPtr[0] as number];
   }
 
-  static IV_setconnectionmode(
-    connectionModeNumber: number
-  ): [resultCode: number, connectionModeNumber: number] {
+  static IV_setconnectionmode(connectionModeNumber: number): IviumResult {
     const connectionModeNumberPtr = new LongArray([connectionModeNumber]);
 
     const resultCode = Core.#lib.IV_setconnectionmode(connectionModeNumberPtr);
