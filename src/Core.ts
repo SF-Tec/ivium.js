@@ -11,7 +11,7 @@ const LongArray = ArrayType(long);
 const DLL_PATH = getIviumDllPath();
 console.log(DLL_PATH);
 
-type IviumResult<T = number> = [number, T];
+type IviumResult<T extends string | number = number> = [number, T];
 
 class Core {
   static #isDriverOpen = false;
