@@ -1,4 +1,9 @@
-import { buildFfiLibrary, CharArray, LongArray } from './ffiLibrary';
+import {
+  buildCharArray,
+  buildFfiLibrary,
+  CharArray,
+  LongArray,
+} from './ffiLibrary';
 
 /**
  * A tuple that represents the result of an Ivium function call. The first element is a number indicating the result code, and the second element is the actual result of the function.
@@ -161,7 +166,7 @@ class Core {
             Now the channel/instrument that is connected to this tab can be controlled. 
             If no instrument is connected, the next available instrument in the list can be connected (IV_connect) and controlled.
    * @param {number} channelNumber The channel number to select.
-   * @returns {number} The result of the operation.
+   * @returns {number} The result of selecting the specified channel.
    */
   static IV_SelectChannel(channelNumber: number): number {
     const channelNumberArray = new LongArray([channelNumber]);
@@ -186,6 +191,77 @@ class Core {
     const resultCode = Core.#lib.IV_setconnectionmode(connectionModeNumberPtr);
 
     return [resultCode, connectionModeNumberPtr[0]];
+  }
+
+  // ###########################
+  // ## WE32 MODE FUNCTIONS ##
+  // ###########################
+
+  // ###########################
+  // ## METHOD MODE FUNCTIONS ##
+  // ###########################
+
+  /**
+   * Loads method procedure previously saved to a file.
+   * @param {string} methodFilePath - The path to the method file.
+   * @returns {IviumResult<string>} A tuple containing the result code and the method file path.
+   */
+  static IV_readmethod(methodFilePath: string): IviumResult<string> {
+    const methodFilePathArray = buildCharArray(methodFilePath);
+
+    const resultCode = Core.#lib.IV_readmethod(methodFilePathArray);
+
+    return [resultCode, methodFilePath];
+  }
+
+  /**
+   * Saves currently loaded method procedure to a file.
+   * @param {string} methodFilePath - The path to the method file.
+   * @returns {IviumResult<string>} A tuple containing the result code and the method file path.
+   */
+  static IV_savemethod(methodFilePath: string): IviumResult<string> {
+    const methodFilePathArray = buildCharArray(methodFilePath);
+
+    const resultCode = Core.#lib.IV_savemethod(methodFilePathArray);
+
+    return [resultCode, methodFilePath];
+  }
+
+  /**
+   * Starts a method procedure.
+   * If method_file_path is an empty string then the presently loaded procedure is started.
+   * If the full path to a previously saved method is provided
+   * then the procedure is loaded from the file and started.
+   * @param {string} [methodFilePath=''] - The path to the method file. If not specified, the current method will be used.
+   * @returns {IviumResult<string>} A tuple containing the result code and the method file path.
+   */
+  static IV_startmethod(methodFilePath = ''): IviumResult<string> {
+    const methodFilePathArray = buildCharArray(methodFilePath);
+
+    const resultCode = Core.#lib.IV_startmethod(methodFilePathArray);
+
+    return [resultCode, methodFilePath];
+  }
+
+  /**
+   * Aborts the ongoing method procedure.
+   * @returns {number} The result code.
+   */
+  static IV_abort(): number {
+    return Core.#lib.IV_abort();
+  }
+
+  /**
+   * Saves the results of the last method execution into a file.
+   * @param {string} methodDataFilePath - The path to the method data file.
+   * @returns {IviumResult<string>} A tuple containing the result code and the method data file path.
+   */
+  static IV_savedata(methodDataFilePath: string): IviumResult<string> {
+    const methodDataFilePathArray = buildCharArray(methodDataFilePath);
+
+    const resultCode = Core.#lib.IV_savemethod(methodDataFilePathArray);
+
+    return [resultCode, methodDataFilePath];
   }
 }
 
