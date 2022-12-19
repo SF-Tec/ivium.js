@@ -15,7 +15,7 @@ export const DoubleArray = ArrayType(double);
 export const LongArray = ArrayType(long) as refArray.ArrayType<number>;
 
 export const buildCharArray = (text: string) => {
-  const buffer = Buffer.from(text, 'ascii');
+  const buffer = Buffer.from(text, 'utf8');
 
   return new CharArray(buffer);
 };
