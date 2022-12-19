@@ -2,6 +2,7 @@ import {
   buildCharArray,
   buildFfiLibrary,
   CharArray,
+  DoubleArray,
   LongArray,
 } from './ffiLibrary';
 
@@ -9,7 +10,7 @@ import {
  * A tuple that represents the result of an Ivium function call. The first element is a number indicating the result code, and the second element is the actual result of the function.
  * @template T The type of the actual result of the function. Can be a string or a number (default is number).
  */
-type IviumResult<T extends string | number> = [number, T];
+type IviumResult<T extends string | number | number[]> = [number, T];
 
 /**
  * The core class that provides access to Ivium functionality.
@@ -253,7 +254,7 @@ class Core {
 
   /**
    * Saves the results of the last method execution into a file.
-   * @param {string} methodDataFilePath - The path to the method data file.
+   * @param {string} methodDataFilePath - The full path to the new file..
    * @returns {IviumResult<string>} A tuple containing the result code and the method data file path.
    */
   static IV_savedata(methodDataFilePath: string): IviumResult<string> {
@@ -262,6 +263,93 @@ class Core {
     const resultCode = Core.#lib.IV_savemethod(methodDataFilePathArray);
 
     return [resultCode, methodDataFilePath];
+  }
+
+  /**
+   * Allows updating the parameter values for the currently loaded method procedrue.
+   * It only works for text based parameters and dropdowns (multiple option selectors).
+   * @param {string} parameterName - The name of the parameter to set.
+   * @param {string} parameterValue - The value to set the parameter to.
+   * @returns {number} The result code of the function call.
+   */ static IV_setmethodparameter(
+    parameterName: string,
+    parameterValue: string
+  ) {
+    const parameterNameArray = buildCharArray(parameterName);
+    const parameterValueArray = buildCharArray(parameterValue);
+
+    return Core.#lib.IV_setmethodparameter(
+      parameterNameArray,
+      parameterValueArray
+    );
+  }
+
+  /**
+   * Returns actual available number of datapoints: indicates the progress during a run.
+   * @returns {IviumResult<number>} The result of the function call, with the number of data points as the second element.
+   */
+  static IV_Ndatapoints(): IviumResult<number> {
+    const dataPointArray = new LongArray(1);
+
+    return [Core.#lib.IV_Ndatapoints(dataPointArray), dataPointArray[0]];
+  }
+
+  /**
+   * Returns the data from a datapoint with index int, returns 3 values that depend on
+   * the used technique. For example LSV/CV methods return (E/I/0) Transient methods
+   * return (time/I,E/0), Impedance methods return (Z1,Z2,freq) etc.
+   * @param {number} dataPointIndex - The index of the data point to retrieve data for.
+   * @returns {IviumResult<number[]>} The result of the function call, with the data for the specified data point as the second element (an array of three numbers).
+   */ static IV_getdata(dataPointIndex: number): IviumResult<number[]> {
+    const selectedDataPointIndexArray = new LongArray(dataPointIndex);
+
+    const measuredValue1Array = new DoubleArray(1);
+    const measuredValue2Array = new DoubleArray(1);
+    const measuredValue3Array = new DoubleArray(1);
+
+    const resultCode = Core.#lib.IV_getdata(
+      selectedDataPointIndexArray,
+      measuredValue1Array,
+      measuredValue2Array,
+      measuredValue3Array
+    );
+
+    return [
+      resultCode,
+      [measuredValue1Array[0], measuredValue2Array[0], measuredValue3Array[0]],
+    ];
+  }
+
+  /**
+   * Same as get_data_point, but with the additional scan_index parameter.
+   * This function will allow reading data from non-selected (previous) scans.
+   * @param {number} dataPointIndex - The index of the data point to retrieve data from.
+   * @param {number} scanIndex - The index of the scan to retrieve data from.
+   * @returns {IviumResult<number[]>} - An array with the result code as the first element, and an array of measured values as the second element.
+   */
+  static IV_getdatafromline(
+    dataPointIndex: number,
+    scanIndex: number
+  ): IviumResult<number[]> {
+    const selectedDataPointIndexArray = new LongArray(dataPointIndex);
+    const scanIndexArray = new LongArray(scanIndex);
+
+    const measuredValue1Array = new DoubleArray(1);
+    const measuredValue2Array = new DoubleArray(1);
+    const measuredValue3Array = new DoubleArray(1);
+
+    const resultCode = Core.#lib.IV_getdatafromline(
+      selectedDataPointIndexArray,
+      scanIndexArray,
+      measuredValue1Array,
+      measuredValue2Array,
+      measuredValue3Array
+    );
+
+    return [
+      resultCode,
+      [measuredValue1Array[0], measuredValue2Array[0], measuredValue3Array[0]],
+    ];
   }
 }
 
