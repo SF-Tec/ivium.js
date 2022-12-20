@@ -1,5 +1,5 @@
 import { Library } from 'ffi-napi';
-import ref from 'ref-napi';
+import ref, { Pointer } from 'ref-napi';
 import refArray from 'ref-array-di';
 
 const getIviumDllPath = () => {
@@ -8,17 +8,27 @@ const getIviumDllPath = () => {
   return `${__dirname}\\dlls\\Ivium_remdriver${architecture}.dll`;
 };
 
-const { char, double, int, long } = ref.types;
+export const { char, double, int, long } = ref.types;
 const ArrayType = refArray(ref);
 export const CharArray = ArrayType(char);
 export const DoubleArray = ArrayType(double);
 export const LongArray = ArrayType(long) as refArray.ArrayType<number>;
+export const DoublePtr = ref.refType(double);
+export const LongPtr = ref.refType(long);
 
 export const buildCharArray = (text: string) => {
   const buffer = Buffer.from(text, 'utf8');
 
   return new CharArray(buffer);
 };
+
+function buildPointer<R extends string | number>(refType: ref.Type, value?: R) {
+  return ref.alloc(refType, value) as unknown as Pointer<R>;
+}
+
+export function buildNumericPointer(refType: ref.Type, value?: number) {
+  return buildPointer(refType, value);
+}
 
 export const buildFfiLibrary = () =>
   Library(getIviumDllPath(), {
@@ -79,10 +89,10 @@ export const buildFfiLibrary = () =>
     IV_savedata: [int, [CharArray]],
     IV_setmethodparameter: [int, [CharArray, CharArray]],
     IV_Ndatapoints: [int, [LongArray]],
-    IV_getdata: [int, [LongArray, DoubleArray, DoubleArray, DoubleArray]],
+    IV_getdata: [int, [LongPtr, DoublePtr, DoublePtr, DoublePtr]],
     IV_getdatafromline: [
       int,
-      [LongArray, LongArray, DoubleArray, DoubleArray, DoubleArray],
+      [LongPtr, LongPtr, DoublePtr, DoublePtr, DoublePtr],
     ],
 
     /* EXTRA */
