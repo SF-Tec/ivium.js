@@ -1,8 +1,10 @@
 import {
   buildCharArray,
   buildFfiLibrary,
+  buildNumericPointer,
   CharArray,
-  DoubleArray,
+  double,
+  long,
   LongArray,
 } from './ffiLibrary';
 
@@ -301,22 +303,28 @@ class Core {
    * @param {number} dataPointIndex - The index of the data point to retrieve data for.
    * @returns {IviumResult<number[]>} The result of the function call, with the data for the specified data point as the second element (an array of three numbers).
    */ static IV_getdata(dataPointIndex: number): IviumResult<number[]> {
-    const selectedDataPointIndexArray = new LongArray(dataPointIndex);
+    const selectedDataPointIndexPtr = buildNumericPointer(long, dataPointIndex);
 
-    const measuredValue1Array = new DoubleArray(1);
-    const measuredValue2Array = new DoubleArray(1);
-    const measuredValue3Array = new DoubleArray(1);
+    const measuredValue1Ptr = buildNumericPointer(double);
+    const measuredValue2Ptr = buildNumericPointer(double);
+    const measuredValue3Ptr = buildNumericPointer(double);
+
+    // build a pointer to doble with the
 
     const resultCode = Core.#lib.IV_getdata(
-      selectedDataPointIndexArray,
-      measuredValue1Array,
-      measuredValue2Array,
-      measuredValue3Array
+      selectedDataPointIndexPtr,
+      measuredValue1Ptr,
+      measuredValue2Ptr,
+      measuredValue3Ptr
     );
 
     return [
       resultCode,
-      [measuredValue1Array[0], measuredValue2Array[0], measuredValue3Array[0]],
+      [
+        measuredValue1Ptr.deref(),
+        measuredValue2Ptr.deref(),
+        measuredValue3Ptr.deref(),
+      ],
     ];
   }
 
@@ -331,24 +339,28 @@ class Core {
     dataPointIndex: number,
     scanIndex: number
   ): IviumResult<number[]> {
-    const selectedDataPointIndexArray = new LongArray(dataPointIndex);
-    const scanIndexArray = new LongArray(scanIndex);
+    const selectedDataPointIndexPtr = buildNumericPointer(long, dataPointIndex);
+    const scanIndexPtr = buildNumericPointer(long, scanIndex);
 
-    const measuredValue1Array = new DoubleArray(1);
-    const measuredValue2Array = new DoubleArray(1);
-    const measuredValue3Array = new DoubleArray(1);
+    const measuredValue1Ptr = buildNumericPointer(double);
+    const measuredValue2Ptr = buildNumericPointer(double);
+    const measuredValue3Ptr = buildNumericPointer(double);
 
     const resultCode = Core.#lib.IV_getdatafromline(
-      selectedDataPointIndexArray,
-      scanIndexArray,
-      measuredValue1Array,
-      measuredValue2Array,
-      measuredValue3Array
+      selectedDataPointIndexPtr,
+      scanIndexPtr,
+      measuredValue1Ptr,
+      measuredValue2Ptr,
+      measuredValue3Ptr
     );
 
     return [
       resultCode,
-      [measuredValue1Array[0], measuredValue2Array[0], measuredValue3Array[0]],
+      [
+        measuredValue1Ptr.deref(),
+        measuredValue2Ptr.deref(),
+        measuredValue3Ptr.deref(),
+      ],
     ];
   }
 }
