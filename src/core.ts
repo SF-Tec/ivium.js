@@ -1,5 +1,4 @@
 import {
-  buildCharArray,
   buildFfiLibrary,
   buildNumericPointer,
   CharArray,
@@ -210,9 +209,7 @@ class Core {
    * @returns {IviumResult<string>} A tuple containing the result code and the method file path.
    */
   static IV_readmethod(methodFilePath: string): IviumResult<string> {
-    const methodFilePathArray = buildCharArray(methodFilePath);
-
-    const resultCode = Core.#lib.IV_readmethod(methodFilePathArray);
+    const resultCode = Core.#lib.IV_readmethod(methodFilePath);
 
     return [resultCode, methodFilePath];
   }
@@ -223,9 +220,7 @@ class Core {
    * @returns {IviumResult<string>} A tuple containing the result code and the method file path.
    */
   static IV_savemethod(methodFilePath: string): IviumResult<string> {
-    const methodFilePathArray = buildCharArray(methodFilePath);
-
-    const resultCode = Core.#lib.IV_savemethod(methodFilePathArray);
+    const resultCode = Core.#lib.IV_savemethod(methodFilePath);
 
     return [resultCode, methodFilePath];
   }
@@ -239,9 +234,7 @@ class Core {
    * @returns {IviumResult<string>} A tuple containing the result code and the method file path.
    */
   static IV_startmethod(methodFilePath = ''): IviumResult<string> {
-    const methodFilePathArray = buildCharArray(methodFilePath);
-
-    const resultCode = Core.#lib.IV_startmethod(methodFilePathArray);
+    const resultCode = Core.#lib.IV_startmethod(methodFilePath);
 
     return [resultCode, methodFilePath];
   }
@@ -260,9 +253,7 @@ class Core {
    * @returns {IviumResult<string>} A tuple containing the result code and the method data file path.
    */
   static IV_savedata(methodDataFilePath: string): IviumResult<string> {
-    const methodDataFilePathArray = buildCharArray(methodDataFilePath);
-
-    const resultCode = Core.#lib.IV_savemethod(methodDataFilePathArray);
+    const resultCode = Core.#lib.IV_savedata(methodDataFilePath);
 
     return [resultCode, methodDataFilePath];
   }
@@ -277,13 +268,7 @@ class Core {
     parameterName: string,
     parameterValue: string
   ) {
-    const parameterNameArray = buildCharArray(parameterName);
-    const parameterValueArray = buildCharArray(parameterValue);
-
-    return Core.#lib.IV_setmethodparameter(
-      parameterNameArray,
-      parameterValueArray
-    );
+    return Core.#lib.IV_setmethodparameter(parameterName, parameterValue);
   }
 
   /**
