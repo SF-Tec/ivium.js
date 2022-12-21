@@ -8,26 +8,31 @@ const getIviumDllPath = () => {
   return `${__dirname}\\dlls\\Ivium_remdriver${architecture}.dll`;
 };
 
-export const { char, double, int, long } = ref.types;
+export const { char, CString, double, int, long } = ref.types;
 const ArrayType = refArray(ref);
 export const CharArray = ArrayType(char);
 export const DoubleArray = ArrayType(double);
 export const LongArray = ArrayType(long) as refArray.ArrayType<number>;
+export const CharPtr = ref.refType(char);
 export const DoublePtr = ref.refType(double);
 export const LongPtr = ref.refType(long);
 
 export const buildCharArray = (text: string) => {
-  const buffer = Buffer.from(text, 'utf8');
-
-  return new CharArray(buffer);
+  return ref.allocCString(text) as unknown as Pointer<number>;
 };
 
-function buildPointer<R extends string | number>(refType: ref.Type, value?: R) {
-  return ref.alloc(refType, value) as unknown as Pointer<R>;
+// create char array from the text "hello" with the ref-array-di package
+
+function buildPointer(refType: ref.Type, value?: number | string) {
+  return ref.alloc(refType, value) as unknown as Pointer<number>;
 }
 
 export function buildNumericPointer(refType: ref.Type, value?: number) {
-  return buildPointer(refType, value);
+  return buildPointer(refType, value) as ref.Pointer<number>;
+}
+
+export function buildCharPointer(value?: string) {
+  return buildPointer(char, value);
 }
 
 export const buildFfiLibrary = () =>
@@ -82,12 +87,12 @@ export const buildFfiLibrary = () =>
     IV_we32readcurrents: [int, [DoubleArray]],
 
     /* METHOD MODE */
-    IV_readmethod: [int, [CharArray]],
-    IV_savemethod: [int, [CharArray]],
-    IV_startmethod: [int, [CharArray]],
+    IV_readmethod: [int, [CString]],
+    IV_savemethod: [int, [CString]],
+    IV_startmethod: [int, [CString]],
     IV_abort: [int, []],
-    IV_savedata: [int, [CharArray]],
-    IV_setmethodparameter: [int, [CharArray, CharArray]],
+    IV_savedata: [int, [CString]],
+    IV_setmethodparameter: [int, [CString, CString]],
     IV_Ndatapoints: [int, [LongArray]],
     IV_getdata: [int, [LongPtr, DoublePtr, DoublePtr, DoublePtr]],
     IV_getdatafromline: [
