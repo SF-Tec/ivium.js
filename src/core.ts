@@ -3,7 +3,6 @@ import {
   buildNumericPointer,
   CharArray,
   double,
-  DoubleArray,
   long,
   LongArray,
 } from './ffiLibrary';
@@ -186,11 +185,11 @@ class Core {
    * @returns {number} The cell status label.
    */
   static IV_getcellstatus(): IviumResult<number> {
-    const cellStatusArray = new LongArray(1);
+    const cellStatusPtr = buildNumericPointer(long);
 
-    const resultCode = Core.#lib.IV_getcellstatus(cellStatusArray);
+    const resultCode = Core.#lib.IV_getcellstatus(cellStatusPtr);
 
-    return [resultCode, cellStatusArray[0]];
+    return [resultCode, cellStatusPtr.deref()];
   }
 
   /**
@@ -201,13 +200,14 @@ class Core {
   static IV_setconnectionmode(
     connectionModeNumber: number
   ): IviumResult<number> {
-    const connectionModeNumberArray = new LongArray([connectionModeNumber]);
-
-    const resultCode = Core.#lib.IV_setconnectionmode(
-      connectionModeNumberArray
+    const connectionModeNumberPtr = buildNumericPointer(
+      long,
+      connectionModeNumber
     );
 
-    return [resultCode, connectionModeNumberArray[0]];
+    const resultCode = Core.#lib.IV_setconnectionmode(connectionModeNumberPtr);
+
+    return [resultCode, connectionModeNumberPtr.deref()];
   }
 
   /**
@@ -216,9 +216,9 @@ class Core {
    * @returns {number} The result of setting the cell on mode.
    */
   static IV_setcellon(cellOnModeNumber: number): number {
-    const cellOnModeNumberArray = new LongArray([cellOnModeNumber]);
+    const cellOnModeNumberPtr = buildNumericPointer(long, cellOnModeNumber);
 
-    return Core.#lib.IV_setcellon(cellOnModeNumberArray);
+    return Core.#lib.IV_setcellon(cellOnModeNumberPtr);
   }
 
   /**
@@ -227,9 +227,9 @@ class Core {
    * @returns {number} The result of setting the cell potential.
    */
   static IV_setpotential(potential: number): number {
-    const potentialArray = new DoubleArray([potential]);
+    const potentialPtr = buildNumericPointer(double, potential);
 
-    return Core.#lib.IV_setpotential(potentialArray);
+    return Core.#lib.IV_setpotential(potentialPtr);
   }
 
   /**
@@ -238,9 +238,9 @@ class Core {
    * @returns {number} The result of setting the cell potential.
    */
   static IV_setpotentialWE2(potentialWe2: number): number {
-    const potentialArray = new DoubleArray([potentialWe2]);
+    const potentialPtr = buildNumericPointer(double, potentialWe2);
 
-    return Core.#lib.IV_setpotentialWE2(potentialArray);
+    return Core.#lib.IV_setpotentialWE2(potentialPtr);
   }
 
   /**
@@ -249,9 +249,9 @@ class Core {
    * @returns {number} The result of setting the cell current.
    */
   static IV_setcurrent(current: number): number {
-    const currentArray = new DoubleArray([current]);
+    const currentPtr = buildNumericPointer(double, current);
 
-    return Core.#lib.IV_setcurrent(currentArray);
+    return Core.#lib.IV_setcurrent(currentPtr);
   }
 
   /**
@@ -259,11 +259,11 @@ class Core {
    * @returns An IviumResult containing the result code and the measured cell potential.
    */
   static IV_getpotential(): IviumResult<number> {
-    const potentialArray = new DoubleArray(1);
+    const potentialPtr = buildNumericPointer(double);
 
-    const resultCode = Core.#lib.IV_getpotential(potentialArray);
+    const resultCode = Core.#lib.IV_getpotential(potentialPtr);
 
-    return [resultCode, potentialArray[0]];
+    return [resultCode, potentialPtr.deref()];
   }
 
   /**
@@ -271,9 +271,9 @@ class Core {
    * @returns The result code of the operation.
    */
   static IV_setcurrentrange(currentRange: number): number {
-    const currentRangeArray = new LongArray([currentRange]);
+    const currentRangePtr = buildNumericPointer(long, currentRange);
 
-    return Core.#lib.IV_setcurrentrange(currentRangeArray);
+    return Core.#lib.IV_setcurrentrange(currentRangePtr);
   }
 
   /**
@@ -281,9 +281,9 @@ class Core {
    * @returns The result code of the operation.
    */
   static IV_setcurrentrangeWE2(currentRange: number): number {
-    const currentRangeArray = new LongArray([currentRange]);
+    const currentRangePtr = buildNumericPointer(long, currentRange);
 
-    return Core.#lib.IV_setcurrentrangeWE2(currentRangeArray);
+    return Core.#lib.IV_setcurrentrangeWE2(currentRangePtr);
   }
 
   /**
@@ -291,11 +291,11 @@ class Core {
    * @returns An IviumResult containing the result code and the measured cell current.
    */
   static IV_getcurrent(): IviumResult<number> {
-    const currentArray = new DoubleArray(1);
+    const currentPtr = buildNumericPointer(double);
 
-    const resultCode = Core.#lib.IV_getcurrent(currentArray);
+    const resultCode = Core.#lib.IV_getcurrent(currentPtr);
 
-    return [resultCode, currentArray[0]];
+    return [resultCode, currentPtr.deref()];
   }
 
   /**
@@ -303,11 +303,128 @@ class Core {
    * @returns An IviumResult containing the result code and the measured cell current from WE2 (bipotentiostat).
    */
   static IV_getcurrentWE2(): IviumResult<number> {
-    const currentArray = new DoubleArray(1);
+    const currentPtr = buildNumericPointer(double);
 
-    const resultCode = Core.#lib.IV_getcurrentWE2(currentArray);
+    const resultCode = Core.#lib.IV_getcurrentWE2(currentPtr);
 
-    return [resultCode, currentArray[0]];
+    return [resultCode, currentPtr.deref()];
+  }
+
+  static IV_setfilter(filter: number): number {
+    const filterPtr = buildNumericPointer(long, filter);
+
+    return Core.#lib.IV_setfilter(filterPtr);
+  }
+
+  static IV_setstability(stability: number): number {
+    const stabilityPtr = buildNumericPointer(long, stability);
+
+    return Core.#lib.IV_setstability(stabilityPtr);
+  }
+
+  static IV_setbistatmode(bistatMode: number): number {
+    const bistatModePtr = buildNumericPointer(long, bistatMode);
+
+    return Core.#lib.IV_setbistatmode(bistatModePtr);
+  }
+
+  static IV_setdac(channel: number, value: number): number {
+    const channelPtr = buildNumericPointer(long, channel);
+    const valuePtr = buildNumericPointer(double, value);
+
+    return Core.#lib.IV_setdac(channelPtr, valuePtr);
+  }
+
+  static IV_getadc(channel: number): IviumResult<number> {
+    const channelPtr = buildNumericPointer(long, channel);
+    const valuePtr = buildNumericPointer(double, 1);
+
+    const resultCode = Core.#lib.IV_getadc(channelPtr, valuePtr);
+
+    return [resultCode, valuePtr.deref()];
+  }
+
+  static IV_setmuxchannel(channel: number): number {
+    const channelPtr = buildNumericPointer(long, channel);
+
+    return Core.#lib.IV_setmuxchannel(channelPtr);
+  }
+
+  static IV_setdigout(channel: number): number {
+    const channelPtr = buildNumericPointer(long, channel);
+
+    return Core.#lib.IV_setdigout(channelPtr);
+  }
+
+  static IV_getdigin(): IviumResult<number> {
+    const valuePtr = buildNumericPointer(long);
+
+    const resultCode = Core.#lib.IV_getdigin(valuePtr);
+
+    return [resultCode, valuePtr.deref()];
+  }
+
+  static IV_setfrequency(frequency: number): number {
+    const frequencyPtr = buildNumericPointer(double, frequency);
+
+    return Core.#lib.IV_setfrequency(frequencyPtr);
+  }
+
+  static IV_setamplitude(amplitude: number): number {
+    const amplitudePtr = buildNumericPointer(double, amplitude);
+
+    return Core.#lib.IV_setamplitude(amplitudePtr);
+  }
+
+  static IV_getcurrenttrace(
+    pointsQuantity: number,
+    intervalRate: number
+  ): IviumResult<number> {
+    const pointsQuantityPtr = buildNumericPointer(long, pointsQuantity);
+    const intervalRatePtr = buildNumericPointer(double, intervalRate);
+    const resultPtr = buildNumericPointer(double);
+
+    const resultCode = Core.#lib.IV_getcurrenttrace(
+      pointsQuantityPtr,
+      intervalRatePtr,
+      resultPtr
+    );
+
+    return [resultCode, resultPtr.deref()];
+  }
+
+  static IV_getcurrentWE2trace(
+    pointsQuantity: number,
+    intervalRate: number
+  ): IviumResult<number> {
+    const pointsQuantityPtr = buildNumericPointer(long, pointsQuantity);
+    const intervalRatePtr = buildNumericPointer(double, intervalRate);
+    const resultPtr = buildNumericPointer(double);
+
+    const resultCode = Core.#lib.IV_getcurrentWE2trace(
+      pointsQuantityPtr,
+      intervalRatePtr,
+      resultPtr
+    );
+
+    return [resultCode, resultPtr.deref()];
+  }
+
+  static IV_getpotentialtrace(
+    pointsQuantity: number,
+    intervalRate: number
+  ): IviumResult<number> {
+    const pointsQuantityPtr = buildNumericPointer(long, pointsQuantity);
+    const intervalRatePtr = buildNumericPointer(double, intervalRate);
+    const resultPtr = buildNumericPointer(double);
+
+    const resultCode = Core.#lib.IV_getpotentialtrace(
+      pointsQuantityPtr,
+      intervalRatePtr,
+      resultPtr
+    );
+
+    return [resultCode, resultPtr.deref()];
   }
 
   // ###########################
