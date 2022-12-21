@@ -3,6 +3,7 @@ import {
   buildNumericPointer,
   CharArray,
   double,
+  DoubleArray,
   long,
   LongArray,
 } from './ffiLibrary';
@@ -181,6 +182,18 @@ class Core {
   // ###########################
 
   /**
+   * Returns the corresponding cell status label ["I_ovl", "Anin1_ovl","E_ovl", "CellOff_button pressed", "Cell on"]
+   * @returns {number} The cell status label.
+   */
+  static IV_getcellstatus(): IviumResult<number> {
+    const cellStatusArray = new LongArray(1);
+
+    const resultCode = Core.#lib.IV_getcellstatus(cellStatusArray);
+
+    return [resultCode, cellStatusArray[0]];
+  }
+
+  /**
    * Sets the connection mode for the Ivium device.
    * @param connectionModeNumber - The connection mode number.
    * @returns An IviumResult containing the result code and the updated connection mode number.
@@ -188,11 +201,113 @@ class Core {
   static IV_setconnectionmode(
     connectionModeNumber: number
   ): IviumResult<number> {
-    const connectionModeNumberPtr = new LongArray([connectionModeNumber]);
+    const connectionModeNumberArray = new LongArray([connectionModeNumber]);
 
-    const resultCode = Core.#lib.IV_setconnectionmode(connectionModeNumberPtr);
+    const resultCode = Core.#lib.IV_setconnectionmode(
+      connectionModeNumberArray
+    );
 
-    return [resultCode, connectionModeNumberPtr[0]];
+    return [resultCode, connectionModeNumberArray[0]];
+  }
+
+  /**
+   * Set cell on off to close cell relais (0=off;1=on)
+   * @param {number} cellOnModeNumber - The cell on mode number.
+   * @returns {number} The result of setting the cell on mode.
+   */
+  static IV_setcellon(cellOnModeNumber: number): number {
+    const cellOnModeNumberArray = new LongArray([cellOnModeNumber]);
+
+    return Core.#lib.IV_setcellon(cellOnModeNumberArray);
+  }
+
+  /**
+   * Set cell potential
+   * @param {number} potential - The potential to set.
+   * @returns {number} The result of setting the cell potential.
+   */
+  static IV_setpotential(potential: number): number {
+    const potentialArray = new DoubleArray([potential]);
+
+    return Core.#lib.IV_setpotential(potentialArray);
+  }
+
+  /**
+   * Set BiStat offset potential
+   * @param {number} potentialWe2 - The potential to set.
+   * @returns {number} The result of setting the cell potential.
+   */
+  static IV_setpotentialWE2(potentialWe2: number): number {
+    const potentialArray = new DoubleArray([potentialWe2]);
+
+    return Core.#lib.IV_setpotentialWE2(potentialArray);
+  }
+
+  /**
+   * Set cell current
+   * @param {number} current - The current to set.
+   * @returns {number} The result of setting the cell current.
+   */
+  static IV_setcurrent(current: number): number {
+    const currentArray = new DoubleArray([current]);
+
+    return Core.#lib.IV_setcurrent(currentArray);
+  }
+
+  /**
+   * Get measured cell potential
+   * @returns An IviumResult containing the result code and the measured cell potential.
+   */
+  static IV_getpotential(): IviumResult<number> {
+    const potentialArray = new DoubleArray(1);
+
+    const resultCode = Core.#lib.IV_getpotential(potentialArray);
+
+    return [resultCode, potentialArray[0]];
+  }
+
+  /**
+   * Set current range, 0=10A, 1=1A, etc,
+   * @returns The result code of the operation.
+   */
+  static IV_setcurrentrange(currentRange: number): number {
+    const currentRangeArray = new LongArray([currentRange]);
+
+    return Core.#lib.IV_setcurrentrange(currentRangeArray);
+  }
+
+  /**
+   * Set current range for BiStat, 0=10A, 1=1A, etc,
+   * @returns The result code of the operation.
+   */
+  static IV_setcurrentrangeWE2(currentRange: number): number {
+    const currentRangeArray = new LongArray([currentRange]);
+
+    return Core.#lib.IV_setcurrentrangeWE2(currentRangeArray);
+  }
+
+  /**
+   * Get measured cell current
+   * @returns An IviumResult containing the result code and the measured cell current.
+   */
+  static IV_getcurrent(): IviumResult<number> {
+    const currentArray = new DoubleArray(1);
+
+    const resultCode = Core.#lib.IV_getcurrent(currentArray);
+
+    return [resultCode, currentArray[0]];
+  }
+
+  /**
+   * Get measured cell current from WE2 (bipotentiostat)
+   * @returns An IviumResult containing the result code and the measured cell current from WE2 (bipotentiostat).
+   */
+  static IV_getcurrentWE2(): IviumResult<number> {
+    const currentArray = new DoubleArray(1);
+
+    const resultCode = Core.#lib.IV_getcurrentWE2(currentArray);
+
+    return [resultCode, currentArray[0]];
   }
 
   // ###########################
