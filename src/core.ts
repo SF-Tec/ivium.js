@@ -431,6 +431,74 @@ class Core {
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
 
+  /**
+   * Select active WE32 channel (chan)
+   * @param channel The channel to be selected.
+   * @returns The result code.
+   */
+  static IV_we32setchannel(channel: number): number {
+    const channelPtr = buildNumericPointer(long, channel);
+
+    return Core.#lib.IV_we32setchannel(channelPtr);
+  }
+
+  /**
+   * Set WE32 offset (chan,value), value -2 to +2V.
+   * Use chan=0 to apply the same offset to all channels.
+   * @param channel The channel to be selected.
+   * @param offset The offset to be applied.
+   * @returns The result code.
+   */
+  static IV_we32setoffset(channel: number, offset: number): number {
+    const channelPtr = buildNumericPointer(long, channel);
+    const offsetPtr = buildNumericPointer(double, offset);
+
+    return Core.#lib.IV_we32setoffset(channelPtr, offsetPtr);
+  }
+
+  /**
+   * Set WE32 offsets values (Nchan,values), with Nchan the number of channels (1..32).
+   * @param numberOfChannels The number of channels.
+   * @param offset The offset to be applied.
+   * @returns The result code.
+   */
+  static IV_we32setoffsets(numberOfChannels: number, offset: number): number {
+    const numberOfChannelsPtr = buildNumericPointer(long, numberOfChannels);
+    const offsetPtr = buildNumericPointer(double, offset);
+
+    return Core.#lib.IV_we32setoffsets(numberOfChannelsPtr, offsetPtr);
+  }
+
+  /**
+   * Returns array with 32 WE32 current values, that are measured simultaneously.
+   * @returns A tuple containing the result code and the current values.
+   */
+  static IV_we32getoffsets(numberOfChannels: number): IviumResult<number> {
+    const numberOfChannelsPtr = buildNumericPointer(long, numberOfChannels);
+    const offsetPtr = buildNumericPointer(double);
+
+    const resultCode = Core.#lib.IV_we32getoffsets(
+      numberOfChannelsPtr,
+      offsetPtr
+    );
+
+    return [resultCode, offsetPtr.deref()];
+  }
+
+  /**
+   * Returns array with 32 WE32 current values, that are measured simultaneously.
+   * @returns A tuple containing the result code and the current values.
+   */
+  static IV_we32readcurrents(): IviumResult<number> {
+    const resultPtr = buildNumericPointer(double);
+
+    console.log('antes');
+    const resultCode = Core.#lib.IV_we32readcurrents(resultPtr);
+    console.log('después');
+
+    return [resultCode, resultPtr.deref()];
+  }
+
   // ###########################
   // ## METHOD MODE FUNCTIONS ##
   // ###########################
