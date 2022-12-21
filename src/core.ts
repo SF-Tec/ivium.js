@@ -267,13 +267,47 @@ class Core {
   }
 
   /**
-   * Get measured BiStat offset potential
-   * @returns The measured cell potential.
+   * Set current range, 0=10A, 1=1A, etc,
+   * @returns The result code of the operation.
    */
   static IV_setcurrentrange(currentRange: number): number {
     const currentRangeArray = new LongArray([currentRange]);
 
     return Core.#lib.IV_setcurrentrange(currentRangeArray);
+  }
+
+  /**
+   * Set current range for BiStat, 0=10A, 1=1A, etc,
+   * @returns The result code of the operation.
+   */
+  static IV_setcurrentrangeWE2(currentRange: number): number {
+    const currentRangeArray = new LongArray([currentRange]);
+
+    return Core.#lib.IV_setcurrentrangeWE2(currentRangeArray);
+  }
+
+  /**
+   * Get measured cell current
+   * @returns An IviumResult containing the result code and the measured cell current.
+   */
+  static IV_getcurrent(): IviumResult<number> {
+    const currentArray = new DoubleArray(1);
+
+    const resultCode = Core.#lib.IV_getcurrent(currentArray);
+
+    return [resultCode, currentArray[0]];
+  }
+
+  /**
+   * Get measured cell current from WE2 (bipotentiostat)
+   * @returns An IviumResult containing the result code and the measured cell current from WE2 (bipotentiostat).
+   */
+  static IV_getcurrentWE2(): IviumResult<number> {
+    const currentArray = new DoubleArray(1);
+
+    const resultCode = Core.#lib.IV_getcurrentWE2(currentArray);
+
+    return [resultCode, currentArray[0]];
   }
 
   // ###########################
