@@ -22,33 +22,33 @@
 |               | :heavy_check_mark: IV_VersionDllFileStr()                           |
 |               | :heavy_check_mark: IV_SelectChannel(int)                            |
 |               |                                                                     |
-|               | :small_orange_diamond: IV_getcellstatus()                           |
+|               | :heavy_check_mark: IV_getcellstatus()                           |
 |               | :heavy_check_mark: IV_setconnectionmode(int)                        |
-|               | :small_orange_diamond: IV_setcellon(int)                            |
-|               | :small_orange_diamond: IV_setpotential(float)                       |
-|               | :small_orange_diamond: IV_setpotentialWE2(float)                    |
-|               | :small_orange_diamond: IV_setcurrent(float)                         |
-|               | :small_orange_diamond: IV_getpotential()                            |
-|               | :small_orange_diamond: IV_setcurrentrange(int)                      |
-|               | :small_orange_diamond: IV_setcurrentrangeWE2(int)                   |
-|               | :small_orange_diamond: IV_getcurrent()                              |
-|               | :small_orange_diamond: IV_getcurrentWE2()                           |
-|               | :small_orange_diamond: IV_setfilter(int)                            |
-|               | :small_orange_diamond: IV_setstability(int)                         |
-|               | :small_orange_diamond: IV_setbistatmode(int)                        |
-|               | :small_orange_diamond: IV_setdac(int, float)                        |
-|               | :small_orange_diamond: IV_getadc(int)                               |
-|               | :small_orange_diamond: IV_setmuxchannel(int)                        |
-|               | :small_orange_diamond: IV_setdigout(value)                          |
-|               | :small_orange_diamond: IV_getdigin(value)                           |
-|               | :small_orange_diamond: IV_setfrequency(value)                       |
-|               | :small_orange_diamond: IV_setamplitude(value)                       |
-|               | :small_orange_diamond: IV_getcurrenttrace(npoints, rate, values)    |
-|               | :small_orange_diamond: IV_getcurrentWE2trace(npoints, rate, values) |
-|               | :small_orange_diamond: IV_getpotentialtrace(npoints, rate, values)  |
+|               | :heavy_check_mark: IV_setcellon(int)                            |
+|               | :heavy_check_mark: IV_setpotential(float)                       |
+|               | :heavy_check_mark: IV_setpotentialWE2(float)                    |
+|               | :heavy_check_mark: IV_setcurrent(float)                         |
+|               | :heavy_check_mark: IV_getpotential()                            |
+|               | :heavy_check_mark: IV_setcurrentrange(int)                      |
+|               | :heavy_check_mark: IV_setcurrentrangeWE2(int)                   |
+|               | :heavy_check_mark: IV_getcurrent()                              |
+|               | :heavy_check_mark: IV_getcurrentWE2()                           |
+|               | :heavy_check_mark: IV_setfilter(int)                            |
+|               | :heavy_check_mark: IV_setstability(int)                         |
+|               | :heavy_check_mark: IV_setbistatmode(int)                        |
+|               | :heavy_check_mark: IV_setdac(int, float)                        |
+|               | :heavy_check_mark: IV_getadc(int)                               |
+|               | :heavy_check_mark: IV_setmuxchannel(int)                        |
+|               | :heavy_check_mark: IV_setdigout(value)                          |
+|               | :heavy_check_mark: IV_getdigin(value)                           |
+|               | :heavy_check_mark: IV_setfrequency(value)                       |
+|               | :heavy_check_mark: IV_setamplitude(value)                       |
+|               | :heavy_check_mark: IV_getcurrenttrace(npoints, rate, values)    |
+|               | :heavy_check_mark: IV_getcurrentWE2trace(npoints, rate, values) |
+|               | :heavy_check_mark: IV_getpotentialtrace(npoints, rate, values)  |
 |               |                                                                     |
-|               | :small_orange_diamond: IV_we32setchannel(index)                     |
-|               | :small_orange_diamond: IV_we32setoffset(index, value)               |
+|               | :heavy_check_mark: IV_we32setchannel(index)                     |
+|               | :heavy_check_mark: IV_we32setoffset(index, value)               |
 |               | :small_orange_diamond: IV_we32setoffsets(nval, values)              |
 |               | :small_orange_diamond: IV_we32getoffsets(nval, values)              |
 |               | :small_orange_diamond: IV_we32readcurrents(values)                  |
