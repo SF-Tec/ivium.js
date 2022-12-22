@@ -84,6 +84,14 @@ class Core {
   }
 
   /**
+   * It returns -1 (no IviumSoft), 0 (not connected), 1 (available_idle), 2 (available_busy), 3 (no device available)
+   * @returns {number} The status of the device.
+   */
+  static IV_getdevicestatus(): number {
+    return Core.#lib.IV_getdevicestatus();
+  }
+
+  /**
    * Reads the serial number of the currently selected device.
    *
    * @returns A tuple containing the result code of the operation and the serial number of the device.
@@ -492,9 +500,7 @@ class Core {
   static IV_we32readcurrents(): IviumResult<number> {
     const resultPtr = buildNumericPointer(double);
 
-    console.log('antes');
     const resultCode = Core.#lib.IV_we32readcurrents(resultPtr);
-    console.log('después');
 
     return [resultCode, resultPtr.deref()];
   }
