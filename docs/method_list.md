@@ -3,6 +3,7 @@
 :heavy_check_mark: ready
 :small_orange_diamond: under development
 :x: not working
+:warning: not tested
 
 | Ivium Methods | Core Methods                                                        |
 | ------------- | ------------------------------------------------------------------- |
@@ -47,11 +48,11 @@
 |               | :heavy_check_mark: IV_getcurrentWE2trace(npoints, rate, values) |
 |               | :heavy_check_mark: IV_getpotentialtrace(npoints, rate, values)  |
 |               |                                                                     |
-|               | :heavy_check_mark: IV_we32setchannel(index)                     |
-|               | :heavy_check_mark: IV_we32setoffset(index, value)               |
-|               | :small_orange_diamond: IV_we32setoffsets(nval, values)              |
-|               | :small_orange_diamond: IV_we32getoffsets(nval, values)              |
-|               | :small_orange_diamond: IV_we32readcurrents(values)                  |
+|               | :warning: IV_we32setchannel(index)                     |
+|               | :warning: IV_we32setoffset(index, value)               |
+|               | :warning: IV_we32setoffsets(nval, values)              |
+|               | :warning: IV_we32getoffsets(nval, values)              |
+|               | :warning: IV_we32readcurrents(values)                  |
 |               |                                                                     |
 |               | :heavy_check_mark: IV_readmethod(fname)                             |
 |               | :heavy_check_mark: IV_savemethod(fname)                             |
