@@ -1,4 +1,4 @@
-export default class NoIviumsoftRunningError extends Error {
+export default class IviumsoftNotRunningError extends Error {
   constructor(
     message = 'IviumSoft is not currently running. Please, start it.'
   ) {

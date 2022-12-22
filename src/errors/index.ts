@@ -3,7 +3,7 @@ import DeviceBusyError from './DeviceBusyError';
 import DeviceNotConnectedToIviumsoftError from './DeviceNotConnectedToIviumsoftError';
 import DriverNotOpenError from './DriverNotOpenError';
 import NoDeviceDetectedError from './NoDeviceDetectedError';
-import NoIviumsoftRunningError from './NoIviumsoftRunningError';
+import IviumsoftNotRunningError from './IviumsoftNotRunningError';
 
 export {
   CellOffError,
@@ -11,5 +11,5 @@ export {
   DeviceNotConnectedToIviumsoftError,
   DriverNotOpenError,
   NoDeviceDetectedError,
-  NoIviumsoftRunningError,
+  IviumsoftNotRunningError,
 };
