@@ -26,7 +26,7 @@ Core.IV_getdevicestatus()
 Core.IV_close()
 ```
 
-## Usage Example (Using Ivium methods)
+<!-- ## Usage Example (Using Ivium methods)
 
 This is a wrapper around the Core functions that adds a few things:
 
@@ -40,7 +40,7 @@ Ivium.open_driver()
 Ivium.get_device_status()
 Ivium.close_driver()
 
-```
+``` -->
 
 ## Supported functions
 
