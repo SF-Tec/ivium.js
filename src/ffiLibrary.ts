@@ -80,11 +80,11 @@ export const buildFfiLibrary = () =>
     IV_getpotentialtrace: [int, [LongPtr, DoublePtr, DoublePtr]],
 
     /* WE32 */
-    IV_we32setchannel: [int, [LongArray]],
-    IV_we32setoffset: [int, [LongArray, DoubleArray]],
-    IV_we32setoffsets: [int, [LongArray, DoubleArray]],
-    IV_we32getoffsets: [int, [LongArray, DoubleArray]],
-    IV_we32readcurrents: [int, [DoubleArray]],
+    IV_we32setchannel: [int, [LongPtr]],
+    IV_we32setoffset: [int, [LongPtr, DoublePtr]],
+    IV_we32setoffsets: [int, [LongPtr, DoublePtr]],
+    IV_we32getoffsets: [int, [LongPtr, DoublePtr]],
+    IV_we32readcurrents: [int, [DoublePtr]],
 
     /* METHOD MODE */
     IV_readmethod: [int, [CString]],
