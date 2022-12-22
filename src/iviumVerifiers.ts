@@ -5,6 +5,7 @@ import {
   DeviceNotConnectedToIviumsoftError,
   DriverNotOpenError,
   IviumsoftNotRunningError,
+  NoDeviceDetectedError,
 } from './errors';
 
 /**
@@ -59,14 +60,14 @@ class IviumVerifiers {
    * @static
    * @method
    * @description Raise exception if no device is connected to your computer through usb.
-   * @throws {DeviceNotConnectedToIviumsoftError}
+   * @throws {NoDeviceDetectedError}
    * @memberof IviumVerifiers
    */
   static verifyDeviceIsConnectedToComputer() {
     const deviceStatus = Core.IV_getdevicestatus();
 
     if (deviceStatus === 3) {
-      throw new DeviceNotConnectedToIviumsoftError();
+      throw new NoDeviceDetectedError();
     }
   }
 
