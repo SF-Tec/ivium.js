@@ -94,9 +94,9 @@ class IviumVerifiers {
    * @memberof IviumVerifiers
    */
   static verfiyCellIsOn() {
-    const cellStatus = Core.IV_getcellstatus();
+    const [, cellStatus] = Core.IV_getcellstatus();
 
-    if (!cellStatus.includes(0)) {
+    if (!cellStatus) {
       throw new CellOffError();
     }
   }
