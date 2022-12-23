@@ -1,7 +1,7 @@
 {
   "name": "ivium",
-  "version": "0.1.9",
-  "description": "A simple starter template for new node packages. It uses rollup, typescript, eslint and prettier.",
+  "version": "0.1.0-alpha",
+  "description": "A tiny NodeJS wrapper around the <Software development driver DLL> for IviumSoft.",
   "browser": "dist/ivium.umd.js",
   "main": "dist/ivium.js",
   "module": "dist/ivium.mjs",
@@ -24,14 +24,18 @@
     "ivium software",
     "ivium",
     "iviumsoft",
-    "node"
+    "node",
+    "typescript"
   ],
-  "author": "Alejandro Gutiérrez <agutierrez@sftec.es>, Raúl Marín <rmarin@sftec.es>",
+  "contributors": [
+    "Alejandro Gutiérrez <agutierrez@sftec.es>",
+    "Raul Marin <rmarin@sftec.es>"
+  ],
   "license": "Apache License 2.0",
   "bugs": {
-    "url": "https://github.com/raulmarindev/ivium/issues"
+    "url": "https://github.com/sf-tec/ivium.js/issues"
   },
-  "homepage": "https://github.com/raulmarindev/ivium#readme",
+  "homepage": "https://github.com/sf-tec/ivium.js#readme",
   "dependencies": {
     "ffi-napi": "^4.0.3",
     "ref-array-di": "^1.2.2",
