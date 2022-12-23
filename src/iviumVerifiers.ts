@@ -20,7 +20,7 @@ class IviumVerifiers {
    * @throws {DriverNotOpenError}
    * @memberof IviumVerifiers
    */
-  static verifiyDriverIsOpen() {
+  static verifyDriverIsOpen() {
     if (!Core.isDriverOpen) {
       throw new DriverNotOpenError();
     }
@@ -33,7 +33,7 @@ class IviumVerifiers {
    * @throws {IviumsoftNotRunningError}
    * @memberof IviumVerifiers
    */
-  static verifiyIviumsoftIsRunning() {
+  static verifyIviumsoftIsRunning() {
     const deviceStatus = Core.IV_getdevicestatus();
 
     if (deviceStatus === -1) {

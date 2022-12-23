@@ -23,7 +23,7 @@ class Ivium {
     Core.IV_open();
 
     try {
-      IviumVerifiers.verifiyIviumsoftIsRunning();
+      IviumVerifiers.verifyIviumsoftIsRunning();
     } catch (error) {
       Core.IV_close();
       throw error;
@@ -34,7 +34,7 @@ class Ivium {
    * Close the iviumsoft driver.
    */
   static closeDriver() {
-    IviumVerifiers.verifiyDriverIsOpen();
+    IviumVerifiers.verifyDriverIsOpen();
 
     Core.IV_close();
   }
@@ -56,8 +56,8 @@ class Ivium {
    * @param methodFilePath The path to the file where the method is stored.
    */
   static loadMethod(methodFilePath: string) {
-    IviumVerifiers.verifiyDriverIsOpen();
-    IviumVerifiers.verifiyIviumsoftIsRunning();
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
 
     const [resultCode] = Core.IV_readmethod(methodFilePath);
 
