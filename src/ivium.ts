@@ -20,6 +20,8 @@ class Ivium {
       Core.IV_close();
     }
 
+    Core.IV_open();
+
     try {
       IviumVerifiers.verifiyIviumsoftIsRunning();
     } catch (error) {
