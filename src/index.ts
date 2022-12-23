@@ -1,4 +1,5 @@
 import Core from './core';
+import Ivium from './ivium';
 import IviumVerifiers from './iviumVerifiers';
 
-export { Core, IviumVerifiers };
+export { Core, Ivium, IviumVerifiers };
