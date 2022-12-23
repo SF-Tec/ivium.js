@@ -11,7 +11,7 @@ This module uses a dll from the IviumSoft application. You need to have this sof
 Install Ivium.js easily with npm:
 
 ```
-npm install ivium
+npm install iviumjs
 ```
 
 ## Usage Example (Using IviumSoft Core functions)
@@ -19,7 +19,7 @@ npm install ivium
 To use the same functions available in the "IviumSoft driver DLL" you can import the Core class as follows. All functions return a result code (integer) and a result value if available. For further information you can check the IviumSoft documentation.
 
 ```
-import {Core} from 'ivium'
+import {Core} from 'iviumjs'
 
 Core.IV_open()
 Core.IV_getdevicestatus()

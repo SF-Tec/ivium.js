@@ -1,5 +1,5 @@
 {
-  "name": "ivium",
+  "name": "iviumjs",
   "version": "0.1.0-alpha",
   "description": "A tiny NodeJS wrapper around the <Software development driver DLL> for IviumSoft.",
   "browser": "dist/ivium.umd.js",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivium.js/ivium.git"
+    "url": "git+https://github.com/sf-tec/ivium.js.git"
   },
   "keywords": [
     "ivium compactstat",
