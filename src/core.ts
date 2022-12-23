@@ -15,6 +15,7 @@ type IviumResult<T extends string | number | number[]> = [number, T];
 
 /**
  * The core class that provides access to Ivium functionality.
+ * All its methods are static.
  */
 class Core {
   /**
