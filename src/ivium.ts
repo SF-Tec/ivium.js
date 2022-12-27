@@ -52,6 +52,7 @@ class Ivium {
 
   /**
    * Informs about the status of IviumSoft and the connected device.
+   * It use the global statusLabes array including all the possible resulting status.
    * @returns -1 (no IviumSoft), 0 (not connected), 1 (available_idle), 2 (available_busy),
    * 3 (no device available).
    */
