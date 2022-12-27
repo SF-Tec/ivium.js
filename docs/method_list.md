@@ -5,23 +5,25 @@
 :x: not working
 :warning: not tested
 
-| Ivium Methods | Core Methods                                                        |
-| ------------- | ------------------------------------------------------------------- |
-|               | :heavy_check_mark: IV_open()                                        |
-|               | :heavy_check_mark: IV_close()                                       |
-|               | :heavy_check_mark: IV_MaxDevices()                                  |
-|               | :heavy_check_mark: IV_selectdevice(int)                             |
-|               | :heavy_check_mark: IV_getdevicestatus()                             |
-|               | :heavy_check_mark: IV_readSN()                                      |
-|               | :heavy_check_mark: IV_connect(int)                                  |
-|               | :heavy_check_mark: IV_connect(int)                                  |
-|               | :heavy_check_mark: IV_VersionHost(version)                          |
-|               | :heavy_check_mark: IV_VersionDll()                                  |
-|               | :heavy_check_mark: IV_VersionCheck()                                |
-|               | :heavy_check_mark: IV_HostHandle()                                  |
-|               | :heavy_check_mark: IV_VersionDllFile()                              |
-|               | :heavy_check_mark: IV_VersionDllFileStr()                           |
-|               | :heavy_check_mark: IV_SelectChannel(int)                            |
+| Ivium Methods | Core Methods                                                                   |
+| ------------- | ------------------------------------------------------------------------------ |
+| :heavy_check_mark: openDriver()                    | :heavy_check_mark: IV_open()              |  
+| :heavy_check_mark: closeDriver()                   | :heavy_check_mark: IV_close()             |
+| :heavy_check_mark: getMaxDeviceNumber()            | :heavy_check_mark: IV_MaxDevices()        |
+| :heavy_check_mark: getActiveIviumsoftInstances(int)|                                           |
+| :heavy_check_mark: selectIviumsoftInstance(int)    | :heavy_check_mark: IV_selectdevice(int)   |
+| :heavy_check_mark: getDeviceStatus()               | :heavy_check_mark: IV_getdevicestatus()   |
+| :heavy_check_mark: isIviumsoftRunning()            |                                           |
+| :heavy_check_mark: getDeviceDerialNumber()         | :heavy_check_mark: IV_readSN()            |
+| :heavy_check_mark: connectDevice()                 | :heavy_check_mark: IV_connect(int)        |
+| :heavy_check_mark: disconnectDevice()              | :heavy_check_mark: IV_connect(int)        |
+|                                                    | :heavy_check_mark: IV_VersionHost(version)|
+| :heavy_check_mark: getDllVersion()                 | :heavy_check_mark: IV_VersionDll()        |
+|                                                    | :heavy_check_mark: IV_VersionCheck()      |
+|                                                    | :heavy_check_mark: IV_HostHandle()        |
+| :heavy_check_mark: getIviumsoftVersion()           | :heavy_check_mark: IV_VersionDllFile()    |
+|                                                    | :heavy_check_mark: IV_VersionDllFileStr() |
+| :heavy_check_mark: selectChannel(int)              | :heavy_check_mark: IV_SelectChannel(int)  |
 |               |                                                                     |
 |               | :heavy_check_mark: IV_getcellstatus()                           |
 |               | :heavy_check_mark: IV_setconnectionmode(int)                        |
@@ -54,7 +56,7 @@
 |               | :warning: IV_we32getoffsets(nval, values)              |
 |               | :warning: IV_we32readcurrents(values)                  |
 |               |                                                                     |
-|               | :heavy_check_mark: IV_readmethod(fname)                             |
+| :heavy_check_mark: loadMethod(fname) | :heavy_check_mark: IV_readmethod(fname)                             |
 |               | :heavy_check_mark: IV_savemethod(fname)                             |
 |               | :heavy_check_mark: IV_startmethod(fname)                            |
 |               | :heavy_check_mark: IV_abort()                                       |
