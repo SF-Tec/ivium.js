@@ -132,6 +132,16 @@ class Ivium {
     return serialNumber;
   }
 
+  /**
+   * It connects the currently selected device.
+   */
+  static connectDevice(): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToComputer();
+    Core.IV_connect(1);
+  }
+
   // ###########################
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
