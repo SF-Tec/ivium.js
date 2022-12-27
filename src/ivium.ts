@@ -64,6 +64,15 @@ class Ivium {
     return [resultCode, statusLabels[resultCode + 1]];
   }
 
+  /**
+   * @returns A boolean value indicating whether IviumSoft is running.
+   */
+  static isIviumsoftRunning(): Boolean {
+    IviumVerifiers.verifyDriverIsOpen();
+
+    return Core.IV_getdevicestatus() !== -1;
+  }
+
   // ###########################
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
