@@ -1,6 +1,8 @@
 import Core from './core';
 import FileNotFoundError from './errors/FileNotFoundError';
 import IviumVerifiers from './iviumVerifiers';
+import statusLabels from './utils/statusLabels';
+import type { IviumResult } from './types/IviumResult';
 
 /**
  * Wrapper class for the Ivium library.
@@ -40,12 +42,25 @@ class Ivium {
   }
 
   /**
-   * Returns the maximum number of devices that can be managed by IviumSoft.
+   * @returns the maximum number of devices that can be managed by IviumSoft.
    */
   static getMaxDeviceNumber() {
     IviumVerifiers.verifyDriverIsOpen();
 
     return Core.IV_MaxDevices();
+  }
+
+  /**
+   * Informs about the status of IviumSoft and the connected device.
+   * @returns -1 (no IviumSoft), 0 (not connected), 1 (available_idle), 2 (available_busy),
+   * 3 (no device available).
+   */
+  static getDeviceStatus(): IviumResult<string> {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    const resultCode = Core.IV_getdevicestatus();
+
+    return [resultCode, statusLabels[resultCode + 1]];
   }
 
   // ###########################
