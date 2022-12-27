@@ -167,7 +167,7 @@ class Ivium {
     IviumVerifiers.verifyDriverIsOpen();
     const versionStr = Core.IV_VersionDllFile().toString();
 
-    return `${versionStr.slice(0, 1)}.${versionStr.slice(2, 5)}`;
+    return `${versionStr.slice(0, 1)}.${versionStr.slice(1, 5)}`;
   }
 
   // ###########################
