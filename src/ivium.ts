@@ -170,6 +170,20 @@ class Ivium {
     return `${versionStr.slice(0, 1)}.${versionStr.slice(1, 5)}`;
   }
 
+  /**
+   * Sending the number value communicates with Multichannel control:
+   *  if not yet active, the [number] of tabs is automatically opened and the [number] tab becomes active.
+   *  if Ivium-n-Soft is active already, the [number] tab becomes active.
+   *  Now the channel/instrument that is connected to this tab can be controlled.
+   *  If no instrument is connected, the next available instrument in the list can be connected (IV_connect) and controlled.
+   * @param {number} channelNumber to target
+   */
+  static selectChannel(channelNumber: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_SelectChannel(channelNumber);
+  }
+
   // ###########################
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
