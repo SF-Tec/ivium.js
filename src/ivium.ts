@@ -71,7 +71,7 @@ class Ivium {
   /**
    * @returns A boolean value indicating whether IviumSoft is running.
    */
-  static isIviumsoftRunning(): Boolean {
+  static isIviumsoftRunning(): boolean {
     IviumVerifiers.verifyDriverIsOpen();
 
     return Core.IV_getdevicestatus() !== -1;
