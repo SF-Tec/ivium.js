@@ -1,7 +1,10 @@
 import Core from './core';
 import FileNotFoundError from './errors/FileNotFoundError';
 import IviumVerifiers from './iviumVerifiers';
-import { IviumsoftNotRunningError } from './errors';
+import {
+  IviumsoftNotRunningError,
+  DeviceNotConnectedToIviumsoftError,
+} from './errors';
 import statusLabels from './utils/statusLabels';
 import type { IviumResult } from './types/IviumResult';
 
@@ -110,6 +113,23 @@ class Ivium {
       throw new IviumsoftNotRunningError(errorMsg);
     }
     Core.IV_selectdevice(iviumsoftInstanceNumber);
+  }
+
+  /**
+   * @returns The serial number of the currently selected device if available.
+   */
+  static getDeviceSerialNumber(): string {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToComputer();
+    const [, serialNumber] = Core.IV_readSN();
+    if (serialNumber === '') {
+      throw new DeviceNotConnectedToIviumsoftError(
+        'This device needs to be connected to get its serial number'
+      );
+    }
+
+    return serialNumber;
   }
 
   // ###########################
