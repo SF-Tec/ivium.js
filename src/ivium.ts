@@ -160,6 +160,16 @@ class Ivium {
     return Core.IV_VersionDll();
   }
 
+  /**
+   * @returns The version of the IviumSoft that match with this iviumjs version.
+   */
+  static getIviumsoftVersion(): string {
+    IviumVerifiers.verifyDriverIsOpen();
+    const versionStr = Core.IV_VersionDllFile().toString();
+
+    return `${versionStr.slice(0, 1)}.${versionStr.slice(2, 5)}`;
+  }
+
   // ###########################
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
