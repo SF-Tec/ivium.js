@@ -39,6 +39,15 @@ class Ivium {
     Core.IV_close();
   }
 
+  /**
+   * Returns the maximum number of devices that can be managed by IviumSoft.
+   */
+  static getMaxDeviceNumber() {
+    IviumVerifiers.verifyDriverIsOpen();
+
+    return Core.IV_MaxDevices();
+  }
+
   // ###########################
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
