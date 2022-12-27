@@ -73,6 +73,30 @@ class Ivium {
     return Core.IV_getdevicestatus() !== -1;
   }
 
+  /**
+   * @returns A list of active(open) IviumSoft instances.
+   */
+  static getActiveIviumsoftInstances(): number[] {
+    IviumVerifiers.verifyDriverIsOpen();
+    const activeInstances = [];
+    let firstActiveInstanceNumber = 0;
+    for (let instanceNumber = 1; instanceNumber < 32; instanceNumber++) {
+      Core.IV_selectdevice(instanceNumber);
+      if (Core.IV_getdevicestatus() !== -1) {
+        activeInstances.push(instanceNumber);
+        if (firstActiveInstanceNumber === 0) {
+          firstActiveInstanceNumber = instanceNumber;
+        }
+      }
+    }
+    if (firstActiveInstanceNumber === 0) {
+      firstActiveInstanceNumber = 1;
+    }
+    Core.IV_selectdevice(firstActiveInstanceNumber);
+
+    return activeInstances;
+  }
+
   // ###########################
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
