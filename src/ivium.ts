@@ -142,6 +142,16 @@ class Ivium {
     Core.IV_connect(1);
   }
 
+  /**
+   * It disconnects the currently selected device.
+   */
+  static disconnectDevice(): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToComputer();
+    Core.IV_connect(0);
+  }
+
   // ###########################
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
