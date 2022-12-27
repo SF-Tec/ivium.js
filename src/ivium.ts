@@ -152,6 +152,14 @@ class Ivium {
     Core.IV_connect(0);
   }
 
+  /**
+   * @returns The version of the IviumSoft dll.
+   */
+  static getDllVersion(): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    return Core.IV_VersionDll();
+  }
+
   // ###########################
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
