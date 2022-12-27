@@ -1,6 +1,7 @@
 import Core from './core';
 import FileNotFoundError from './errors/FileNotFoundError';
 import IviumVerifiers from './iviumVerifiers';
+import { IviumsoftNotRunningError } from './errors';
 import statusLabels from './utils/statusLabels';
 import type { IviumResult } from './types/IviumResult';
 
@@ -95,6 +96,20 @@ class Ivium {
     Core.IV_selectdevice(firstActiveInstanceNumber);
 
     return activeInstances;
+  }
+
+  /**
+   * It allows to select one instance of the currently running IviumSoft instances
+   *  @param {number} iviumsoftInstanceNumber The instance number to select.
+   */
+  static selectIviumsoftInstance(iviumsoftInstanceNumber: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    const activeInstances = Ivium.getActiveIviumsoftInstances();
+    if (!activeInstances.includes(iviumsoftInstanceNumber)) {
+      const errorMsg = `No IviumSoft on instance number ${iviumsoftInstanceNumber}, actual active instances list = ${activeInstances}`;
+      throw new IviumsoftNotRunningError(errorMsg);
+    }
+    Core.IV_selectdevice(iviumsoftInstanceNumber);
   }
 
   // ###########################
