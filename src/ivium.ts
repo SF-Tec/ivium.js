@@ -447,6 +447,26 @@ class Ivium {
     return current;
   }
 
+  /**
+   * @returns A sequence of measured potentials at defined samplingrate
+   * (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
+   * @param {pointsQuantity intervalRate} The number of points and the interval rate.
+   */
+  static getPotentialTrace(
+    pointsQuantity: number,
+    intervalRate: number
+  ): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    const [, potential] = Core.IV_getpotentialtrace(
+      pointsQuantity,
+      intervalRate
+    );
+
+    return potential;
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
