@@ -413,6 +413,40 @@ class Ivium {
     Core.IV_setmuxchannel(channel);
   }
 
+  /**
+   * @returns A sequence of measured currents at defined samplingrate
+   * (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
+   * @param {pointsQuantity intervalRate} The number of points and the interval rate.
+   */
+  static getCurrentTrace(pointsQuantity: number, intervalRate: number): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    const [, current] = Core.IV_getcurrenttrace(pointsQuantity, intervalRate);
+
+    return current;
+  }
+
+  /**
+   * @returns A sequence of measured  WE2 currents at defined samplingrate
+   * (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
+   * @param {pointsQuantity intervalRate} The number of points and the interval rate.
+   */
+  static getCurrentWe2Trace(
+    pointsQuantity: number,
+    intervalRate: number
+  ): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    const [, current] = Core.IV_getcurrentWE2trace(
+      pointsQuantity,
+      intervalRate
+    );
+
+    return current;
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
