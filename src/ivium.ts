@@ -366,6 +366,19 @@ class Ivium {
   }
 
   /**
+   * Select mode for BiStat, for number 0=standard, 1=scanning.
+   * This bistat_mode function also can be used to control the Automatic E-ranging function of the instrument;
+   * 0=AutoEranging off; 1=AutoEranging on
+   * @param value The number value 0=standard or 1=scanning.
+   */
+  static setBistatMode(value: 0 | 1): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setbistatmode(value);
+  }
+
+  /**
    * Set dac on external port, channelNumber=0 for dac1, channelNumber=1 for dac2
    * @param {channel value} The dac channel number.
    */
@@ -390,16 +403,14 @@ class Ivium {
   }
 
   /**
-   * Select mode for BiStat, for number 0=standard, 1=scanning.
-   * This bistat_mode function also can be used to control the Automatic E-ranging function of the instrument;
-   * 0=AutoEranging off; 1=AutoEranging on
-   * @param value The number value 0=standard or 1=scanning.
+   * Set channel of multiplexer, int=channelnr. starting from 0(default).
+   * @param channel The number multiplexer channel.
    */
-  static setBistatMOde(value: 0 | 1): void {
+  static setMuxChannel(channel: number = 0): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setbistatmode(value);
+    Core.IV_setmuxchannel(channel);
   }
 
   // ###########################
