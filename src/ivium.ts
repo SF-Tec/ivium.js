@@ -257,13 +257,46 @@ class Ivium {
 
   /**
    * Set cell potential.
-   * @param potentialValue the value of potential (in Volts) to be setted
+   * @param potentialValue the value of potential (in Volts) to be setted.
    */
   static setPotential(potentialValue: number): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
     Core.IV_setpotential(potentialValue);
+  }
+
+  /**
+   * Set BiStat (WE2) offset potential potential.
+   * @param potentialWe2Value the value of potential, in Volts (V), to be setted.
+   */
+  static setWe2Potential(potentialWe2Value: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setpotentialWE2(potentialWe2Value);
+  }
+
+  /**
+   * Set cell current (galvanostatic mode).
+   * @param currentValue the value of current intensity, in Amperes (A), to be setted.
+   */
+  static setCurrent(currentValue: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setcurrent(currentValue);
+  }
+
+  /**
+   * @returns The measured potential.
+   */
+  static getPotential(): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    const [, potentialValue] = Core.IV_getpotential();
+    return potentialValue;
   }
 
   // ###########################
