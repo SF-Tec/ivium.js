@@ -343,6 +343,28 @@ class Ivium {
     return currentValue;
   }
 
+  /**
+   * Set filter: 0=1MHz, 1=100kHz, 2=10kHz, 3=1kHz, 4=10Hz
+   * @param filterNumber The number of filter from the available filter list.
+   */
+  static setFilter(filterNumber: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setfilter(filterNumber);
+  }
+
+  /**
+   * Set stability: 0=HighSpeed, 1=Standard, 2=HighStability
+   * @param stabilityNumber The number value from the available filter list.
+   */
+  static setStability(stabilityNumber: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setstability(stabilityNumber);
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
