@@ -237,6 +237,24 @@ class Ivium {
     Core.IV_setconnectionmode(connectionModeNumber);
   }
 
+  /**
+   * Set cell on.
+   */
+  static setCellOn(): void {
+    if (Ivium.getCellStatus().includes('Cell off')) {
+      Core.IV_setcellon(1);
+    }
+  }
+
+  /**
+   * Set cell off.
+   */
+  static setCellOff(): void {
+    if (Ivium.getCellStatus().includes('Cell on')) {
+      Core.IV_setcellon(0);
+    }
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
