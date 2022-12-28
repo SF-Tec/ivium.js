@@ -467,6 +467,26 @@ class Ivium {
     return potential;
   }
 
+  /**
+   * Set the value of the ac amplitude in Volts.
+   * @param acAmplitude The AC amplitude in Hz.
+   */
+  static setAcAmplitude(acAmplitude: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_setamplitude(acAmplitude);
+  }
+
+  /**
+   * Set the value of the ac frequency in Hz.
+   * @param acFrequency The AC frequency in Hz.
+   */
+  static setAcFrequency(acFrequency: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_setfrequency(acFrequency);
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
