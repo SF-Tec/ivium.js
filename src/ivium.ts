@@ -300,7 +300,7 @@ class Ivium {
   }
 
   /**
-   * Set current range, 0=10A, 1=1A, etc,.
+   * Set current range: 0=10A, 1=1A, etc...
    * @param currentRangeNumber The number of current range from the available current ranges list.
    */
   static setCurrentRange(currentRangeNumber: number): void {
@@ -308,6 +308,17 @@ class Ivium {
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
     Core.IV_setcurrentrange(currentRangeNumber);
+  }
+
+  /**
+   * Set current range for BiStat (WE2): 0=10mA, 1=1mA, etc...
+   * @param currentRangeNumber The number of current range from the available current ranges list.
+   */
+  static setWe2CurrentRange(currentRangeNumber: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setcurrentrangeWE2(currentRangeNumber);
   }
 
   // ###########################
