@@ -188,6 +188,40 @@ class Ivium {
   // ## DIRECT MODE FUNCTIONS ##
   // ###########################
 
+  /**
+   * @returns The cell status labels:
+   *  ["I_ovl", "Anin1_ovl","E_ovl", "CellOff_button pressed", "Cell on"].
+   */
+  static getCellStatus(): string[] {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    const [, cellStatusBits] = Core.IV_getcellstatus();
+    const cellStatusLabels = [];
+    const labels = [
+      'I_ovl',
+      '',
+      'Anin1_ovl',
+      'E_ovl',
+      '',
+      'CellOff_button pressed',
+      'Cell on',
+    ];
+    let counter = 2;
+    for (let index = 0; index < labels.length; index++) {
+      const label = labels[index];
+      if (cellStatusBits & (1 << counter) && label) {
+        cellStatusLabels.push(label);
+      }
+      counter++;
+    }
+    if (cellStatusLabels.length === 0) {
+      cellStatusLabels.push('Cell off');
+    }
+
+    return cellStatusLabels;
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
