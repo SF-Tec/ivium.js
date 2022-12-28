@@ -321,6 +321,28 @@ class Ivium {
     Core.IV_setcurrentrangeWE2(currentRangeNumber);
   }
 
+  /**
+   * @returns The measured(applied) current.
+   */
+  static getCurrent(): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    const [, currentValue] = Core.IV_getcurrent();
+    return currentValue;
+  }
+
+  /**
+   * @returns The measured current from WE2 (bipotentiostat).
+   */
+  static getWe2Current(): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    const [, currentValue] = Core.IV_getcurrentWE2();
+    return currentValue;
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
