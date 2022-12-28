@@ -299,6 +299,17 @@ class Ivium {
     return potentialValue;
   }
 
+  /**
+   * Set current range, 0=10A, 1=1A, etc,.
+   * @param currentRangeNumber The number of current range from the available current ranges list.
+   */
+  static setCurrentRange(currentRangeNumber: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setcurrentrange(currentRangeNumber);
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
