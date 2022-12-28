@@ -347,7 +347,7 @@ class Ivium {
    * Set filter: 0=1MHz, 1=100kHz, 2=10kHz, 3=1kHz, 4=10Hz
    * @param filterNumber The number of filter from the available filter list.
    */
-  static setFilter(filterNumber: number): void {
+  static setFilter(filterNumber: 0 | 1 | 2 | 3 | 4): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
@@ -358,11 +358,24 @@ class Ivium {
    * Set stability: 0=HighSpeed, 1=Standard, 2=HighStability
    * @param stabilityNumber The number value from the available filter list.
    */
-  static setStability(stabilityNumber: number): void {
+  static setStability(stabilityNumber: 0 | 1 | 2): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
     Core.IV_setstability(stabilityNumber);
+  }
+
+  /**
+   * Select mode for BiStat, for number 0=standard, 1=scanning.
+   * This bistat_mode function also can be used to control the Automatic E-ranging function of the instrument;
+   * 0=AutoEranging off; 1=AutoEranging on
+   * @param value The number value 0=standard or 1=scanning.
+   */
+  static setBistatMOde(value: 0 | 1): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setbistatmode(value);
   }
 
   // ###########################
