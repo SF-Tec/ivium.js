@@ -208,8 +208,7 @@ class Ivium {
       'Cell on',
     ];
     let counter = 2;
-    for (let index = 0; index < labels.length; index++) {
-      const label = labels[index];
+    for (let label of labels) {
       if (cellStatusBits & (1 << counter) && label) {
         cellStatusLabels.push(label);
       }
