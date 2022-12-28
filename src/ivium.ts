@@ -255,6 +255,17 @@ class Ivium {
     }
   }
 
+  /**
+   * Set cell potential.
+   * @param potentialValue the value of potential (in Volts) to be setted
+   */
+  static setPotential(potentialValue: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setpotential(potentialValue);
+  }
+
   // ###########################
   // ## WE32 MODE FUNCTIONS ##
   // ###########################
