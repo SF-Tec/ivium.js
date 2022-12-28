@@ -366,6 +366,30 @@ class Ivium {
   }
 
   /**
+   * Set dac on external port, channelNumber=0 for dac1, channelNumber=1 for dac2
+   * @param {channel value} The dac channel number.
+   */
+  static setDac(channel: 0 | 1, value: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_setdac(channel, value);
+  }
+
+  /**
+   * Returns measured voltage on external ADC port, int=channelnr. 0-7
+   * @param channel The dac channel number.
+   */
+  static getAdc(channel: number): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    const [, measuredVoltage] = Core.IV_getadc(channel);
+
+    return measuredVoltage;
+  }
+
+  /**
    * Select mode for BiStat, for number 0=standard, 1=scanning.
    * This bistat_mode function also can be used to control the Automatic E-ranging function of the instrument;
    * 0=AutoEranging off; 1=AutoEranging on
