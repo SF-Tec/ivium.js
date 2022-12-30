@@ -577,5 +577,14 @@ class Ivium {
     IviumVerifiers.verifyIviumsoftIsRunning();
     Core.IV_setmethodparameter(parameterName, parameterValue);
   }
+
+  /**
+   * Returns actual available number of datapoints: indicates the progress during a run.
+   * @returns {number} The number of available data points.
+   */
+  static nDataPoints(): number {
+    const [, dataPoints] = Core.IV_Ndatapoints();
+    return dataPoints;
+  }
 }
 export default Ivium;
