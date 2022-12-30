@@ -518,6 +518,26 @@ class Ivium {
     IviumVerifiers.verifyIviumsoftIsRunning();
     Core.IV_savemethod(methodFilePath);
   }
+
+  /**
+   * Starts a method procedure.
+   * If methodFilePath is an empty string then the presently loaded procedure is started.
+   * If the full path to a previously saved method is provided
+   * then the procedure is loaded from the file and started
+   * @param {string} [methodFilePath=''] - The path to the method file. If not specified, the current method will be used.
+   */
+  static startMethod(methodFilePath: string = ''): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    IviumVerifiers.verifyDeviceIsAvailable();
+
+    const [resultCode] = Core.IV_startmethod(methodFilePath);
+
+    if (resultCode === 1) {
+      throw new FileNotFoundError();
+    }
+  }
 }
 
 export default Ivium;
