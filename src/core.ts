@@ -567,10 +567,12 @@ class Core {
    * @param {string} parameterName - The name of the parameter to set.
    * @param {string} parameterValue - The value to set the parameter to.
    * @returns {number} The result code of the function call.
-   */ static IV_setmethodparameter(
+   */
+
+  static IV_setmethodparameter(
     parameterName: string,
     parameterValue: string
-  ) {
+  ): number {
     return Core.#lib.IV_setmethodparameter(parameterName, parameterValue);
   }
 

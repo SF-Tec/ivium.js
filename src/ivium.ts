@@ -561,5 +561,21 @@ class Ivium {
     IviumVerifiers.verifyIviumsoftIsRunning();
     Core.IV_savedata(dataFilePath);
   }
+
+  /**
+   * Allows updating the parameter values for the currently loaded method procedrue.
+   * It only works for text based parameters and dropdowns (multiple option selectors).
+   * @param {string} parameterName - The name of the parameter to set.
+   * @param {string} parameterValue - The value to set the parameter to.
+   */
+
+  static setMethodParameter(
+    parameterName: string,
+    parameterValue: string
+  ): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_setmethodparameter(parameterName, parameterValue);
+  }
 }
 export default Ivium;
