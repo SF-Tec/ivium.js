@@ -552,13 +552,13 @@ class Core {
 
   /**
    * Saves the results of the last method execution into a file.
-   * @param {string} methodDataFilePath - The full path to the new file..
+   * @param {string} dataFilePath - The full path to the new file.
    * @returns {IviumResult<string>} A tuple containing the result code and the method data file path.
    */
-  static IV_savedata(methodDataFilePath: string): IviumResult<string> {
-    const resultCode = Core.#lib.IV_savedata(methodDataFilePath);
+  static IV_savedata(dataFilePath: string): IviumResult<string> {
+    const resultCode = Core.#lib.IV_savedata(dataFilePath);
 
-    return [resultCode, methodDataFilePath];
+    return [resultCode, dataFilePath];
   }
 
   /**

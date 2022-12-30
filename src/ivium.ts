@@ -548,6 +548,18 @@ class Ivium {
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
     Core.IV_abort();
   }
-}
 
+  /**
+   * Saves the results of the last method execution into a file.
+   * @param {string} dataFilePath - The full path to the new file.
+   * IMPORTANT: If the path provided is not valid,
+   * it will close the selected iviumsoft instance.
+   */
+
+  static saveData(dataFilePath: string): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_savedata(dataFilePath);
+  }
+}
 export default Ivium;
