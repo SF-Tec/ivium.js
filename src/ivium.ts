@@ -508,6 +508,16 @@ class Ivium {
       throw new FileNotFoundError();
     }
   }
+
+  /**
+   * Saves currently loaded method procedure to a file..
+   * @param methodFilePath The the full path to the new file.
+   */
+  static saveMethod(methodFilePath: string): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_savemethod(methodFilePath);
+  }
 }
 
 export default Ivium;
