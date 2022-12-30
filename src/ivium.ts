@@ -605,5 +605,23 @@ class Ivium {
 
     return values;
   }
+
+  /**
+   * Same as get_data_point, but with the additional scan_index parameter.
+   * This function will allow reading data from non-selected (previous) scans.
+   * @param {number} dataPointIndex - The index of the data point to retrieve data from.
+   * @param {number} scanIndex - The index of the scan to retrieve data from.
+   * @returns {number[]} - An array of measured values.
+   */
+  static getDataPointFromScan(
+    dataPointIndex: number,
+    scanIndex: number
+  ): number[] {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    const [, values] = Core.IV_getdatafromline(dataPointIndex, scanIndex);
+
+    return values;
+  }
 }
 export default Ivium;
