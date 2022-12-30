@@ -56,14 +56,14 @@
 |               | :warning: IV_we32getoffsets(nval, values)              |
 |               | :warning: IV_we32readcurrents(values)                  |
 |               |                                                                     |
-| :heavy_check_mark: loadMethod(fname) | :heavy_check_mark: IV_readmethod(fname)                             |
-|               | :heavy_check_mark: IV_savemethod(fname)                             |
-|               | :heavy_check_mark: IV_startmethod(fname)                            |
-|               | :heavy_check_mark: IV_abort()                                       |
-|               | :heavy_check_mark: IV_savedata(fname)                               |
-|               | :heavy_check_mark: IV_setmethodparameter(parname, parvalue)         |
-|               | :heavy_check_mark: IV_Ndatapoints(value)                            |
-|               | :heavy_check_mark: IV_getdata(pointnr, x, y, z)                     |
-|               | :heavy_check_mark: IV_getdatafromline(pointnr, scannr, x, y, z)     |
+| :heavy_check_mark: loadMethod(fname)               | :heavy_check_mark: IV_readmethod(fname)      |
+| :heavy_check_mark: saveMethod(str)                 |  :heavy_check_mark: IV_savemethod(fname)     |
+| :heavy_check_mark: startMethod(str)                |  :heavy_check_mark: IV_startmethod(fname)    |
+| :heavy_check_mark: abortMethod()                   |  :heavy_check_mark: IV_abort()               |
+| :heavy_check_mark: saveData(str)                   |  :heavy_check_mark: IV_savedata(fname)       |
+| :heavy_check_mark: setMethodParameter(str, str)    |  :heavy_check_mark: IV_setmethodparameter(parname, parvalue)|
+| :heavy_check_mark: getAvailableDataPointsNumber()  |  :heavy_check_mark: IV_Ndatapoints(value)    |
+| :heavy_check_mark: getDataPoint(int)               |  :heavy_check_mark: IV_getdata(pointnr, x, y, z)|
+| :heavy_check_mark: getDataPointFromScan(int, int)  |  :heavy_check_mark: IV_getdatafromline(pointnr, scannr, x, y, z)|
 |               |                                                                     |
 |               | :small_orange_diamond: IV_getDbFileName(fname)                      |
