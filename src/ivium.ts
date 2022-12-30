@@ -582,9 +582,28 @@ class Ivium {
    * Returns actual available number of datapoints: indicates the progress during a run.
    * @returns {number} The number of available data points.
    */
-  static nDataPoints(): number {
+  static getAvailableDataPointsNumber(): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
     const [, dataPoints] = Core.IV_Ndatapoints();
+
     return dataPoints;
+  }
+
+  /**
+   * Returns the data from a datapoint with index int, returns 3 values that depend on
+   * the used technique. For example LSV/CV methods return (E/I/0) Transient methods
+   * return (time/I,E/0), Impedance methods return (Z1,Z2,freq) etc.
+   * @param {number} dataPointIndex - The index of the data point to retrieve data for.
+   * @returns {number[]} The data for the specified data point (an array of three numbers).
+   */
+  static getDataPoint(dataPointIndex: number): number[] {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+
+    const [, values] = Core.IV_getdata(dataPointIndex);
+
+    return values;
   }
 }
 export default Ivium;
