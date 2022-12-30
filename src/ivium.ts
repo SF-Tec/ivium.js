@@ -538,6 +538,16 @@ class Ivium {
       throw new FileNotFoundError();
     }
   }
+
+  /**
+   * Aborts the ongoing method procedure
+   */
+  static abortMethod(): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_abort();
+  }
 }
 
 export default Ivium;

@@ -536,7 +536,7 @@ class Core {
    * @param {string} [methodFilePath=''] - The path to the method file. If not specified, the current method will be used.
    * @returns {IviumResult<string>} A tuple containing the result code and the method file path.
    */
-  static IV_startmethod(methodFilePath = ''): IviumResult<string> {
+  static IV_startmethod(methodFilePath: string = ''): IviumResult<string> {
     const resultCode = Core.#lib.IV_startmethod(methodFilePath);
 
     return [resultCode, methodFilePath];
