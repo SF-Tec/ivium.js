@@ -592,7 +592,8 @@ class Core {
    * return (time/I,E/0), Impedance methods return (Z1,Z2,freq) etc.
    * @param {number} dataPointIndex - The index of the data point to retrieve data for.
    * @returns {IviumResult<number[]>} The result of the function call, with the data for the specified data point as the second element (an array of three numbers).
-   */ static IV_getdata(dataPointIndex: number): IviumResult<number[]> {
+   */
+  static IV_getdata(dataPointIndex: number): IviumResult<number[]> {
     const selectedDataPointIndexPtr = buildNumericPointer(long, dataPointIndex);
 
     const measuredValue1Ptr = buildNumericPointer(double);
