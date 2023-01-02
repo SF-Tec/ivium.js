@@ -30,7 +30,7 @@ Core.IV_close()
 
 This is a wrapper around the Core functions that adds a few things:
 
-- Exception management (you can find an example [here](https://github.com/SF-Tec/ivium/blob/main/docs/error_management.md)
+- Exception management (you can find an example [here](https://github.com/SF-Tec/ivium.js/blob/main/docs/error_management.md)
 - New functionalities
 
 ```
@@ -44,7 +44,7 @@ Ivium.close_driver()
 
 ## Supported functions
 
-The list of currently supported and implemented functions can be found [here](https://github.com/SF-Tec/ivium/blob/main/docs/method_list.md).
+The list of currently supported and implemented functions can be found [here](https://github.com/SF-Tec/ivium.js/blob/main/docs/method_list.md).
 
 ## Authors
 
@@ -57,5 +57,5 @@ If you believe you have found a security vulnerability in Ivium.js, we encourage
 
 ## Links
 
-- [See on GitHub](https://github.com/sf-tec/ivium)
-<!-- - [See on PyPI](https://pypi.org/project/ivium) -->
+- [See on GitHub](https://github.com/SF-Tec/ivium.js)
+- [See on NPM](https://www.npmjs.com/package/iviumjs)
