@@ -7,6 +7,7 @@ import {
   IviumsoftNotRunningError,
   NoDeviceDetectedError,
 } from './errors';
+import { DeviceStatusCode } from './types/DeviceStatusCode';
 
 /**
  * @class
@@ -36,7 +37,7 @@ class IviumVerifiers {
   static verifyIviumsoftIsRunning() {
     const deviceStatus = Core.IV_getdevicestatus();
 
-    if (deviceStatus === -1) {
+    if (deviceStatus === DeviceStatusCode.noIviumsoft) {
       throw new IviumsoftNotRunningError();
     }
   }
@@ -51,7 +52,10 @@ class IviumVerifiers {
   static verifyDeviceIsConnectedToIviumsoft() {
     const deviceStatus = Core.IV_getdevicestatus();
 
-    if (deviceStatus < 1 || deviceStatus === 3) {
+    if (
+      deviceStatus < DeviceStatusCode.availableIdle ||
+      deviceStatus === DeviceStatusCode.noDeviceAvailable
+    ) {
       throw new DeviceNotConnectedToIviumsoftError();
     }
   }
@@ -66,7 +70,7 @@ class IviumVerifiers {
   static verifyDeviceIsConnectedToComputer() {
     const deviceStatus = Core.IV_getdevicestatus();
 
-    if (deviceStatus === 3) {
+    if (deviceStatus === DeviceStatusCode.noDeviceAvailable) {
       throw new NoDeviceDetectedError();
     }
   }
@@ -81,7 +85,7 @@ class IviumVerifiers {
   static verifyDeviceIsAvailable() {
     const deviceStatus = Core.IV_getdevicestatus();
 
-    if (deviceStatus === 2) {
+    if (deviceStatus === DeviceStatusCode.availableBusy) {
       throw new DeviceBusyError();
     }
   }
