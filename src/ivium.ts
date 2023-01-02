@@ -63,6 +63,7 @@ class Ivium {
   static getDeviceStatus(): IviumResult<string> {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
+
     const resultCode = Core.IV_getdevicestatus();
 
     return [resultCode, statusLabels[resultCode + 1]];
@@ -74,7 +75,13 @@ class Ivium {
   static isIviumsoftRunning(): boolean {
     IviumVerifiers.verifyDriverIsOpen();
 
-    return Core.IV_getdevicestatus() !== -1;
+    try {
+      IviumVerifiers.verifyIviumsoftIsRunning();
+
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   /**
@@ -82,20 +89,29 @@ class Ivium {
    */
   static getActiveIviumsoftInstances(): number[] {
     IviumVerifiers.verifyDriverIsOpen();
+    const MAX_INSTANCE_NUMBER = 32;
     const activeInstances = [];
     let firstActiveInstanceNumber = 0;
-    for (let instanceNumber = 1; instanceNumber < 32; instanceNumber++) {
+
+    for (
+      let instanceNumber = 1;
+      instanceNumber < MAX_INSTANCE_NUMBER;
+      instanceNumber++
+    ) {
       Core.IV_selectdevice(instanceNumber);
-      if (Core.IV_getdevicestatus() !== -1) {
+
+      if (Ivium.isIviumsoftRunning()) {
         activeInstances.push(instanceNumber);
         if (firstActiveInstanceNumber === 0) {
           firstActiveInstanceNumber = instanceNumber;
         }
       }
     }
+
     if (firstActiveInstanceNumber === 0) {
       firstActiveInstanceNumber = 1;
     }
+
     Core.IV_selectdevice(firstActiveInstanceNumber);
 
     return activeInstances;
