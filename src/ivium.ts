@@ -9,6 +9,16 @@ import statusLabels from './utils/statusLabels';
 import type { IviumResult } from './types/IviumResult';
 import { DeviceStatusCode } from './types/DeviceStatusCode';
 
+const CELL_STATUS_LABELS = [
+  'I_ovl',
+  '',
+  'Anin1_ovl',
+  'E_ovl',
+  '',
+  'CellOff_button pressed',
+  'Cell on',
+];
+
 /**
  * Wrapper class for the Ivium library.
  * It uses the methods defined in the Core class.
@@ -205,24 +215,20 @@ class Ivium {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+
     const [, cellStatusBits] = Core.IV_getcellstatus();
     const cellStatusLabels = [];
-    const labels = [
-      'I_ovl',
-      '',
-      'Anin1_ovl',
-      'E_ovl',
-      '',
-      'CellOff_button pressed',
-      'Cell on',
-    ];
+
     let counter = 2;
-    for (let label of labels) {
+
+    for (const label of CELL_STATUS_LABELS) {
       if (cellStatusBits & (1 << counter) && label) {
         cellStatusLabels.push(label);
       }
+
       counter++;
     }
+
     if (cellStatusLabels.length === 0) {
       cellStatusLabels.push('Cell off');
     }
@@ -233,16 +239,17 @@ class Ivium {
   /**
    * Select the connection mode for the currently connected device.
    * The available modes depend on the connected device.
-   * These are all the supported connection modes: 0=off; 1=EStat4EL(default), 2=EStat2EL,
+   * The list can include: 0=off, 1=EStat4EL(default), 2=EStat2EL,
    * 3=EstatDummy1,4=EStatDummy2,5=EstatDummy3,6=EstatDummy4
    * 7=Istat4EL, 8=Istat2EL, 9=IstatDummy, 10=BiStat4EL, 11=BiStat2EL.
-   * @param connectionModeNumber the number corresponding with available list
+   * @param connectionMode the number corresponding with available list.
    */
-  static setConnectionMode(connectionModeNumber: number): void {
+  static setConnectionMode(connectionMode: number): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setconnectionmode(connectionModeNumber);
+
+    Core.IV_setconnectionmode(connectionMode);
   }
 
   /**
@@ -265,35 +272,38 @@ class Ivium {
 
   /**
    * Set cell potential.
-   * @param potentialValue the value of potential (in Volts) to be setted.
+   * @param potential the value of potential (in Volts) to set.
    */
-  static setPotential(potentialValue: number): void {
+  static setPotential(potential: number): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setpotential(potentialValue);
+
+    Core.IV_setpotential(potential);
   }
 
   /**
    * Set BiStat (WE2) offset potential potential.
-   * @param potentialWe2Value the value of potential, in Volts (V), to be setted.
+   * @param we2Potential the value of potential, in Volts (V), to set.
    */
-  static setWe2Potential(potentialWe2Value: number): void {
+  static setWe2Potential(we2Potential: number): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setpotentialWE2(potentialWe2Value);
+
+    Core.IV_setpotentialWE2(we2Potential);
   }
 
   /**
    * Set cell current (galvanostatic mode).
-   * @param currentValue the value of current intensity, in Amperes (A), to be setted.
+   * @param current the value of current intensity, in Amperes (A), to be set.
    */
-  static setCurrent(currentValue: number): void {
+  static setCurrent(current: number): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setcurrent(currentValue);
+
+    Core.IV_setcurrent(current);
   }
 
   /**
@@ -303,30 +313,33 @@ class Ivium {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+
     const [, potentialValue] = Core.IV_getpotential();
     return potentialValue;
   }
 
   /**
    * Set current range: 0=10A, 1=1A, etc...
-   * @param currentRangeNumber The number of current range from the available current ranges list.
+   * @param currentRange The current range from the available current ranges list.
    */
-  static setCurrentRange(currentRangeNumber: number): void {
+  static setCurrentRange(currentRange: number): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setcurrentrange(currentRangeNumber);
+
+    Core.IV_setcurrentrange(currentRange);
   }
 
   /**
    * Set current range for BiStat (WE2): 0=10mA, 1=1mA, etc...
-   * @param currentRangeNumber The number of current range from the available current ranges list.
+   * @param currentRange The number of current range from the available current ranges list.
    */
-  static setWe2CurrentRange(currentRangeNumber: number): void {
+  static setWe2CurrentRange(currentRange: number): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setcurrentrangeWE2(currentRangeNumber);
+
+    Core.IV_setcurrentrangeWE2(currentRange);
   }
 
   /**
@@ -336,6 +349,7 @@ class Ivium {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+
     const [, currentValue] = Core.IV_getcurrent();
     return currentValue;
   }
@@ -347,54 +361,60 @@ class Ivium {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+
     const [, currentValue] = Core.IV_getcurrentWE2();
     return currentValue;
   }
 
   /**
    * Set filter: 0=1MHz, 1=100kHz, 2=10kHz, 3=1kHz, 4=10Hz
-   * @param filterNumber The number of filter from the available filter list.
+   * @param filter The number of filter from the available filter list.
    */
-  static setFilter(filterNumber: 0 | 1 | 2 | 3 | 4): void {
+  static setFilter(filter: 0 | 1 | 2 | 3 | 4): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setfilter(filterNumber);
+
+    Core.IV_setfilter(filter);
   }
 
   /**
    * Set stability: 0=HighSpeed, 1=Standard, 2=HighStability
-   * @param stabilityNumber The number value from the available filter list.
+   * @param stability The number value from the available filter list.
    */
-  static setStability(stabilityNumber: 0 | 1 | 2): void {
+  static setStability(stability: 0 | 1 | 2): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setstability(stabilityNumber);
+
+    Core.IV_setstability(stability);
   }
 
   /**
    * Select mode for BiStat, for number 0=standard, 1=scanning.
    * This bistat_mode function also can be used to control the Automatic E-ranging function of the instrument;
-   * 0=AutoEranging off; 1=AutoEranging on
-   * @param value The number value 0=standard or 1=scanning.
+   * 0=AutoEranging off; 1=AutoEranging on.
+   * @param bistatMode The number value 0=standard or 1=scanning.
    */
-  static setBistatMode(value: 0 | 1): void {
+  static setBistatMode(bistatMode: 0 | 1): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setbistatmode(value);
+
+    Core.IV_setbistatmode(bistatMode);
   }
 
   /**
-   * Set dac on external port, channelNumber=0 for dac1, channelNumber=1 for dac2
-   * @param {channel value} The dac channel number.
+   * Set dac on external port: channelNumber=0 for dac1 and channelNumber=1 for dac2.
+   * @param channel The dac channel number.
+   * @param dac The dac value to set.
    */
-  static setDac(channel: 0 | 1, value: number): void {
+  static setDac(channel: 0 | 1, dac: number): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
-    Core.IV_setdac(channel, value);
+
+    Core.IV_setdac(channel, dac);
   }
 
   /**
@@ -405,6 +425,7 @@ class Ivium {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+
     const [, measuredVoltage] = Core.IV_getadc(channel);
 
     return measuredVoltage;
@@ -414,31 +435,33 @@ class Ivium {
    * Set channel of multiplexer, int=channelnr. starting from 0(default).
    * @param channel The number multiplexer channel.
    */
-  static setMuxChannel(channel: number = 0): void {
+  static setMuxChannel(channel = 0): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+
     Core.IV_setmuxchannel(channel);
   }
 
   /**
-   * @returns A sequence of measured currents at defined samplingrate
-   * (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
-   * @param {pointsQuantity intervalRate} The number of points and the interval rate.
+   * @returns A sequence of measured currents at defined sampling rate
+   * @param pointsQuantity The number of points <= 256.
+   * @param intervalRate The interval rate (10us to 20ms).
    */
   static getCurrentTrace(pointsQuantity: number, intervalRate: number): number {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+
     const [, current] = Core.IV_getcurrenttrace(pointsQuantity, intervalRate);
 
     return current;
   }
 
   /**
-   * @returns A sequence of measured  WE2 currents at defined samplingrate
-   * (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
-   * @param {pointsQuantity intervalRate} The number of points and the interval rate.
+   * @returns A sequence of measured  WE2 currents at defined sampling rate
+   * @param pointsQuantity The number of points <= 256.
+   * @param intervalRate The interval rate (10us to 20ms).
    */
   static getCurrentWe2Trace(
     pointsQuantity: number,
@@ -447,6 +470,7 @@ class Ivium {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+
     const [, current] = Core.IV_getcurrentWE2trace(
       pointsQuantity,
       intervalRate
@@ -457,8 +481,8 @@ class Ivium {
 
   /**
    * @returns A sequence of measured potentials at defined samplingrate
-   * (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
-   * @param {pointsQuantity intervalRate} The number of points and the interval rate.
+   * @param pointsQuantity The number of points <= 256.
+   * @param intervalRate The interval rate (10us to 20ms).
    */
   static getPotentialTrace(
     pointsQuantity: number,
