@@ -6,12 +6,9 @@ import {
   long,
   LongArray,
 } from './ffiLibrary';
+import { DeviceStatusCode } from './types/DeviceStatusCode';
 
-/**
- * A tuple that represents the result of an Ivium function call. The first element is a number indicating the result code, and the second element is the actual result of the function.
- * @template T The type of the actual result of the function. Can be a string or a number (default is number).
- */
-type IviumResult<T extends string | number | number[]> = [number, T];
+import type { IviumResult } from './types/IviumResult';
 
 /**
  * The core class that provides access to Ivium functionality.
@@ -88,8 +85,8 @@ class Core {
    * It returns -1 (no IviumSoft), 0 (not connected), 1 (available_idle), 2 (available_busy), 3 (no device available)
    * @returns {number} The status of the device.
    */
-  static IV_getdevicestatus(): number {
-    return Core.#lib.IV_getdevicestatus();
+  static IV_getdevicestatus(): DeviceStatusCode {
+    return Core.#lib.IV_getdevicestatus() as DeviceStatusCode;
   }
 
   /**

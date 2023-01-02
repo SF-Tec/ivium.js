@@ -1,6 +1,13 @@
 import Core from './core';
 import FileNotFoundError from './errors/FileNotFoundError';
 import IviumVerifiers from './iviumVerifiers';
+import {
+  IviumsoftNotRunningError,
+  DeviceNotConnectedToIviumsoftError,
+} from './errors';
+import statusLabels from './utils/statusLabels';
+import type { IviumResult } from './types/IviumResult';
+import { DeviceStatusCode } from './types/DeviceStatusCode';
 
 /**
  * Wrapper class for the Ivium library.
@@ -37,6 +44,153 @@ class Ivium {
     IviumVerifiers.verifyDriverIsOpen();
 
     Core.IV_close();
+  }
+
+  /**
+   * @returns the maximum number of devices that can be managed by IviumSoft.
+   */
+  static getMaxDeviceNumber() {
+    IviumVerifiers.verifyDriverIsOpen();
+
+    return Core.IV_MaxDevices();
+  }
+
+  /**
+   * Informs about the status of IviumSoft and the connected device.
+   * It use the global statusLabes array including all the possible resulting status.
+   * @returns -1 (no IviumSoft), 0 (not connected), 1 (available_idle), 2 (available_busy),
+   * 3 (no device available).
+   */
+  static getDeviceStatus(): IviumResult<string> {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+
+    const resultCode = Core.IV_getdevicestatus();
+
+    return [resultCode, statusLabels[resultCode + 1]];
+  }
+
+  /**
+   * @returns A boolean value indicating whether IviumSoft is running.
+   */
+  static isIviumsoftRunning(): boolean {
+    return Core.IV_getdevicestatus() !== DeviceStatusCode.noIviumsoft;
+  }
+
+  /**
+   * @returns A list of active(open) IviumSoft instances.
+   */
+  static getActiveIviumsoftInstances(): number[] {
+    IviumVerifiers.verifyDriverIsOpen();
+    const MAX_INSTANCE_NUMBER = 32;
+    const activeInstances = [];
+    let firstActiveInstanceNumber = 0;
+
+    for (
+      let instanceNumber = 1;
+      instanceNumber < MAX_INSTANCE_NUMBER;
+      instanceNumber++
+    ) {
+      Core.IV_selectdevice(instanceNumber);
+
+      if (Ivium.isIviumsoftRunning()) {
+        activeInstances.push(instanceNumber);
+        if (firstActiveInstanceNumber === 0) {
+          firstActiveInstanceNumber = instanceNumber;
+        }
+      }
+    }
+
+    if (firstActiveInstanceNumber === 0) {
+      firstActiveInstanceNumber = 1;
+    }
+
+    Core.IV_selectdevice(firstActiveInstanceNumber);
+
+    return activeInstances;
+  }
+
+  /**
+   * It allows to select one instance of the currently running IviumSoft instances
+   *  @param {number} iviumsoftInstanceNumber The instance number to select.
+   */
+  static selectIviumsoftInstance(iviumsoftInstanceNumber: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    const activeInstances = Ivium.getActiveIviumsoftInstances();
+    if (!activeInstances.includes(iviumsoftInstanceNumber)) {
+      const errorMsg = `No IviumSoft on instance number ${iviumsoftInstanceNumber}, actual active instances list = ${activeInstances}`;
+      throw new IviumsoftNotRunningError(errorMsg);
+    }
+    Core.IV_selectdevice(iviumsoftInstanceNumber);
+  }
+
+  /**
+   * @returns The serial number of the currently selected device if available.
+   */
+  static getDeviceSerialNumber(): string {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToComputer();
+    const [, serialNumber] = Core.IV_readSN();
+    if (serialNumber === '') {
+      throw new DeviceNotConnectedToIviumsoftError(
+        'This device needs to be connected to get its serial number'
+      );
+    }
+
+    return serialNumber;
+  }
+
+  /**
+   * It connects the currently selected device.
+   */
+  static connectDevice(): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToComputer();
+    Core.IV_connect(1);
+  }
+
+  /**
+   * It disconnects the currently selected device.
+   */
+  static disconnectDevice(): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToComputer();
+    Core.IV_connect(0);
+  }
+
+  /**
+   * @returns The version of the IviumSoft dll.
+   */
+  static getDllVersion(): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    return Core.IV_VersionDll();
+  }
+
+  /**
+   * @returns The version of the IviumSoft that match with this iviumjs version.
+   */
+  static getIviumsoftVersion(): string {
+    IviumVerifiers.verifyDriverIsOpen();
+    const versionStr = Core.IV_VersionDllFile().toString();
+
+    return `${versionStr.slice(0, 1)}.${versionStr.slice(1, 5)}`;
+  }
+
+  /**
+   * Sending the number value communicates with Multichannel control:
+   *  if not yet active, the [number] of tabs is automatically opened and the [number] tab becomes active.
+   *  if Ivium-n-Soft is active already, the [number] tab becomes active.
+   *  Now the channel/instrument that is connected to this tab can be controlled.
+   *  If no instrument is connected, the next available instrument in the list can be connected (IV_connect) and controlled.
+   * @param {number} channelNumber to target
+   */
+  static selectChannel(channelNumber: number): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_SelectChannel(channelNumber);
   }
 
   // ###########################
