@@ -7,6 +7,7 @@ import {
 } from './errors';
 import statusLabels from './utils/statusLabels';
 import type { IviumResult } from './types/IviumResult';
+import { DeviceStatusCode } from './types/DeviceStatusCode';
 
 /**
  * Wrapper class for the Ivium library.
@@ -73,15 +74,7 @@ class Ivium {
    * @returns A boolean value indicating whether IviumSoft is running.
    */
   static isIviumsoftRunning(): boolean {
-    IviumVerifiers.verifyDriverIsOpen();
-
-    try {
-      IviumVerifiers.verifyIviumsoftIsRunning();
-
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return Core.IV_getdevicestatus() !== DeviceStatusCode.noIviumsoft;
   }
 
   /**
