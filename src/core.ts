@@ -6,6 +6,7 @@ import {
   long,
   LongArray,
 } from './ffiLibrary';
+import { DeviceStatusCode } from './types/DeviceStatusCode';
 
 import type { IviumResult } from './types/IviumResult';
 
@@ -84,8 +85,8 @@ class Core {
    * It returns -1 (no IviumSoft), 0 (not connected), 1 (available_idle), 2 (available_busy), 3 (no device available)
    * @returns {number} The status of the device.
    */
-  static IV_getdevicestatus(): number {
-    return Core.#lib.IV_getdevicestatus();
+  static IV_getdevicestatus(): DeviceStatusCode {
+    return Core.#lib.IV_getdevicestatus() as DeviceStatusCode;
   }
 
   /**
