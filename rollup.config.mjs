@@ -18,9 +18,9 @@ const bundle = (config) => ({
     'ffi-napi', 'ref-napi', 'ref-array-di'
   ],
   output: config.output.map(outputConfig => ({
-        ...outputConfig,
-        globals,
-        sourcemap: true,
+    ...outputConfig,
+    globals,
+    sourcemap: true,
   }))
 });
 
