@@ -559,7 +559,7 @@ class Ivium {
    * then the procedure is loaded from the file and started
    * @param {string} [methodFilePath=''] - The path to the method file. If not specified, the current method will be used.
    */
-  static startMethod(methodFilePath: string = ''): void {
+  static startMethod(methodFilePath = ''): void {
     IviumVerifiers.verifyDriverIsOpen();
     IviumVerifiers.verifyIviumsoftIsRunning();
     IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
@@ -657,4 +657,5 @@ class Ivium {
     return values;
   }
 }
+
 export default Ivium;
