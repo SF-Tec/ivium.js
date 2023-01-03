@@ -553,13 +553,13 @@ class Core {
 
   /**
    * Saves the results of the last method execution into a file.
-   * @param {string} methodDataFilePath - The full path to the new file..
+   * @param {string} dataFilePath - The full path to the new file.
    * @returns {IviumResult<string>} A tuple containing the result code and the method data file path.
    */
-  static IV_savedata(methodDataFilePath: string): IviumResult<string> {
-    const resultCode = Core.#lib.IV_savedata(methodDataFilePath);
+  static IV_savedata(dataFilePath: string): IviumResult<string> {
+    const resultCode = Core.#lib.IV_savedata(dataFilePath);
 
-    return [resultCode, methodDataFilePath];
+    return [resultCode, dataFilePath];
   }
 
   /**
@@ -568,10 +568,12 @@ class Core {
    * @param {string} parameterName - The name of the parameter to set.
    * @param {string} parameterValue - The value to set the parameter to.
    * @returns {number} The result code of the function call.
-   */ static IV_setmethodparameter(
+   */
+
+  static IV_setmethodparameter(
     parameterName: string,
     parameterValue: string
-  ) {
+  ): number {
     return Core.#lib.IV_setmethodparameter(parameterName, parameterValue);
   }
 
@@ -591,7 +593,8 @@ class Core {
    * return (time/I,E/0), Impedance methods return (Z1,Z2,freq) etc.
    * @param {number} dataPointIndex - The index of the data point to retrieve data for.
    * @returns {IviumResult<number[]>} The result of the function call, with the data for the specified data point as the second element (an array of three numbers).
-   */ static IV_getdata(dataPointIndex: number): IviumResult<number[]> {
+   */
+  static IV_getdata(dataPointIndex: number): IviumResult<number[]> {
     const selectedDataPointIndexPtr = buildNumericPointer(long, dataPointIndex);
 
     const measuredValue1Ptr = buildNumericPointer(double);

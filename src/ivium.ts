@@ -541,6 +541,121 @@ class Ivium {
       throw new FileNotFoundError();
     }
   }
+
+  /**
+   * Saves currently loaded method procedure to a file..
+   * @param methodFilePath The the full path to the new file.
+   */
+  static saveMethod(methodFilePath: string): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_savemethod(methodFilePath);
+  }
+
+  /**
+   * Starts a method procedure.
+   * If methodFilePath is an empty string then the presently loaded procedure is started.
+   * If the full path to a previously saved method is provided
+   * then the procedure is loaded from the file and started
+   * @param {string} [methodFilePath=''] - The path to the method file. If not specified, the current method will be used.
+   */
+  static startMethod(methodFilePath = ''): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    IviumVerifiers.verifyDeviceIsAvailable();
+
+    const [resultCode] = Core.IV_startmethod(methodFilePath);
+
+    if (resultCode === 1) {
+      throw new FileNotFoundError();
+    }
+  }
+
+  /**
+   * Aborts the ongoing method procedure
+   */
+  static abortMethod(): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    IviumVerifiers.verifyDeviceIsConnectedToIviumsoft();
+    Core.IV_abort();
+  }
+
+  /**
+   * Saves the results of the last method execution into a file.
+   * @param {string} dataFilePath - The full path to the new file.
+   * IMPORTANT: If the path provided is not valid,
+   * it will close the selected iviumsoft instance.
+   */
+
+  static saveData(dataFilePath: string): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_savedata(dataFilePath);
+  }
+
+  /**
+   * Allows updating the parameter values for the currently loaded method procedrue.
+   * It only works for text based parameters and dropdowns (multiple option selectors).
+   * @param {string} parameterName - The name of the parameter to set.
+   * @param {string} parameterValue - The value to set the parameter to.
+   */
+
+  static setMethodParameter(
+    parameterName: string,
+    parameterValue: string
+  ): void {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    Core.IV_setmethodparameter(parameterName, parameterValue);
+  }
+
+  /**
+   * Returns actual available number of datapoints: indicates the progress during a run.
+   * @returns {number} The number of available data points.
+   */
+  static getAvailableDataPointsNumber(): number {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    const [, dataPoints] = Core.IV_Ndatapoints();
+
+    return dataPoints;
+  }
+
+  /**
+   * Returns the data from a datapoint with index int, returns 3 values that depend on
+   * the used technique. For example LSV/CV methods return (E/I/0) Transient methods
+   * return (time/I,E/0), Impedance methods return (Z1,Z2,freq) etc.
+   * @param {number} dataPointIndex - The index of the data point to retrieve data for.
+   * @returns {number[]} The data for the specified data point (an array of three numbers).
+   */
+  static getDataPoint(dataPointIndex: number): number[] {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+
+    const [, values] = Core.IV_getdata(dataPointIndex);
+
+    return values;
+  }
+
+  /**
+   * Same as get_data_point, but with the additional scan_index parameter.
+   * This function will allow reading data from non-selected (previous) scans.
+   * @param {number} dataPointIndex - The index of the data point to retrieve data from.
+   * @param {number} scanIndex - The index of the scan to retrieve data from.
+   * @returns {number[]} - An array of measured values.
+   */
+  static getDataPointFromScan(
+    dataPointIndex: number,
+    scanIndex: number
+  ): number[] {
+    IviumVerifiers.verifyDriverIsOpen();
+    IviumVerifiers.verifyIviumsoftIsRunning();
+    const [, values] = Core.IV_getdatafromline(dataPointIndex, scanIndex);
+
+    return values;
+  }
 }
 
 export default Ivium;
