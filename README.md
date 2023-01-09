@@ -2,7 +2,7 @@
 
 Tiny NodeJS wrapper around the "Software development driver DLL" for IviumSoft.
 
-# Important:
+## Important:
 
 This module uses a dll from the IviumSoft application. You need to have this software installed on a Windows machine. The IviumSoft application can be downloaded from here: https://www.ivium.com/support/#Software%20update
 
@@ -26,21 +26,20 @@ Core.IV_getdevicestatus()
 Core.IV_close()
 ```
 
-<!-- ## Usage Example (Using Ivium methods)
+## Usage Example (Using Ivium methods)
 
 This is a wrapper around the Core functions that adds a few things:
 
-- Exception management (you can find an example [here](https://github.com/SF-Tec/ivium.js/blob/main/docs/error_management.md)
+- Exception management (you can find an example [here](https://github.com/SF-Tec/ivium.js/blob/main/docs/error_management.md))
 - New functionalities
 
 ```
-import {Ivium} from 'ivium'
+import {Ivium} from 'iviumjs'
 
-Ivium.open_driver()
-Ivium.get_device_status()
-Ivium.close_driver()
-
-``` -->
+Ivium.openDriver()
+Ivium.getDeviceStatus()
+Ivium.closeDriver()
+```
 
 ## Supported functions
 
