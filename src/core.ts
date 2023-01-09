@@ -316,24 +316,47 @@ class Core {
     return [resultCode, currentPtr.deref()];
   }
 
+  /**
+   * Set filter, for int :0=1MHz, 1=100kHz, 2=10kHz, 3=1kHz, 4=10Hz.
+   * @param {number} filter - The filter to set.
+   * @returns {number} The result of setting the filter.
+   */
   static IV_setfilter(filter: number): number {
     const filterPtr = buildNumericPointer(long, filter);
 
     return Core.#lib.IV_setfilter(filterPtr);
   }
 
+  /**
+   * Set stability, for int 0=HighSpeed, 1=Standard, 2=HighStability.
+   * @param {number} stability - The stability to set.
+   * @returns {number} The result of setting the stability.
+   */
   static IV_setstability(stability: number): number {
     const stabilityPtr = buildNumericPointer(long, stability);
 
     return Core.#lib.IV_setstability(stabilityPtr);
   }
 
+  /**
+   * Select mode for BiStat, for int 0=standard, 1=scanning
+   * This bistat_mode function also can be used to control the Automatic E-ranging function of the instrument;
+   * 0=AutoEranging off; 1=AutoEranging on.
+   * @param {number} bistatMode - The bistat mode to set.
+   * @returns {number} The result of setting the bistat mode.
+   */
   static IV_setbistatmode(bistatMode: number): number {
     const bistatModePtr = buildNumericPointer(long, bistatMode);
 
     return Core.#lib.IV_setbistatmode(bistatModePtr);
   }
 
+  /**
+   * Set dac on external port, int=0 for dac1, int=1 for dac2.
+   * @param {number} channel - The channel to set.
+   * @param {number} value - The value to set.
+   * @returns {number} The result of setting the dac on external port.
+   */
   static IV_setdac(channel: number, value: number): number {
     const channelPtr = buildNumericPointer(long, channel);
     const valuePtr = buildNumericPointer(double, value);
@@ -341,6 +364,11 @@ class Core {
     return Core.#lib.IV_setdac(channelPtr, valuePtr);
   }
 
+  /**
+   * Returns measured voltage on external ADC port, int=channelnr. 0-7.
+   * @param {number} channel - The channel to get.
+   * @returns An IviumResult containing the result code and the measured voltage on external ADC port.
+   */
   static IV_getadc(channel: number): IviumResult<number> {
     const channelPtr = buildNumericPointer(long, channel);
     const valuePtr = buildNumericPointer(double, 1);
@@ -350,18 +378,32 @@ class Core {
     return [resultCode, valuePtr.deref()];
   }
 
+  /**
+   * Set channel of multiplexer, int=channelnr. starting from 0(default).
+   * @param {number} channel - The channel to set.
+   * @returns {number} The result of setting the channel of multiplexer.
+   */
   static IV_setmuxchannel(channel: number): number {
     const channelPtr = buildNumericPointer(long, channel);
 
     return Core.#lib.IV_setmuxchannel(channelPtr);
   }
 
+  /**
+   * Set digital lines on external port, int is bitmask.
+   * @param {number} channel - The channel to set.
+   * @returns {number} The result of setting the digital lines on external port.
+   */
   static IV_setdigout(channel: number): number {
     const channelPtr = buildNumericPointer(long, channel);
 
     return Core.#lib.IV_setdigout(channelPtr);
   }
 
+  /**
+   * Returns status of digital inputs from external port, int is bitmask.
+   * @returns An IviumResult containing the result code and the status of digital inputs from external port.
+   */
   static IV_getdigin(): IviumResult<number> {
     const valuePtr = buildNumericPointer(long);
 
@@ -370,18 +412,34 @@ class Core {
     return [resultCode, valuePtr.deref()];
   }
 
+  /**
+   * Set the frequency value.
+   * @param {number} frequency - The frequency to set.
+   * @returns {number} The result of setting the frequency value.
+   */
   static IV_setfrequency(frequency: number): number {
     const frequencyPtr = buildNumericPointer(double, frequency);
 
     return Core.#lib.IV_setfrequency(frequencyPtr);
   }
 
+  /**
+   * Set the amplitude value.
+   * @param {number} amplitude - The amplitude to set.
+   * @returns {number} The result of setting the amplitude value.
+   */
   static IV_setamplitude(amplitude: number): number {
     const amplitudePtr = buildNumericPointer(double, amplitude);
 
     return Core.#lib.IV_setamplitude(amplitudePtr);
   }
 
+  /**
+   * Returns a sequence of measured currents at defined samplingrate (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
+   * @param {number} pointsQuantity - The quantity of points to get.
+   * @param {number} intervalRate - The interval rate to get.
+   * @returns An IviumResult containing the result code and a sequence of measured currents at defined samplingrate.
+   */
   static IV_getcurrenttrace(
     pointsQuantity: number,
     intervalRate: number
@@ -399,6 +457,12 @@ class Core {
     return [resultCode, resultPtr.deref()];
   }
 
+  /**
+   * Returns a sequence of measured WE2 currents at defined samplingrate (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
+   * @param {number} pointsQuantity - The quantity of points to get.
+   * @param {number} intervalRate - The interval rate to get.
+   * @returns An IviumResult containing the result code and a sequence of measured WE2 currents at defined samplingrate.
+   */
   static IV_getcurrentWE2trace(
     pointsQuantity: number,
     intervalRate: number
@@ -416,6 +480,11 @@ class Core {
     return [resultCode, resultPtr.deref()];
   }
 
+  /**
+   * Returns a sequence of measured potentials at defined samplingrate (npoints, interval, array of double): npoints<=256, interval: 10us to 20ms.
+   * @param {number} pointsQuantity - The quantity of points to get.
+   * @param {number} intervalRate - The interval rate to get.
+   */
   static IV_getpotentialtrace(
     pointsQuantity: number,
     intervalRate: number
