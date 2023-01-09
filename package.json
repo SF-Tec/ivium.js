@@ -1,6 +1,6 @@
 {
   "name": "iviumjs",
-  "version": "0.1.1-alpha",
+  "version": "0.1.1-beta",
   "description": "A tiny NodeJS wrapper around the <Software development driver DLL> for IviumSoft.",
   "browser": "dist/ivium.umd.js",
   "main": "dist/ivium.js",
