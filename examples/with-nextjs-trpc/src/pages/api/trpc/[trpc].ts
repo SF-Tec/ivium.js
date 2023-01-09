@@ -3,8 +3,27 @@
  * On a bigger app, you will probably want to split this file up into multiple files.
  */
 import * as trpcNext from '@trpc/server/adapters/next';
+import { Ivium } from 'iviumjs';
 import { z } from 'zod';
 import { publicProcedure, router } from '../../../server/trpc';
+
+function executeIviumMethod<T extends void | number>(method: () => T) {
+  try {
+    const result = method();
+
+    return {
+      success: true,
+      result,
+    };
+  } catch (e) {
+    console.log(e);
+
+    return {
+      success: false,
+      result: null,
+    };
+  }
+}
 
 const appRouter = router({
   greeting: publicProcedure
@@ -21,6 +40,29 @@ const appRouter = router({
         text: `hello ${input?.name ?? 'world'}`,
         // 💡 Tip: Try adding a new property here and see it propagate to the client straight-away
       };
+    }),
+  closeDriver: publicProcedure.query(() => {
+    return executeIviumMethod(() => Ivium.closeDriver());
+  }),
+  connectDevice: publicProcedure.query(() => {
+    return executeIviumMethod(() => Ivium.connectDevice());
+  }),
+  getPotential: publicProcedure.query(() => {
+    return executeIviumMethod(() => Ivium.getPotential());
+  }),
+  openDriver: publicProcedure.query(() => {
+    return executeIviumMethod(() => Ivium.openDriver());
+  }),
+  selectIviumsoftInstance: publicProcedure
+    .input(
+      z.object({
+        instanceNumber: z.number(),
+      })
+    )
+    .query(({ input: { instanceNumber } }) => {
+      return executeIviumMethod(() =>
+        Ivium.selectIviumsoftInstance(instanceNumber)
+      );
     }),
   // 💡 Tip: Try adding a new procedure here and see if you can use it in the client!
   // getUser: publicProcedure.query(() => {
