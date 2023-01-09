@@ -22,7 +22,7 @@ class IviumVerifiers {
    * @memberof IviumVerifiers
    */
   static verifyDriverIsOpen() {
-    if (!Core.isDriverOpen) {
+    if (!Core.isDriverOpen()) {
       throw new DriverNotOpenError();
     }
   }
