@@ -3,16 +3,20 @@
  */
 import { trpc } from '../utils/trpc';
 
+const { genericIviumFunctions } = trpc;
+
 export default function IndexPage() {
   // 💡 Tip: CMD+Click (or CTRL+Click) on `greeting` to go to the server definition
-  const { data: openDriverResult } = trpc.openDriver.useQuery();
-  trpc.selectIviumsoftInstance.useQuery({ instanceNumber: 2 });
-  const { data: connectDeviceResult } = trpc.connectDevice.useQuery();
+  const { data: openDriverResult } =
+    genericIviumFunctions.openDriver.useQuery();
+  genericIviumFunctions.selectIviumsoftInstance.useQuery({ instanceNumber: 2 });
+  const { data: connectDeviceResult } =
+    genericIviumFunctions.connectDevice.useQuery();
 
-  const { data: getPotentialResult } = trpc.getPotential.useQuery(undefined, {
-    refetchInterval: 2000,
-  });
-  // trpc.closeDriver.useQuery();
+  // const { data: getPotentialResult } = genericIviumFunctions.getPotential.useQuery(undefined, {
+  //   refetchInterval: 2000,
+  // });
+  // genericIviumFunctions.closeDriver.useQuery();
 
   if (!openDriverResult?.success) {
     return (
