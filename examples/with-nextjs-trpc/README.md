@@ -24,3 +24,4 @@ npm run build
 npm run start        # starts next.js in production mode
 ```
 
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
