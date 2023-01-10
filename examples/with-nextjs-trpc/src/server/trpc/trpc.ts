@@ -9,7 +9,7 @@
  */
 import { initTRPC } from '@trpc/server';
 
-const t = initTRPC.create();
+export const t = initTRPC.create();
 
 /**
  * Unprotected procedure
