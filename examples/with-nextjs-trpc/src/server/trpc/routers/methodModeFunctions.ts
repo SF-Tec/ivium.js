@@ -52,18 +52,18 @@ export const methodModeFunctionsRouter = t.router({
     .mutation(({ input: { parameterName, parameterValue } }) => {
       Ivium.setMethodParameter(parameterName, parameterValue);
     }),
-  getAvailableDataPointsNumber: publicProcedure.query(() => {
-    return Ivium.getAvailableDataPointsNumber();
-  }),
+  getAvailableDataPointsNumber: publicProcedure.query(() =>
+    Ivium.getAvailableDataPointsNumber()
+  ),
   getDataPoint: publicProcedure
     .input(
       z.object({
         dataPointIndex: z.number(),
       })
     )
-    .query(({ input: { dataPointIndex } }) => {
-      return Ivium.getDataPoint(dataPointIndex);
-    }),
+    .query(({ input: { dataPointIndex } }) =>
+      Ivium.getDataPoint(dataPointIndex)
+    ),
   getDataPointFromScan: publicProcedure
     .input(
       z.object({
@@ -71,7 +71,7 @@ export const methodModeFunctionsRouter = t.router({
         scanIndex: z.number(),
       })
     )
-    .query(({ input: { dataPointIndex, scanIndex } }) => {
-      return Ivium.getDataPointFromScan(dataPointIndex, scanIndex);
-    }),
+    .query(({ input: { dataPointIndex, scanIndex } }) =>
+      Ivium.getDataPointFromScan(dataPointIndex, scanIndex)
+    ),
 });

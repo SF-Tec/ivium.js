@@ -3,8 +3,8 @@ import { Ivium } from 'iviumjs';
 import { z } from 'zod';
 
 export const directModeFunctionsRouter = t.router({
-  getCellStatus: publicProcedure.query(() => {
-    return Ivium.getCellStatus();
+  getCellStatus: publicProcedure.mutation(() => {
+    Ivium.getCellStatus();
   }),
   setConnectionMode: publicProcedure
     .input(
@@ -12,14 +12,14 @@ export const directModeFunctionsRouter = t.router({
         connectionMode: z.number(),
       })
     )
-    .query(({ input: { connectionMode } }) => {
-      return Ivium.setConnectionMode(connectionMode);
+    .mutation(({ input: { connectionMode } }) => {
+      Ivium.setConnectionMode(connectionMode);
     }),
-  setCellOn: publicProcedure.query(() => {
-    return Ivium.setCellOn();
+  setCellOn: publicProcedure.mutation(() => {
+    Ivium.setCellOn();
   }),
-  setCellOff: publicProcedure.query(() => {
-    return Ivium.setCellOff();
+  setCellOff: publicProcedure.mutation(() => {
+    Ivium.setCellOff();
   }),
   setPotential: publicProcedure
     .input(
@@ -27,8 +27,8 @@ export const directModeFunctionsRouter = t.router({
         potential: z.number(),
       })
     )
-    .query(({ input: { potential } }) => {
-      return Ivium.setPotential(potential);
+    .mutation(({ input: { potential } }) => {
+      Ivium.setPotential(potential);
     }),
   setWe2Potential: publicProcedure
     .input(
@@ -36,8 +36,8 @@ export const directModeFunctionsRouter = t.router({
         we2Potential: z.number(),
       })
     )
-    .query(({ input: { we2Potential } }) => {
-      return Ivium.setWe2Potential(we2Potential);
+    .mutation(({ input: { we2Potential } }) => {
+      Ivium.setWe2Potential(we2Potential);
     }),
   setCurrent: publicProcedure
     .input(
@@ -45,20 +45,18 @@ export const directModeFunctionsRouter = t.router({
         current: z.number(),
       })
     )
-    .query(({ input: { current } }) => {
-      return Ivium.setCurrent(current);
+    .mutation(({ input: { current } }) => {
+      Ivium.setCurrent(current);
     }),
-  getPotential: publicProcedure.query(() => {
-    return Ivium.getPotential();
-  }),
+  getPotential: publicProcedure.query(() => Ivium.getPotential()),
   setCurrentRange: publicProcedure
     .input(
       z.object({
         currentRange: z.number(),
       })
     )
-    .query(({ input: { currentRange } }) => {
-      return Ivium.setCurrentRange(currentRange);
+    .mutation(({ input: { currentRange } }) => {
+      Ivium.setCurrentRange(currentRange);
     }),
   setWe2CurrentRange: publicProcedure
     .input(
@@ -66,15 +64,11 @@ export const directModeFunctionsRouter = t.router({
         currentRange: z.number(),
       })
     )
-    .query(({ input: { currentRange } }) => {
-      return Ivium.setWe2CurrentRange(currentRange);
+    .mutation(({ input: { currentRange } }) => {
+      Ivium.setWe2CurrentRange(currentRange);
     }),
-  getCurrent: publicProcedure.query(() => {
-    return Ivium.getCurrent();
-  }),
-  getWe2Current: publicProcedure.query(() => {
-    return Ivium.getWe2Current();
-  }),
+  getCurrent: publicProcedure.query(() => Ivium.getCurrent()),
+  getWe2Current: publicProcedure.query(() => Ivium.getWe2Current()),
   setFilter: publicProcedure
     .input(
       z.object({
@@ -86,8 +80,8 @@ export const directModeFunctionsRouter = t.router({
           .or(z.literal(4)),
       })
     )
-    .query(({ input: { filter } }) => {
-      return Ivium.setFilter(filter);
+    .mutation(({ input: { filter } }) => {
+      Ivium.setFilter(filter);
     }),
   setStability: publicProcedure
     .input(
@@ -95,8 +89,8 @@ export const directModeFunctionsRouter = t.router({
         stability: z.literal(0).or(z.literal(1)).or(z.literal(2)),
       })
     )
-    .query(({ input: { stability } }) => {
-      return Ivium.setStability(stability);
+    .mutation(({ input: { stability } }) => {
+      Ivium.setStability(stability);
     }),
   setBistatMode: publicProcedure
     .input(
@@ -104,8 +98,8 @@ export const directModeFunctionsRouter = t.router({
         bistatMode: z.literal(0).or(z.literal(1)),
       })
     )
-    .query(({ input: { bistatMode } }) => {
-      return Ivium.setBistatMode(bistatMode);
+    .mutation(({ input: { bistatMode } }) => {
+      Ivium.setBistatMode(bistatMode);
     }),
   setDac: publicProcedure
     .input(
@@ -114,8 +108,8 @@ export const directModeFunctionsRouter = t.router({
         dac: z.number(),
       })
     )
-    .query(({ input: { channel, dac } }) => {
-      return Ivium.setDac(channel, dac);
+    .mutation(({ input: { channel, dac } }) => {
+      Ivium.setDac(channel, dac);
     }),
   getAdc: publicProcedure
     .input(
@@ -123,17 +117,15 @@ export const directModeFunctionsRouter = t.router({
         channel: z.literal(0).or(z.literal(1)),
       })
     )
-    .query(({ input: { channel } }) => {
-      return Ivium.getAdc(channel);
-    }),
+    .query(({ input: { channel } }) => Ivium.getAdc(channel)),
   setMuxChannel: publicProcedure
     .input(
       z.object({
         channel: z.number().optional(),
       })
     )
-    .query(({ input: { channel } }) => {
-      return Ivium.setMuxChannel(channel);
+    .mutation(({ input: { channel } }) => {
+      Ivium.setMuxChannel(channel);
     }),
   getCurrentTrace: publicProcedure
     .input(
@@ -142,9 +134,9 @@ export const directModeFunctionsRouter = t.router({
         intervalRate: z.number(),
       })
     )
-    .query(({ input: { pointsQuantity, intervalRate } }) => {
-      return Ivium.getCurrentTrace(pointsQuantity, intervalRate);
-    }),
+    .query(({ input: { pointsQuantity, intervalRate } }) =>
+      Ivium.getCurrentTrace(pointsQuantity, intervalRate)
+    ),
   getCurrentWe2Trace: publicProcedure
     .input(
       z.object({
@@ -152,9 +144,9 @@ export const directModeFunctionsRouter = t.router({
         intervalRate: z.number(),
       })
     )
-    .query(({ input: { pointsQuantity, intervalRate } }) => {
-      return Ivium.getCurrentWe2Trace(pointsQuantity, intervalRate);
-    }),
+    .query(({ input: { pointsQuantity, intervalRate } }) =>
+      Ivium.getCurrentWe2Trace(pointsQuantity, intervalRate)
+    ),
   getPotentialTrace: publicProcedure
     .input(
       z.object({
@@ -162,17 +154,17 @@ export const directModeFunctionsRouter = t.router({
         intervalRate: z.number(),
       })
     )
-    .query(({ input: { pointsQuantity, intervalRate } }) => {
-      return Ivium.getPotentialTrace(pointsQuantity, intervalRate);
-    }),
+    .query(({ input: { pointsQuantity, intervalRate } }) =>
+      Ivium.getPotentialTrace(pointsQuantity, intervalRate)
+    ),
   setAcAmplitude: publicProcedure
     .input(
       z.object({
         acAmplitude: z.number(),
       })
     )
-    .query(({ input: { acAmplitude } }) => {
-      return Ivium.setAcAmplitude(acAmplitude);
+    .mutation(({ input: { acAmplitude } }) => {
+      Ivium.setAcAmplitude(acAmplitude);
     }),
   setAcFrequency: publicProcedure
     .input(
@@ -180,7 +172,7 @@ export const directModeFunctionsRouter = t.router({
         acFrequency: z.number(),
       })
     )
-    .query(({ input: { acFrequency } }) => {
-      return Ivium.setAcFrequency(acFrequency);
+    .mutation(({ input: { acFrequency } }) => {
+      Ivium.setAcFrequency(acFrequency);
     }),
 });
