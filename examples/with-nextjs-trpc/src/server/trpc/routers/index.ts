@@ -3,6 +3,7 @@
  */
 import { t } from 'server/trpc/trpc';
 import { genericIviumFunctionsRouter } from './genericIviumFunctions';
+import { methodModeFunctionsRouter } from './methodModeFunctions';
 
 /**
  * In tRPC v10 the root router is created by the same function as child
@@ -14,5 +15,6 @@ export const appRouter = t.router({
   healthcheck: t.procedure.query(() => 'ok'),
 
   genericIviumFunctions: genericIviumFunctionsRouter,
+  methodModeFunctions: methodModeFunctionsRouter,
 });
 export type AppRouter = typeof appRouter;
