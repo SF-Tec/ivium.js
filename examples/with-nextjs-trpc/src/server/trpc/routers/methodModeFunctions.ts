@@ -106,7 +106,7 @@ export const methodModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { bistatMode } }) => {
-      return executeIviumMethod(() => Ivium.setStability(bistatMode));
+      return executeIviumMethod(() => Ivium.setBistatMode(bistatMode));
     }),
   setDac: publicProcedure
     .input(
