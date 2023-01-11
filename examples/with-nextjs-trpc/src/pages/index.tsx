@@ -4,12 +4,15 @@
 import { trpc } from '../utils/trpc';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
+import { useState } from 'react';
 
-const { generalIviumFunctions } = trpc;
+const { generalIviumFunctions, directModeFunctions } = trpc;
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function IndexPage() {
+  const [isDriverOpen, setIsDriverOpen] = useState(false);
+  const [isDeviceConnected, setIsDeviceConnected] = useState(false);
   // 💡 Tip: CMD+Click (or CTRL+Click) on `greeting` to go to the server definition
   const openDriverMutation = generalIviumFunctions.openDriver.useMutation();
   const closeDriverMutation = generalIviumFunctions.closeDriver.useMutation();
@@ -19,16 +22,35 @@ export default function IndexPage() {
   const disconnectDeviceMutation =
     generalIviumFunctions.disconnectDevice.useMutation();
 
-  // const { data: getPotentialResult } = generalIviumFunctions.getPotential.useQuery(undefined, {
-  //   refetchInterval: 2000,
-  // });
-  // generalIviumFunctions.closeDriver.useQuery();
-
   const isMutationLoading =
     openDriverMutation.isLoading ||
     closeDriverMutation.isLoading ||
     connectDeviceMutation.isLoading ||
     disconnectDeviceMutation.isLoading;
+
+  const { isLoading: isIviumsoftCheckLoading, data: isIviumsoftRunning } =
+    generalIviumFunctions.isIviumsoftRunning.useQuery(undefined, {
+      enabled: isDriverOpen && !isMutationLoading,
+      refetchInterval: 500,
+    });
+
+  const { data: potential, isSuccess: isGetPotentialSuccess } =
+    directModeFunctions.getPotential.useQuery(undefined, {
+      enabled: isDriverOpen && !isMutationLoading && isDeviceConnected,
+      refetchInterval: 2000,
+    });
+
+  const areButtonsDisabled =
+    !isDriverOpen ||
+    isMutationLoading ||
+    isIviumsoftCheckLoading ||
+    !isIviumsoftRunning;
+
+  const hasMutationError =
+    openDriverMutation.error ||
+    closeDriverMutation.error ||
+    connectDeviceMutation.error ||
+    disconnectDeviceMutation.error;
 
   return (
     <main className={styles.main}>
@@ -40,45 +62,69 @@ export default function IndexPage() {
       </div>
       <div>
         <button
-          disabled={isMutationLoading}
+          disabled={isMutationLoading || isDriverOpen}
           onClick={() => {
-            openDriverMutation.mutate();
+            openDriverMutation.mutate(undefined, {
+              onSuccess: () => {
+                setIsDriverOpen(true);
+              },
+            });
           }}
         >
           Open Driver
         </button>
         <button
-          disabled={isMutationLoading}
+          disabled={areButtonsDisabled || isDeviceConnected}
           onClick={() => {
-            connectDeviceMutation.mutate();
+            connectDeviceMutation.mutate(undefined, {
+              onSuccess: () => {
+                setIsDeviceConnected(true);
+              },
+            });
           }}
         >
           Connect Device
         </button>
         <button
-          disabled={isMutationLoading}
+          disabled={areButtonsDisabled || !isDeviceConnected}
           onClick={() => {
-            disconnectDeviceMutation.mutate();
+            disconnectDeviceMutation.mutate(undefined, {
+              onSuccess: () => {
+                setIsDeviceConnected(false);
+              },
+            });
           }}
         >
           Disconnect Device
         </button>
         <button
-          disabled={isMutationLoading}
+          disabled={areButtonsDisabled || !isDriverOpen}
           onClick={() => {
-            if (closeDriverMutation.error) closeDriverMutation.mutate();
+            closeDriverMutation.mutate(undefined, {
+              onSuccess: () => {
+                setIsDriverOpen(false);
+              },
+            });
           }}
         >
           Close Driver
         </button>
       </div>
-      <div>
-        <h1>Errors</h1>
-        <h2>{openDriverMutation.error?.message}</h2>
-        <h2>{JSON.stringify(connectDeviceMutation.error)}</h2>
-        <h2>{disconnectDeviceMutation.error?.message}</h2>
-        <h2>{closeDriverMutation.error?.message}</h2>
-      </div>
+      {!hasMutationError && isGetPotentialSuccess && (
+        <div>
+          <h1>Potential</h1>
+          <h2>{potential}</h2>
+        </div>
+      )}
+      {hasMutationError && (
+        <div>
+          <h1>Errors</h1>
+          <h2>{openDriverMutation.error?.message}</h2>
+          <h2>{connectDeviceMutation.error?.message}</h2>
+          <h2>{disconnectDeviceMutation.error?.message}</h2>
+          <h2>{closeDriverMutation.error?.message}</h2>
+        </div>
+      )}
       <div className={styles.grid}>
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
