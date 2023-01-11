@@ -5,24 +5,24 @@ import { trpc } from '../utils/trpc';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
 
-const { genericIviumFunctions } = trpc;
+const { generalIviumFunctions } = trpc;
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function IndexPage() {
   // 💡 Tip: CMD+Click (or CTRL+Click) on `greeting` to go to the server definition
-  const openDriverMutation = genericIviumFunctions.openDriver.useMutation();
-  const closeDriverMutation = genericIviumFunctions.closeDriver.useMutation();
-  // const {mutate: selectIviumsoftInstance} = genericIviumFunctions.selectIviumsoftInstance.useMutation();
+  const openDriverMutation = generalIviumFunctions.openDriver.useMutation();
+  const closeDriverMutation = generalIviumFunctions.closeDriver.useMutation();
+  // const {mutate: selectIviumsoftInstance} = generalIviumFunctions.selectIviumsoftInstance.useMutation();
   const connectDeviceMutation =
-    genericIviumFunctions.connectDevice.useMutation();
+    generalIviumFunctions.connectDevice.useMutation();
   const disconnectDeviceMutation =
-    genericIviumFunctions.disconnectDevice.useMutation();
+    generalIviumFunctions.disconnectDevice.useMutation();
 
-  // const { data: getPotentialResult } = genericIviumFunctions.getPotential.useQuery(undefined, {
+  // const { data: getPotentialResult } = generalIviumFunctions.getPotential.useQuery(undefined, {
   //   refetchInterval: 2000,
   // });
-  // genericIviumFunctions.closeDriver.useQuery();
+  // generalIviumFunctions.closeDriver.useQuery();
 
   const isMutationLoading =
     openDriverMutation.isLoading ||

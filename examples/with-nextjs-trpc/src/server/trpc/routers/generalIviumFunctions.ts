@@ -2,7 +2,7 @@ import { publicProcedure, t } from '../trpc';
 import { Ivium } from 'iviumjs';
 import { z } from 'zod';
 
-export const genericIviumFunctionsRouter = t.router({
+export const generalIviumFunctionsRouter = t.router({
   openDriver: publicProcedure.mutation(() => {
     Ivium.openDriver();
   }),
