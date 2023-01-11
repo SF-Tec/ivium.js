@@ -1,11 +1,10 @@
 import { publicProcedure, t } from '../trpc';
 import { Ivium } from 'iviumjs';
-import { executeIviumMethod } from 'server/lib/executeIviumMethod';
 import { z } from 'zod';
 
 export const directModeFunctionsRouter = t.router({
   getCellStatus: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getCellStatus());
+    return Ivium.getCellStatus();
   }),
   setConnectionMode: publicProcedure
     .input(
@@ -14,13 +13,13 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { connectionMode } }) => {
-      return executeIviumMethod(() => Ivium.setConnectionMode(connectionMode));
+      return Ivium.setConnectionMode(connectionMode);
     }),
   setCellOn: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.setCellOn());
+    return Ivium.setCellOn();
   }),
   setCellOff: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.setCellOff());
+    return Ivium.setCellOff();
   }),
   setPotential: publicProcedure
     .input(
@@ -29,7 +28,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { potential } }) => {
-      return executeIviumMethod(() => Ivium.setPotential(potential));
+      return Ivium.setPotential(potential);
     }),
   setWe2Potential: publicProcedure
     .input(
@@ -38,7 +37,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { we2Potential } }) => {
-      return executeIviumMethod(() => Ivium.setWe2Potential(we2Potential));
+      return Ivium.setWe2Potential(we2Potential);
     }),
   setCurrent: publicProcedure
     .input(
@@ -47,10 +46,10 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { current } }) => {
-      return executeIviumMethod(() => Ivium.setCurrent(current));
+      return Ivium.setCurrent(current);
     }),
   getPotential: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getPotential());
+    return Ivium.getPotential();
   }),
   setCurrentRange: publicProcedure
     .input(
@@ -59,7 +58,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { currentRange } }) => {
-      return executeIviumMethod(() => Ivium.setCurrentRange(currentRange));
+      return Ivium.setCurrentRange(currentRange);
     }),
   setWe2CurrentRange: publicProcedure
     .input(
@@ -68,13 +67,13 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { currentRange } }) => {
-      return executeIviumMethod(() => Ivium.setWe2CurrentRange(currentRange));
+      return Ivium.setWe2CurrentRange(currentRange);
     }),
   getCurrent: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getCurrent());
+    return Ivium.getCurrent();
   }),
   getWe2Current: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getWe2Current());
+    return Ivium.getWe2Current();
   }),
   setFilter: publicProcedure
     .input(
@@ -88,7 +87,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { filter } }) => {
-      return executeIviumMethod(() => Ivium.setFilter(filter));
+      return Ivium.setFilter(filter);
     }),
   setStability: publicProcedure
     .input(
@@ -97,7 +96,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { stability } }) => {
-      return executeIviumMethod(() => Ivium.setStability(stability));
+      return Ivium.setStability(stability);
     }),
   setBistatMode: publicProcedure
     .input(
@@ -106,7 +105,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { bistatMode } }) => {
-      return executeIviumMethod(() => Ivium.setBistatMode(bistatMode));
+      return Ivium.setBistatMode(bistatMode);
     }),
   setDac: publicProcedure
     .input(
@@ -116,7 +115,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { channel, dac } }) => {
-      return executeIviumMethod(() => Ivium.setDac(channel, dac));
+      return Ivium.setDac(channel, dac);
     }),
   getAdc: publicProcedure
     .input(
@@ -125,7 +124,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { channel } }) => {
-      return executeIviumMethod(() => Ivium.getAdc(channel));
+      return Ivium.getAdc(channel);
     }),
   setMuxChannel: publicProcedure
     .input(
@@ -134,7 +133,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { channel } }) => {
-      return executeIviumMethod(() => Ivium.setMuxChannel(channel));
+      return Ivium.setMuxChannel(channel);
     }),
   getCurrentTrace: publicProcedure
     .input(
@@ -144,9 +143,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { pointsQuantity, intervalRate } }) => {
-      return executeIviumMethod(() =>
-        Ivium.getCurrentTrace(pointsQuantity, intervalRate)
-      );
+      return Ivium.getCurrentTrace(pointsQuantity, intervalRate);
     }),
   getCurrentWe2Trace: publicProcedure
     .input(
@@ -156,9 +153,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { pointsQuantity, intervalRate } }) => {
-      return executeIviumMethod(() =>
-        Ivium.getCurrentWe2Trace(pointsQuantity, intervalRate)
-      );
+      return Ivium.getCurrentWe2Trace(pointsQuantity, intervalRate);
     }),
   getPotentialTrace: publicProcedure
     .input(
@@ -168,9 +163,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { pointsQuantity, intervalRate } }) => {
-      return executeIviumMethod(() =>
-        Ivium.getPotentialTrace(pointsQuantity, intervalRate)
-      );
+      return Ivium.getPotentialTrace(pointsQuantity, intervalRate);
     }),
   setAcAmplitude: publicProcedure
     .input(
@@ -179,7 +172,7 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { acAmplitude } }) => {
-      return executeIviumMethod(() => Ivium.setAcAmplitude(acAmplitude));
+      return Ivium.setAcAmplitude(acAmplitude);
     }),
   setAcFrequency: publicProcedure
     .input(
@@ -188,6 +181,6 @@ export const directModeFunctionsRouter = t.router({
       })
     )
     .query(({ input: { acFrequency } }) => {
-      return executeIviumMethod(() => Ivium.setAcFrequency(acFrequency));
+      return Ivium.setAcFrequency(acFrequency);
     }),
 });
