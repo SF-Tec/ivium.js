@@ -2,6 +2,7 @@
  * This file contains the root router of your tRPC-backend
  */
 import { t } from 'server/trpc/trpc';
+import { directModeFunctionsRouter } from './directModeFunctions';
 import { genericIviumFunctionsRouter } from './genericIviumFunctions';
 import { methodModeFunctionsRouter } from './methodModeFunctions';
 
@@ -14,6 +15,7 @@ import { methodModeFunctionsRouter } from './methodModeFunctions';
 export const appRouter = t.router({
   healthcheck: t.procedure.query(() => 'ok'),
 
+  directModeFunctions: directModeFunctionsRouter,
   genericIviumFunctions: genericIviumFunctionsRouter,
   methodModeFunctions: methodModeFunctionsRouter,
 });
