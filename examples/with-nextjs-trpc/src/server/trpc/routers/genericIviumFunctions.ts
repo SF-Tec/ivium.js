@@ -1,26 +1,26 @@
 import { publicProcedure, t } from '../trpc';
 import { Ivium } from 'iviumjs';
-import { executeIviumMethod } from 'server/lib/executeIviumMethod';
 import { z } from 'zod';
+import { TRPCError } from '@trpc/server';
 
 export const genericIviumFunctionsRouter = t.router({
-  openDriver: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.openDriver());
+  openDriver: publicProcedure.mutation(() => {
+    Ivium.openDriver();
   }),
-  closeDriver: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.closeDriver());
+  closeDriver: publicProcedure.mutation(() => {
+    Ivium.closeDriver();
   }),
   getMaxDeviceNumber: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getMaxDeviceNumber());
+    return Ivium.getMaxDeviceNumber();
   }),
   getDeviceStatus: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getDeviceStatus());
+    return Ivium.getDeviceStatus();
   }),
   isIviumsoftRunning: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.isIviumsoftRunning());
+    return Ivium.isIviumsoftRunning();
   }),
   getActiveIviumsoftInstances: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getActiveIviumsoftInstances());
+    return Ivium.getActiveIviumsoftInstances();
   }),
   selectIviumsoftInstance: publicProcedure
     .input(
@@ -28,25 +28,31 @@ export const genericIviumFunctionsRouter = t.router({
         instanceNumber: z.number(),
       })
     )
-    .query(({ input: { instanceNumber } }) => {
-      return executeIviumMethod(() =>
-        Ivium.selectIviumsoftInstance(instanceNumber)
-      );
+    .mutation(({ input: { instanceNumber } }) => {
+      Ivium.selectIviumsoftInstance(instanceNumber);
     }),
   getDeviceSerialNumber: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getDeviceSerialNumber());
+    return Ivium.getDeviceSerialNumber();
   }),
-  connectDevice: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.connectDevice());
+  connectDevice: publicProcedure.mutation(() => {
+    try {
+      console.log('new connectDevice()');
+      Ivium.connectDevice();
+    } catch (e) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: (e as Error).message,
+      });
+    }
   }),
-  disconnectDevice: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.disconnectDevice());
+  disconnectDevice: publicProcedure.mutation(() => {
+    if (Ivium.isIviumsoftRunning()) Ivium.disconnectDevice();
   }),
   getDllVersion: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getDllVersion());
+    return Ivium.getDllVersion();
   }),
   getIviumsoftVersion: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getIviumsoftVersion());
+    return Ivium.getIviumsoftVersion();
   }),
   selectChannel: publicProcedure
     .input(
@@ -54,7 +60,7 @@ export const genericIviumFunctionsRouter = t.router({
         channelNumber: z.number(),
       })
     )
-    .query(({ input: { channelNumber } }) => {
-      return executeIviumMethod(() => Ivium.selectChannel(channelNumber));
+    .mutation(({ input: { channelNumber } }) => {
+      Ivium.selectChannel(channelNumber);
     }),
 });
