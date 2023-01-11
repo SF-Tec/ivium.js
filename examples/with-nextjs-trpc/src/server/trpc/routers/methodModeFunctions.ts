@@ -1,6 +1,5 @@
 import { publicProcedure, t } from '../trpc';
 import { Ivium } from 'iviumjs';
-import { executeIviumMethod } from 'server/lib/executeIviumMethod';
 import { z } from 'zod';
 
 export const methodModeFunctionsRouter = t.router({
@@ -10,8 +9,8 @@ export const methodModeFunctionsRouter = t.router({
         methodFilePath: z.string(),
       })
     )
-    .query(({ input: { methodFilePath } }) => {
-      return executeIviumMethod(() => Ivium.loadMethod(methodFilePath));
+    .mutation(({ input: { methodFilePath } }) => {
+      Ivium.loadMethod(methodFilePath);
     }),
   saveMethod: publicProcedure
     .input(
@@ -19,8 +18,8 @@ export const methodModeFunctionsRouter = t.router({
         methodFilePath: z.string(),
       })
     )
-    .query(({ input: { methodFilePath } }) => {
-      return executeIviumMethod(() => Ivium.saveMethod(methodFilePath));
+    .mutation(({ input: { methodFilePath } }) => {
+      Ivium.saveMethod(methodFilePath);
     }),
   startMethod: publicProcedure
     .input(
@@ -28,11 +27,11 @@ export const methodModeFunctionsRouter = t.router({
         methodFilePath: z.string().optional(),
       })
     )
-    .query(({ input: { methodFilePath } }) => {
-      return executeIviumMethod(() => Ivium.startMethod(methodFilePath));
+    .mutation(({ input: { methodFilePath } }) => {
+      Ivium.startMethod(methodFilePath);
     }),
-  abortMethod: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.abortMethod());
+  abortMethod: publicProcedure.mutation(() => {
+    Ivium.abortMethod();
   }),
   saveData: publicProcedure
     .input(
@@ -40,8 +39,8 @@ export const methodModeFunctionsRouter = t.router({
         dataFilePath: z.string(),
       })
     )
-    .query(({ input: { dataFilePath } }) => {
-      return executeIviumMethod(() => Ivium.saveData(dataFilePath));
+    .mutation(({ input: { dataFilePath } }) => {
+      Ivium.saveData(dataFilePath);
     }),
   setMethodParameter: publicProcedure
     .input(
@@ -50,23 +49,21 @@ export const methodModeFunctionsRouter = t.router({
         parameterValue: z.string(),
       })
     )
-    .query(({ input: { parameterName, parameterValue } }) => {
-      return executeIviumMethod(() =>
-        Ivium.setMethodParameter(parameterName, parameterValue)
-      );
+    .mutation(({ input: { parameterName, parameterValue } }) => {
+      Ivium.setMethodParameter(parameterName, parameterValue);
     }),
-  getAvailableDataPointsNumber: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getAvailableDataPointsNumber());
-  }),
+  getAvailableDataPointsNumber: publicProcedure.query(() =>
+    Ivium.getAvailableDataPointsNumber()
+  ),
   getDataPoint: publicProcedure
     .input(
       z.object({
         dataPointIndex: z.number(),
       })
     )
-    .query(({ input: { dataPointIndex } }) => {
-      return executeIviumMethod(() => Ivium.getDataPoint(dataPointIndex));
-    }),
+    .query(({ input: { dataPointIndex } }) =>
+      Ivium.getDataPoint(dataPointIndex)
+    ),
   getDataPointFromScan: publicProcedure
     .input(
       z.object({
@@ -74,9 +71,7 @@ export const methodModeFunctionsRouter = t.router({
         scanIndex: z.number(),
       })
     )
-    .query(({ input: { dataPointIndex, scanIndex } }) => {
-      return executeIviumMethod(() =>
-        Ivium.getDataPointFromScan(dataPointIndex, scanIndex)
-      );
-    }),
+    .query(({ input: { dataPointIndex, scanIndex } }) =>
+      Ivium.getDataPointFromScan(dataPointIndex, scanIndex)
+    ),
 });
