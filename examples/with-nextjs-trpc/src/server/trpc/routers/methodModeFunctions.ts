@@ -4,190 +4,79 @@ import { executeIviumMethod } from 'server/lib/executeIviumMethod';
 import { z } from 'zod';
 
 export const methodModeFunctionsRouter = t.router({
-  getCellStatus: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getCellStatus());
+  loadMethod: publicProcedure
+    .input(
+      z.object({
+        methodFilePath: z.string(),
+      })
+    )
+    .query(({ input: { methodFilePath } }) => {
+      return executeIviumMethod(() => Ivium.loadMethod(methodFilePath));
+    }),
+  saveMethod: publicProcedure
+    .input(
+      z.object({
+        methodFilePath: z.string(),
+      })
+    )
+    .query(({ input: { methodFilePath } }) => {
+      return executeIviumMethod(() => Ivium.saveMethod(methodFilePath));
+    }),
+  startMethod: publicProcedure
+    .input(
+      z.object({
+        methodFilePath: z.string().optional(),
+      })
+    )
+    .query(({ input: { methodFilePath } }) => {
+      return executeIviumMethod(() => Ivium.startMethod(methodFilePath));
+    }),
+  abortMethod: publicProcedure.query(() => {
+    return executeIviumMethod(() => Ivium.abortMethod());
   }),
-  setConnectionMode: publicProcedure
+  saveData: publicProcedure
     .input(
       z.object({
-        connectionMode: z.number(),
+        dataFilePath: z.string(),
       })
     )
-    .query(({ input: { connectionMode } }) => {
-      return executeIviumMethod(() => Ivium.setConnectionMode(connectionMode));
+    .query(({ input: { dataFilePath } }) => {
+      return executeIviumMethod(() => Ivium.saveData(dataFilePath));
     }),
-  setCellOn: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.setCellOn());
-  }),
-  setCellOff: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.setCellOff());
-  }),
-  setPotential: publicProcedure
+  setMethodParameter: publicProcedure
     .input(
       z.object({
-        potential: z.number(),
+        parameterName: z.string(),
+        parameterValue: z.string(),
       })
     )
-    .query(({ input: { potential } }) => {
-      return executeIviumMethod(() => Ivium.setPotential(potential));
-    }),
-  setWe2Potential: publicProcedure
-    .input(
-      z.object({
-        we2Potential: z.number(),
-      })
-    )
-    .query(({ input: { we2Potential } }) => {
-      return executeIviumMethod(() => Ivium.setWe2Potential(we2Potential));
-    }),
-  setCurrent: publicProcedure
-    .input(
-      z.object({
-        current: z.number(),
-      })
-    )
-    .query(({ input: { current } }) => {
-      return executeIviumMethod(() => Ivium.setCurrent(current));
-    }),
-  getPotential: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getPotential());
-  }),
-  setCurrentRange: publicProcedure
-    .input(
-      z.object({
-        currentRange: z.number(),
-      })
-    )
-    .query(({ input: { currentRange } }) => {
-      return executeIviumMethod(() => Ivium.setCurrentRange(currentRange));
-    }),
-  setWe2CurrentRange: publicProcedure
-    .input(
-      z.object({
-        currentRange: z.number(),
-      })
-    )
-    .query(({ input: { currentRange } }) => {
-      return executeIviumMethod(() => Ivium.setWe2CurrentRange(currentRange));
-    }),
-  getCurrent: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getCurrent());
-  }),
-  getWe2Current: publicProcedure.query(() => {
-    return executeIviumMethod(() => Ivium.getWe2Current());
-  }),
-  setFilter: publicProcedure
-    .input(
-      z.object({
-        filter: z
-          .literal(0)
-          .or(z.literal(1))
-          .or(z.literal(2))
-          .or(z.literal(3))
-          .or(z.literal(4)),
-      })
-    )
-    .query(({ input: { filter } }) => {
-      return executeIviumMethod(() => Ivium.setFilter(filter));
-    }),
-  setStability: publicProcedure
-    .input(
-      z.object({
-        stability: z.literal(0).or(z.literal(1)).or(z.literal(2)),
-      })
-    )
-    .query(({ input: { stability } }) => {
-      return executeIviumMethod(() => Ivium.setStability(stability));
-    }),
-  setBistatMode: publicProcedure
-    .input(
-      z.object({
-        bistatMode: z.literal(0).or(z.literal(1)),
-      })
-    )
-    .query(({ input: { bistatMode } }) => {
-      return executeIviumMethod(() => Ivium.setBistatMode(bistatMode));
-    }),
-  setDac: publicProcedure
-    .input(
-      z.object({
-        channel: z.literal(0).or(z.literal(1)),
-        dac: z.number(),
-      })
-    )
-    .query(({ input: { channel, dac } }) => {
-      return executeIviumMethod(() => Ivium.setDac(channel, dac));
-    }),
-  getAdc: publicProcedure
-    .input(
-      z.object({
-        channel: z.literal(0).or(z.literal(1)),
-      })
-    )
-    .query(({ input: { channel } }) => {
-      return executeIviumMethod(() => Ivium.getAdc(channel));
-    }),
-  setMuxChannel: publicProcedure
-    .input(
-      z.object({
-        channel: z.number(),
-      })
-    )
-    .query(({ input: { channel } }) => {
-      return executeIviumMethod(() => Ivium.setMuxChannel(channel));
-    }),
-  getCurrentTrace: publicProcedure
-    .input(
-      z.object({
-        pointsQuantity: z.number(),
-        intervalRate: z.number(),
-      })
-    )
-    .query(({ input: { pointsQuantity, intervalRate } }) => {
+    .query(({ input: { parameterName, parameterValue } }) => {
       return executeIviumMethod(() =>
-        Ivium.getCurrentTrace(pointsQuantity, intervalRate)
+        Ivium.setMethodParameter(parameterName, parameterValue)
       );
     }),
-  getCurrentWe2Trace: publicProcedure
+  getAvailableDataPointsNumber: publicProcedure.query(() => {
+    return executeIviumMethod(() => Ivium.getAvailableDataPointsNumber());
+  }),
+  getDataPoint: publicProcedure
     .input(
       z.object({
-        pointsQuantity: z.number(),
-        intervalRate: z.number(),
+        dataPointIndex: z.number(),
       })
     )
-    .query(({ input: { pointsQuantity, intervalRate } }) => {
+    .query(({ input: { dataPointIndex } }) => {
+      return executeIviumMethod(() => Ivium.getDataPoint(dataPointIndex));
+    }),
+  getDataPointFromScan: publicProcedure
+    .input(
+      z.object({
+        dataPointIndex: z.number(),
+        scanIndex: z.number(),
+      })
+    )
+    .query(({ input: { dataPointIndex, scanIndex } }) => {
       return executeIviumMethod(() =>
-        Ivium.getCurrentWe2Trace(pointsQuantity, intervalRate)
+        Ivium.getDataPointFromScan(dataPointIndex, scanIndex)
       );
-    }),
-  getPotentialTrace: publicProcedure
-    .input(
-      z.object({
-        pointsQuantity: z.number(),
-        intervalRate: z.number(),
-      })
-    )
-    .query(({ input: { pointsQuantity, intervalRate } }) => {
-      return executeIviumMethod(() =>
-        Ivium.getPotentialTrace(pointsQuantity, intervalRate)
-      );
-    }),
-  setAcAmplitude: publicProcedure
-    .input(
-      z.object({
-        acAmplitude: z.number(),
-      })
-    )
-    .query(({ input: { acAmplitude } }) => {
-      return executeIviumMethod(() => Ivium.setAcAmplitude(acAmplitude));
-    }),
-  setAcFrequency: publicProcedure
-    .input(
-      z.object({
-        acFrequency: z.number(),
-      })
-    )
-    .query(({ input: { acFrequency } }) => {
-      return executeIviumMethod(() => Ivium.setAcFrequency(acFrequency));
     }),
 });
