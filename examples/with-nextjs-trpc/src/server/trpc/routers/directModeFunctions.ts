@@ -3,9 +3,7 @@ import { Ivium } from 'iviumjs';
 import { z } from 'zod';
 
 export const directModeFunctionsRouter = t.router({
-  getCellStatus: publicProcedure.mutation(() => {
-    Ivium.getCellStatus();
-  }),
+  getCellStatus: publicProcedure.query(() => Ivium.getCellStatus()),
   setConnectionMode: publicProcedure
     .input(
       z.object({
