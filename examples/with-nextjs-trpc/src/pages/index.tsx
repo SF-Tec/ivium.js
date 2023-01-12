@@ -5,6 +5,7 @@ import { trpc } from '../utils/trpc';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
 import { useState } from 'react';
+import { Space, Switch } from 'antd';
 
 const { generalIviumFunctions, directModeFunctions } = trpc;
 
@@ -40,7 +41,7 @@ export default function IndexPage() {
       refetchInterval: 2000,
     });
 
-  const areButtonsDisabled =
+  const areConnectionsButtonsDisabled =
     !isDriverOpen ||
     isMutationLoading ||
     isIviumsoftCheckLoading ||
@@ -60,56 +61,37 @@ export default function IndexPage() {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
       </div>
-      <div>
-        <button
-          disabled={isMutationLoading || isDriverOpen}
-          onClick={() => {
+      <Space direction="vertical">
+        <Switch
+          disabled={isMutationLoading || isDeviceConnected}
+          checkedChildren="Close Driver"
+          unCheckedChildren="Open Driver"
+          checked={isDriverOpen}
+          onChange={(checked) => {
             openDriverMutation.mutate(undefined, {
               onSuccess: () => {
-                setIsDriverOpen(true);
+                setIsDriverOpen(checked);
               },
             });
           }}
-        >
-          Open Driver
-        </button>
-        <button
-          disabled={areButtonsDisabled || isDeviceConnected}
-          onClick={() => {
-            connectDeviceMutation.mutate(undefined, {
+        />
+        <Switch
+          disabled={isMutationLoading || !isDriverOpen || !isIviumsoftRunning}
+          checkedChildren="Disconnect Device"
+          unCheckedChildren="Connect Device"
+          checked={isDeviceConnected}
+          onChange={(checked) => {
+            const connectionMutation = checked
+              ? connectDeviceMutation
+              : disconnectDeviceMutation;
+            connectionMutation.mutate(undefined, {
               onSuccess: () => {
-                setIsDeviceConnected(true);
+                setIsDeviceConnected(checked);
               },
             });
           }}
-        >
-          Connect Device
-        </button>
-        <button
-          disabled={areButtonsDisabled || !isDeviceConnected}
-          onClick={() => {
-            disconnectDeviceMutation.mutate(undefined, {
-              onSuccess: () => {
-                setIsDeviceConnected(false);
-              },
-            });
-          }}
-        >
-          Disconnect Device
-        </button>
-        <button
-          disabled={areButtonsDisabled || !isDriverOpen}
-          onClick={() => {
-            closeDriverMutation.mutate(undefined, {
-              onSuccess: () => {
-                setIsDriverOpen(false);
-              },
-            });
-          }}
-        >
-          Close Driver
-        </button>
-      </div>
+        />
+      </Space>
       {!hasMutationError && isGetPotentialSuccess && (
         <div>
           <h1>Potential</h1>
