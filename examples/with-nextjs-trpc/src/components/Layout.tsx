@@ -17,7 +17,7 @@ const Layout = ({ children }: PropsWithChildren) => {
       {children}
       <div className={styles.grid}>
         <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://github.com/SF-Tec/ivium.js"
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
@@ -26,50 +26,52 @@ const Layout = ({ children }: PropsWithChildren) => {
             Docs <span>-&gt;</span>
           </h2>
           <p className={inter.className}>
-            Find in-depth information about Next.js features and&nbsp;API.
+            Find in-depth information about Ivium.js features and&nbsp;API.
           </p>
         </a>
 
         <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="mailto:info@sftec.es"
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
         >
           <h2 className={inter.className}>
-            Learn <span>-&gt;</span>
+            Get Help <span>-&gt;</span>
           </h2>
           <p className={inter.className}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
+            Reach us at SF Tech! We are happy to help you with any questions you
+            may have.
           </p>
         </a>
 
         <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://github.com/SF-Tec/ivium.js"
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
         >
           <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
+            Ivium.js <span>-&gt;</span>
           </h2>
           <p className={inter.className}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
+            Tiny NodeJS wrapper around the &quot;Software development driver
+            DLL&quot; for IviumSoft.
           </p>
         </a>
 
         <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://github.com/SF-Tec/pyvium"
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
         >
           <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
+            Pyvium <span>-&gt;</span>
           </h2>
           <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL
-            with&nbsp;Vercel.
+            Tiny Python wrapper around the &quot;Software development driver
+            DLL&quot; for IviumSoft.
           </p>
         </a>
       </div>
