@@ -60,6 +60,7 @@ export default function IndexPage() {
       closeDriver();
     };
     // Client-side-only code
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isMutationLoading =
@@ -75,6 +76,31 @@ export default function IndexPage() {
       enabled: isIviumsoftRunning && !isMutationLoading && isDeviceConnected,
       refetchInterval: 2000,
     });
+
+  const handleDeviceConnectionSwitchChange = (checked: boolean): void => {
+    const connectionMutation = checked
+      ? connectDeviceMutation
+      : disconnectDeviceMutation;
+
+    connectionMutation.mutate(undefined, {
+      onSuccess: () => {
+        setIsDeviceConnected(checked);
+        setDeviceStatus('available');
+      },
+      onError: handleIviumsoftMutationError,
+    });
+  };
+
+  const handleCellStatusSwitchChange = (checked: boolean): void => {
+    const cellMutation = checked ? setCellOnMutation : setCellOffMutation;
+
+    cellMutation.mutate(undefined, {
+      onSuccess: () => {
+        setIsCellOn(checked);
+      },
+      onError: handleIviumsoftMutationError,
+    });
+  };
 
   const handleIviumsoftMutationError = (
     error: TRPCClientErrorLike<AppRouter>
@@ -131,19 +157,7 @@ export default function IndexPage() {
                   : ''
               }
               label="Device Connection"
-              onChange={(checked) => {
-                const connectionMutation = checked
-                  ? connectDeviceMutation
-                  : disconnectDeviceMutation;
-
-                connectionMutation.mutate(undefined, {
-                  onSuccess: () => {
-                    setIsDeviceConnected(checked);
-                    setDeviceStatus('available');
-                  },
-                  onError: handleIviumsoftMutationError,
-                });
-              }}
+              onChange={handleDeviceConnectionSwitchChange}
             />
             <ToggleSwitch
               disabled={
@@ -151,18 +165,7 @@ export default function IndexPage() {
               }
               checked={isCellOn}
               label="Cell Status"
-              onChange={(checked) => {
-                const cellMutation = checked
-                  ? setCellOnMutation
-                  : setCellOffMutation;
-
-                cellMutation.mutate(undefined, {
-                  onSuccess: () => {
-                    setIsCellOn(checked);
-                  },
-                  onError: handleIviumsoftMutationError,
-                });
-              }}
+              onChange={handleCellStatusSwitchChange}
             />
           </div>
 
