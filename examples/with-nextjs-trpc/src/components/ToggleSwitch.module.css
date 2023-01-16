@@ -1,12 +1,19 @@
 .container {
-  text-align: left;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  width: 800px;
+}
+.toggle-and-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .toggle-switch {
   position: relative;
   width: 75px;
   display: inline-block;
   text-align: left;
-  top: 8px;
 }
 .checkbox {
   display: none;
@@ -19,8 +26,8 @@
   border-radius: 20px;
 }
 .label-text {
-    font-size: 16px;
-    margin-right: 10px;
+  font-size: 16px;
+  margin-right: 10px;
 }
 .inner {
   display: block;
@@ -69,4 +76,9 @@
 }
 .checkbox:checked + .label .switch {
   right: 0px;
+}
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-left: 10px;
 }
