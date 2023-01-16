@@ -77,7 +77,7 @@ export default function IndexPage() {
       refetchInterval: 2000,
     });
 
-  const handleDeviceConnectionSwitchChange = (checked: boolean): void => {
+  function handleDeviceConnectionSwitchChange(checked: boolean) {
     const connectionMutation = checked
       ? connectDeviceMutation
       : disconnectDeviceMutation;
@@ -89,9 +89,9 @@ export default function IndexPage() {
       },
       onError: handleIviumsoftMutationError,
     });
-  };
+  }
 
-  const handleCellStatusSwitchChange = (checked: boolean): void => {
+  function handleCellStatusSwitchChange(checked: boolean) {
     const cellMutation = checked ? setCellOnMutation : setCellOffMutation;
 
     cellMutation.mutate(undefined, {
@@ -100,7 +100,7 @@ export default function IndexPage() {
       },
       onError: handleIviumsoftMutationError,
     });
-  };
+  }
 
   const handleIviumsoftMutationError = (
     error: TRPCClientErrorLike<AppRouter>
