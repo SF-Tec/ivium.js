@@ -15,7 +15,6 @@
     "@trpc/next": "^10.8.1",
     "@trpc/react-query": "^10.8.1",
     "@trpc/server": "^10.8.1",
-    "antd": "^5.1.4",
     "iviumjs": "^0.1.1-beta",
     "next": "^13.1.1",
     "react": "^18.2.0",
