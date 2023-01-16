@@ -79,7 +79,6 @@ export default function IndexPage() {
   const handleIviumsoftMutationError = (
     error: TRPCClientErrorLike<AppRouter>
   ) => {
-    console.log(JSON.stringify(error));
     if (
       error.data?.stack?.startsWith('NoDeviceDetectedError') ||
       error.data?.stack?.startsWith('DeviceNotConnectedToIviumsoftError')
