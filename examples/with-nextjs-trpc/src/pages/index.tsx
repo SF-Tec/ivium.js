@@ -7,8 +7,7 @@ const { generalIviumFunctions, directModeFunctions } = trpc;
 import styles from 'styles/Home.module.css';
 import ToggleSwitch from 'components/ToggleSwitch';
 import Spin from 'components/Spin';
-import { TRPCError } from '@trpc/server';
-import { TRPCClientError, TRPCClientErrorLike } from '@trpc/client';
+import { TRPCClientErrorLike } from '@trpc/client';
 import { AppRouter } from 'server/trpc/routers';
 
 type IviumsoftStatus = 'running' | 'not-running' | 'unknown';
