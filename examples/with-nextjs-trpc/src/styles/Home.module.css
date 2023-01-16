@@ -20,6 +20,7 @@
   transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   user-select: none;
   white-space: nowrap;
+  width: 200px;
 }
 
 .switches {
@@ -31,7 +32,13 @@
   font-family: 'ui-monospace', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
-.container {
+.start-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.switches-container {
     display: flex;
     flex-direction: column;
     align-items: left;
@@ -39,4 +46,20 @@
     height: 200px;
     margin: 0 10px;
     font-family: 'ui-monospace', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+.switch {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 10px;
+  font-family: 'ui-monospace', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+.spinner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }

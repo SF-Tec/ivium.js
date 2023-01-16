@@ -1,6 +1,5 @@
 import { trpc } from '../utils/trpc';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 import Layout from 'components/Layout';
 
 const { generalIviumFunctions, directModeFunctions } = trpc;
@@ -9,12 +8,17 @@ import styles from 'styles/Home.module.css';
 import ToggleSwitch from 'components/ToggleSwitch';
 import Spin from 'components/Spin';
 
+type IviumsoftStatus = 'running' | 'not-running' | 'unknown';
+type DeviceStatus = 'available' | 'not-available' | 'unknown';
+
 export default function IndexPage() {
-  const [isDriverOpen, setIsDriverOpen] = useState(false);
+  const [iviumsoftStatus, setIviumsoftStatus] =
+    useState<IviumsoftStatus>('unknown');
+
+  const [deviceStatus, setDeviceStatus] = useState<DeviceStatus>('unknown');
   const [isDeviceConnected, setIsDeviceConnected] = useState(false);
   const [isCellOn, setIsCellOn] = useState(false);
-
-  const router = useRouter();
+  const isIviumsoftRunning = iviumsoftStatus === 'running';
 
   const openDriverMutation = generalIviumFunctions.openDriver.useMutation();
   const closeDriverMutation = generalIviumFunctions.closeDriver.useMutation();
@@ -29,7 +33,10 @@ export default function IndexPage() {
   const openDriver = () => {
     openDriverMutation.mutate(undefined, {
       onSuccess: () => {
-        setIsDriverOpen(true);
+        setIviumsoftStatus('running');
+      },
+      onError: () => {
+        setIviumsoftStatus('not-running');
       },
     });
   };
@@ -37,9 +44,17 @@ export default function IndexPage() {
   const closeDriver = () => {
     closeDriverMutation.mutate(undefined, {
       onSuccess: () => {
-        setIsDriverOpen(false);
+        setIviumsoftStatus('running');
+      },
+      onError: () => {
+        setIviumsoftStatus('not-running');
       },
     });
+  };
+
+  // close driver when the web app is closed
+  window.onbeforeunload = () => {
+    closeDriver();
   };
 
   const isMutationLoading =
@@ -50,53 +65,46 @@ export default function IndexPage() {
     setCellOnMutation.isLoading ||
     setCellOffMutation.isLoading;
 
-  const { data: isIviumsoftRunning, isLoading: isIviumsoftRunningLoading } =
-    generalIviumFunctions.isIviumsoftRunning.useQuery(undefined, {
-      enabled: isDriverOpen && !isMutationLoading,
-      refetchInterval: 1000,
-    });
-
   const { data: potential, isSuccess: isGetPotentialSuccess } =
     directModeFunctions.getPotential.useQuery(undefined, {
-      enabled:
-        isDriverOpen &&
-        !isMutationLoading &&
-        isDeviceConnected &&
-        isIviumsoftRunning,
+      enabled: isIviumsoftRunning && !isMutationLoading && isDeviceConnected,
       refetchInterval: 2000,
     });
 
-  const hasMutationError =
-    openDriverMutation.error ||
-    closeDriverMutation.error ||
-    connectDeviceMutation.error ||
-    disconnectDeviceMutation.error ||
-    setCellOnMutation.error ||
-    setCellOffMutation.error;
-
-  if (isMutationLoading)
+  if (iviumsoftStatus === 'unknown' || iviumsoftStatus === 'not-running') {
     return (
       <Layout>
-        <Spin />
+        <section className={styles['start-container']}>
+          <button
+            className={styles['demo-button']}
+            onClick={() => {
+              openDriver();
+            }}
+          >
+            Connect App to IviumSoft
+          </button>
+          {iviumsoftStatus === 'not-running' && (
+            <h3>
+              Iviumsoft is not running. Please launch the software and try
+              connecting again.
+            </h3>
+          )}
+        </section>
       </Layout>
     );
-
-  if (isDriverOpen && !isIviumsoftRunningLoading && !isIviumsoftRunning) {
-    closeDriver();
-
-    router.reload();
-  }
-
-  if (isDriverOpen && isIviumsoftRunning)
+  } else {
     return (
       <Layout>
-        <section className={styles.container}>
+        <section className={styles['switches-container']}>
           <div className={styles.switches}>
             <ToggleSwitch
-              disabled={
-                isMutationLoading || !isDriverOpen || !isIviumsoftRunning
-              }
               checked={isDeviceConnected}
+              disabled={!isIviumsoftRunning || isMutationLoading}
+              errorText={
+                deviceStatus === 'not-available'
+                  ? 'Device not found. Please, check your device is connected via usb and try again.'
+                  : ''
+              }
               label="Device Connection"
               onChange={(checked) => {
                 const connectionMutation = checked
@@ -106,13 +114,32 @@ export default function IndexPage() {
                 connectionMutation.mutate(undefined, {
                   onSuccess: () => {
                     setIsDeviceConnected(checked);
+                    setDeviceStatus('available');
+                  },
+                  onError: (error) => {
+                    console.log(JSON.stringify(error));
+                    if (
+                      error.data?.stack?.startsWith('NoDeviceDetectedError') ||
+                      error.data?.stack?.startsWith(
+                        'DeviceNotConnectedToIviumsoftError'
+                      )
+                    ) {
+                      setDeviceStatus('not-available');
+                      setIsDeviceConnected(false);
+                    } else if (
+                      error.data?.stack?.startsWith('NoIviumsoftRunningError')
+                    ) {
+                      setDeviceStatus('unknown');
+                      setIviumsoftStatus('not-running');
+                      setIsDeviceConnected(false);
+                    }
                   },
                 });
               }}
             />
             <ToggleSwitch
               disabled={
-                isMutationLoading || !isDeviceConnected || !isIviumsoftRunning
+                !isIviumsoftRunning || !isDeviceConnected || isMutationLoading
               }
               checked={isCellOn}
               label="Cell Status"
@@ -125,35 +152,40 @@ export default function IndexPage() {
                   onSuccess: () => {
                     setIsCellOn(checked);
                   },
+                  onError: (error) => {
+                    console.log(JSON.stringify(error));
+                    if (
+                      error.data?.stack?.startsWith('NoDeviceDetectedError') ||
+                      error.data?.stack?.startsWith(
+                        'DeviceNotConnectedToIviumsoftError'
+                      )
+                    ) {
+                      setDeviceStatus('not-available');
+                      setIsDeviceConnected(false);
+                    } else if (
+                      error.data?.stack?.startsWith('NoIviumsoftRunningError')
+                    ) {
+                      setDeviceStatus('unknown');
+                      setIviumsoftStatus('not-running');
+                      setIsDeviceConnected(false);
+                    }
+                  },
                 });
               }}
             />
           </div>
-          {!hasMutationError && isGetPotentialSuccess && (
+
+          {isMutationLoading && (
+            <section className={styles.spinner}>
+              <Spin />
+            </section>
+          )}
+
+          {isGetPotentialSuccess && (
             <label>Potential: {potential.toFixed(8)}</label>
           )}
         </section>
       </Layout>
     );
-
-  return (
-    <Layout>
-      <div>
-        <button
-          className={styles['demo-button']}
-          onClick={() => {
-            openDriver();
-          }}
-        >
-          Connect App to IviumSoft
-        </button>
-        {openDriverMutation.error && (
-          <h2>
-            Iviumsoft is not running. Please launch the software and try
-            connecting again.
-          </h2>
-        )}
-      </div>
-    </Layout>
-  );
+  }
 }
