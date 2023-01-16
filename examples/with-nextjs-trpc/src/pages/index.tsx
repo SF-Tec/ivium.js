@@ -28,8 +28,6 @@ export default function IndexPage() {
     generalIviumFunctions.connectDevice.useMutation();
   const disconnectDeviceMutation =
     generalIviumFunctions.disconnectDevice.useMutation();
-  const setCellOnMutation = directModeFunctions.setCellOn.useMutation();
-  const setCellOffMutation = directModeFunctions.setCellOff.useMutation();
 
   const openDriver = () => {
     openDriverMutation.mutate(undefined, {
@@ -66,9 +64,7 @@ export default function IndexPage() {
     openDriverMutation.isLoading ||
     closeDriverMutation.isLoading ||
     connectDeviceMutation.isLoading ||
-    disconnectDeviceMutation.isLoading ||
-    setCellOnMutation.isLoading ||
-    setCellOffMutation.isLoading;
+    disconnectDeviceMutation.isLoading;
 
   const handleIviumsoftMutationError = (
     error: TRPCClientErrorLike<AppRouter>
