@@ -1,5 +1,5 @@
 import { trpc } from '../utils/trpc';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from 'components/Layout';
 
 const { generalIviumFunctions, directModeFunctions } = trpc;
@@ -54,10 +54,13 @@ export default function IndexPage() {
     });
   };
 
-  // close driver when the web app is closed
-  window.onbeforeunload = () => {
-    closeDriver();
-  };
+  useEffect(() => {
+    // close driver when the web app is closed
+    window.onbeforeunload = () => {
+      closeDriver();
+    };
+    // Client-side-only code
+  }, []);
 
   const isMutationLoading =
     openDriverMutation.isLoading ||
