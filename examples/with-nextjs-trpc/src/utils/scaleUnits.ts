@@ -1,17 +1,4 @@
-type ScalePrefixes =
-  | 'a'
-  | 'f'
-  | 'p'
-  | 'n'
-  | 'µ'
-  | 'm'
-  | 'k'
-  | 'M'
-  | 'G'
-  | 'T'
-  | 'P';
-
-const prefixExponents: Record<ScalePrefixes, number> = {
+const prefixExponents = {
   a: -18,
   f: -15,
   p: -12,
@@ -25,39 +12,49 @@ const prefixExponents: Record<ScalePrefixes, number> = {
   P: 15,
 };
 
-const getClosestLowerEntry = (
-  entrtries: [string, number][],
+type ScalePrefixes = keyof typeof prefixExponents;
+
+const getClosestLowerValueIndex = (
+  allValues: number[],
   value: number
-): [string, number] =>
-  entrtries.reduce((prev, curr) =>
-    Math.abs(curr[1] - value) < Math.abs(prev[1] - value) && curr[1] <= value
+): number => {
+  const closestLowerValue = allValues.reduce((prev, curr) =>
+    Math.abs(curr - value) < Math.abs(prev - value) && curr <= value
       ? curr
       : prev
   );
 
+  return allValues.indexOf(closestLowerValue);
+};
+
 const scaleUnits = (
   value: number,
-  baseSource: string,
+  baseUnit: string,
   fixed: number = 3
 ): string => {
   let scalePrefix: ScalePrefixes | '' = '';
   let multiplier = 1;
   const exponent = Math.floor(Math.log10(value));
-  if (exponent >= 3 || exponent < 1) {
+
+  if (exponent < 1 || exponent >= 3) {
     const prefixEntries = Object.entries(prefixExponents);
-    const [prefix, prefixExponent] = getClosestLowerEntry(
-      prefixEntries,
+
+    const closestLowerPrefixIndex = getClosestLowerValueIndex(
+      Object.values(prefixExponents),
       exponent
     );
-    scalePrefix = prefix as ScalePrefixes;
-    multiplier = 10 ** -prefixExponent;
+
+    const closestLowerPrefixEntry = prefixEntries[closestLowerPrefixIndex];
+
+    scalePrefix = closestLowerPrefixEntry[0] as ScalePrefixes;
+    multiplier = 10 ** -closestLowerPrefixEntry[1];
   }
 
   return (
     parseFloat((value * multiplier).toFixed(fixed)) +
     ' ' +
     scalePrefix +
-    baseSource
+    baseUnit
   );
 };
 
