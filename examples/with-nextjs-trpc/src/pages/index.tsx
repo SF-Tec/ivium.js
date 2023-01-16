@@ -88,6 +88,10 @@ export default function IndexPage() {
       setDeviceStatus('unknown');
       setIviumsoftStatus('not-running');
       setIsDeviceConnected(false);
+    } else {
+      setDeviceStatus('unknown');
+      setIviumsoftStatus('unknown');
+      setIsDeviceConnected(false);
     }
   };
 
