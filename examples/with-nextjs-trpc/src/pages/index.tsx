@@ -7,6 +7,9 @@ const { generalIviumFunctions, directModeFunctions } = trpc;
 import styles from 'styles/Home.module.css';
 import ToggleSwitch from 'components/ToggleSwitch';
 import Spin from 'components/Spin';
+import { TRPCError } from '@trpc/server';
+import { TRPCClientError, TRPCClientErrorLike } from '@trpc/client';
+import { AppRouter } from 'server/trpc/routers';
 
 type IviumsoftStatus = 'running' | 'not-running' | 'unknown';
 type DeviceStatus = 'available' | 'not-available' | 'unknown';
@@ -71,6 +74,23 @@ export default function IndexPage() {
       refetchInterval: 2000,
     });
 
+  const handleIviumsoftMutationError = (
+    error: TRPCClientErrorLike<AppRouter>
+  ) => {
+    console.log(JSON.stringify(error));
+    if (
+      error.data?.stack?.startsWith('NoDeviceDetectedError') ||
+      error.data?.stack?.startsWith('DeviceNotConnectedToIviumsoftError')
+    ) {
+      setDeviceStatus('not-available');
+      setIsDeviceConnected(false);
+    } else if (error.data?.stack?.startsWith('NoIviumsoftRunningError')) {
+      setDeviceStatus('unknown');
+      setIviumsoftStatus('not-running');
+      setIsDeviceConnected(false);
+    }
+  };
+
   if (iviumsoftStatus === 'unknown' || iviumsoftStatus === 'not-running') {
     return (
       <Layout>
@@ -116,24 +136,7 @@ export default function IndexPage() {
                     setIsDeviceConnected(checked);
                     setDeviceStatus('available');
                   },
-                  onError: (error) => {
-                    console.log(JSON.stringify(error));
-                    if (
-                      error.data?.stack?.startsWith('NoDeviceDetectedError') ||
-                      error.data?.stack?.startsWith(
-                        'DeviceNotConnectedToIviumsoftError'
-                      )
-                    ) {
-                      setDeviceStatus('not-available');
-                      setIsDeviceConnected(false);
-                    } else if (
-                      error.data?.stack?.startsWith('NoIviumsoftRunningError')
-                    ) {
-                      setDeviceStatus('unknown');
-                      setIviumsoftStatus('not-running');
-                      setIsDeviceConnected(false);
-                    }
-                  },
+                  onError: handleIviumsoftMutationError,
                 });
               }}
             />
@@ -152,24 +155,7 @@ export default function IndexPage() {
                   onSuccess: () => {
                     setIsCellOn(checked);
                   },
-                  onError: (error) => {
-                    console.log(JSON.stringify(error));
-                    if (
-                      error.data?.stack?.startsWith('NoDeviceDetectedError') ||
-                      error.data?.stack?.startsWith(
-                        'DeviceNotConnectedToIviumsoftError'
-                      )
-                    ) {
-                      setDeviceStatus('not-available');
-                      setIsDeviceConnected(false);
-                    } else if (
-                      error.data?.stack?.startsWith('NoIviumsoftRunningError')
-                    ) {
-                      setDeviceStatus('unknown');
-                      setIviumsoftStatus('not-running');
-                      setIsDeviceConnected(false);
-                    }
-                  },
+                  onError: handleIviumsoftMutationError,
                 });
               }}
             />
