@@ -1,10 +1,13 @@
 import { trpc } from '../utils/trpc';
 import { useState } from 'react';
-import { Button, Space, Spin, Switch } from 'antd';
 import { useRouter } from 'next/router';
 import Layout from 'components/Layout';
 
 const { generalIviumFunctions, directModeFunctions } = trpc;
+
+import styles from 'styles/Home.module.css';
+import ToggleSwitch from 'components/ToggleSwitch';
+import Spin from 'components/Spin';
 
 export default function IndexPage() {
   const [isDriverOpen, setIsDriverOpen] = useState(false);
@@ -87,70 +90,70 @@ export default function IndexPage() {
   if (isDriverOpen && isIviumsoftRunning)
     return (
       <Layout>
-        <Space direction="vertical">
-          <Switch
-            disabled={isMutationLoading || !isDriverOpen || !isIviumsoftRunning}
-            checkedChildren="Disconnect Device"
-            unCheckedChildren="Connect Device"
-            checked={isDeviceConnected}
-            onChange={(checked) => {
-              const connectionMutation = checked
-                ? connectDeviceMutation
-                : disconnectDeviceMutation;
+        <section className={styles.container}>
+          <div className={styles.switches}>
+            <ToggleSwitch
+              disabled={
+                isMutationLoading || !isDriverOpen || !isIviumsoftRunning
+              }
+              checked={isDeviceConnected}
+              label="Device Connection"
+              onChange={(checked) => {
+                const connectionMutation = checked
+                  ? connectDeviceMutation
+                  : disconnectDeviceMutation;
 
-              connectionMutation.mutate(undefined, {
-                onSuccess: () => {
-                  setIsDeviceConnected(checked);
-                },
-              });
-            }}
-          />
-          <Switch
-            disabled={
-              isMutationLoading || !isDeviceConnected || !isIviumsoftRunning
-            }
-            checkedChildren="Set Cell Off"
-            unCheckedChildren="Set Cell On"
-            checked={isCellOn}
-            onChange={(checked) => {
-              const cellMutation = checked
-                ? setCellOnMutation
-                : setCellOffMutation;
+                connectionMutation.mutate(undefined, {
+                  onSuccess: () => {
+                    setIsDeviceConnected(checked);
+                  },
+                });
+              }}
+            />
+            <ToggleSwitch
+              disabled={
+                isMutationLoading || !isDeviceConnected || !isIviumsoftRunning
+              }
+              checked={isCellOn}
+              label="Cell Status"
+              onChange={(checked) => {
+                const cellMutation = checked
+                  ? setCellOnMutation
+                  : setCellOffMutation;
 
-              cellMutation.mutate(undefined, {
-                onSuccess: () => {
-                  setIsCellOn(checked);
-                },
-              });
-            }}
-          />
-        </Space>
-        {!hasMutationError && isGetPotentialSuccess && (
-          <div>
-            <h1>Potential</h1>
-            <h2>{potential}</h2>
+                cellMutation.mutate(undefined, {
+                  onSuccess: () => {
+                    setIsCellOn(checked);
+                  },
+                });
+              }}
+            />
           </div>
-        )}
+          {!hasMutationError && isGetPotentialSuccess && (
+            <label>Potential: {potential.toFixed(8)}</label>
+          )}
+        </section>
       </Layout>
     );
 
   return (
     <Layout>
-      <Space direction="vertical">
-        <Button
+      <div>
+        <button
+          className={styles['demo-button']}
           onClick={() => {
             openDriver();
           }}
         >
           Connect App to IviumSoft
-        </Button>
+        </button>
         {openDriverMutation.error && (
           <h2>
             Iviumsoft is not running. Please launch the software and try
             connecting again.
           </h2>
         )}
-      </Space>
+      </div>
     </Layout>
   );
 }

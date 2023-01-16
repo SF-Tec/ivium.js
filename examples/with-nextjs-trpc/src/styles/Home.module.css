@@ -1,0 +1,42 @@
+.demo-button {
+  background-color: #ffffff;
+  background-image: none;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  border-color: #d9d9d9;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+  color: rgba(0, 0, 0, 0.88);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 32px;
+  line-height: 1.5714285714285714;
+  outline: none;
+  padding: 4px 15px;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.switches {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  margin: 0 10px;
+  font-family: 'ui-monospace', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: space-between;
+    height: 200px;
+    margin: 0 10px;
+    font-family: 'ui-monospace', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
