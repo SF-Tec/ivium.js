@@ -3,7 +3,7 @@
  */
 import { t } from 'server/trpc/trpc';
 import { directModeFunctionsRouter } from './directModeFunctions';
-import { genericIviumFunctionsRouter } from './genericIviumFunctions';
+import { generalIviumFunctionsRouter } from './generalIviumFunctions';
 import { methodModeFunctionsRouter } from './methodModeFunctions';
 
 /**
@@ -16,7 +16,7 @@ export const appRouter = t.router({
   healthcheck: t.procedure.query(() => 'ok'),
 
   directModeFunctions: directModeFunctionsRouter,
-  genericIviumFunctions: genericIviumFunctionsRouter,
+  generalIviumFunctions: generalIviumFunctionsRouter,
   methodModeFunctions: methodModeFunctionsRouter,
 });
 export type AppRouter = typeof appRouter;
