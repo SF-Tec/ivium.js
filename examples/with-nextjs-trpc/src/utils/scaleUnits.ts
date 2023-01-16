@@ -27,7 +27,7 @@ const getClosestLowerValueIndex = (
   return allValues.indexOf(closestLowerValue);
 };
 
-const scaleUnits = (value: number, baseUnit: string, fixed: 3): string => {
+const scaleUnits = (value: number, baseUnit: string, fixed = 3): string => {
   let scalePrefix: ScalePrefixes | '' = '';
   let multiplier = 1;
   const exponent = Math.floor(Math.log10(value));

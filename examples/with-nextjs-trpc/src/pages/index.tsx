@@ -9,6 +9,7 @@ import ToggleSwitch from 'components/ToggleSwitch';
 import Spin from 'components/Spin';
 import { TRPCClientErrorLike } from '@trpc/client';
 import { AppRouter } from 'server/trpc/routers';
+import scaleUnits from 'utils/scaleUnits';
 
 type IviumsoftStatus = 'running' | 'not-running' | 'unknown';
 type DeviceStatus = 'available' | 'not-available' | 'unknown';
@@ -153,7 +154,7 @@ export default function IndexPage() {
           )}
 
           {isGetPotentialSuccess && (
-            <label>Potential: {potential.toFixed(8)}</label>
+            <label>Potential: {scaleUnits(potential, 'V')}</label>
           )}
         </section>
       </Layout>
