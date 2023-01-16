@@ -19,7 +19,6 @@ export default function IndexPage() {
 
   const [deviceStatus, setDeviceStatus] = useState<DeviceStatus>('unknown');
   const [isDeviceConnected, setIsDeviceConnected] = useState(false);
-  const [isCellOn, setIsCellOn] = useState(false);
   const isIviumsoftRunning = iviumsoftStatus === 'running';
 
   const openDriverMutation = generalIviumFunctions.openDriver.useMutation();
@@ -71,37 +70,6 @@ export default function IndexPage() {
     setCellOnMutation.isLoading ||
     setCellOffMutation.isLoading;
 
-  const { data: potential, isSuccess: isGetPotentialSuccess } =
-    directModeFunctions.getPotential.useQuery(undefined, {
-      enabled: isIviumsoftRunning && !isMutationLoading && isDeviceConnected,
-      refetchInterval: 2000,
-    });
-
-  function handleDeviceConnectionSwitchChange(checked: boolean) {
-    const connectionMutation = checked
-      ? connectDeviceMutation
-      : disconnectDeviceMutation;
-
-    connectionMutation.mutate(undefined, {
-      onSuccess: () => {
-        setIsDeviceConnected(checked);
-        setDeviceStatus('available');
-      },
-      onError: handleIviumsoftMutationError,
-    });
-  }
-
-  function handleCellStatusSwitchChange(checked: boolean) {
-    const cellMutation = checked ? setCellOnMutation : setCellOffMutation;
-
-    cellMutation.mutate(undefined, {
-      onSuccess: () => {
-        setIsCellOn(checked);
-      },
-      onError: handleIviumsoftMutationError,
-    });
-  }
-
   const handleIviumsoftMutationError = (
     error: TRPCClientErrorLike<AppRouter>
   ) => {
@@ -121,6 +89,27 @@ export default function IndexPage() {
       setIsDeviceConnected(false);
     }
   };
+
+  const { data: potential, isSuccess: isGetPotentialSuccess } =
+    directModeFunctions.getPotential.useQuery(undefined, {
+      enabled: isIviumsoftRunning && !isMutationLoading && isDeviceConnected,
+      refetchInterval: 2000,
+      onError: handleIviumsoftMutationError,
+    });
+
+  function handleDeviceConnectionSwitchChange(checked: boolean) {
+    const connectionMutation = checked
+      ? connectDeviceMutation
+      : disconnectDeviceMutation;
+
+    connectionMutation.mutate(undefined, {
+      onSuccess: () => {
+        setIsDeviceConnected(checked);
+        setDeviceStatus('available');
+      },
+      onError: handleIviumsoftMutationError,
+    });
+  }
 
   if (iviumsoftStatus === 'unknown' || iviumsoftStatus === 'not-running') {
     return (
@@ -158,14 +147,6 @@ export default function IndexPage() {
               }
               label="Device Connection"
               onChange={handleDeviceConnectionSwitchChange}
-            />
-            <ToggleSwitch
-              disabled={
-                !isIviumsoftRunning || !isDeviceConnected || isMutationLoading
-              }
-              checked={isCellOn}
-              label="Cell Status"
-              onChange={handleCellStatusSwitchChange}
             />
           </div>
 

@@ -40,8 +40,8 @@ const Layout = ({ children }: PropsWithChildren) => {
             Get Help <span>-&gt;</span>
           </h2>
           <p className={inter.className}>
-            Reach us at SF Tech! We are happy to help you with any questions you
-            may have.
+            Reach us at SF Tech! We&apos;ll be happy to help you with your
+            tailormade electrochemical workflow.
           </p>
         </a>
 
