@@ -49,7 +49,8 @@ export default [
     plugins: [
       copy({
         targets: [
-          { src: 'dlls/*', dest: 'dist/dlls' }
+          { src: 'dlls/*', dest: 'dist/dlls' },
+          { src: 'LICENSE', dest: 'dist' }
         ]
       })
     ]
